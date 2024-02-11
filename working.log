@@ -3,3 +3,69 @@ write a woking log
 2- set up the usermodel  and authentication with passportJs and bcrypt - 6 hours done
 
 
+
+
+
+to do Create middleware to check user types for authorization.
+
+
+
+git add .
+git commit -m "Create middleware to check user types for authorization
+
+- Add middleware for admin route
+- Implement user type check
+- Create a basic admin dashboard EJS template"
+
+
+Setup:
+
+Database Configuration:
+
+
+User Model:
+
+
+Authentication with Passport.js:
+
+Install and configure Passport.js 
+
+User Registration and Login:
+
+Create routes and controllers for user registration and login.
+Use bcrypt to securely hash and store user passwords.
+User Type Checks:
+
+Implement middleware to check and set user types during registration.
+Create middleware to check user types for authorization.
+Routes for Buyers:
+
+Develop routes and controllers for buyer functionalities (e.g., viewing products, making purchases).
+Routes for Administrators:
+
+Implement routes and controllers for administrator functionalities (e.g., adding, updating, or removing products).
+Authorization Middleware:
+
+Create middleware to check user roles and restrict access to specific routes.
+User Dashboards:
+
+Design separate dashboards for buyers and administrators based on their user type.
+Middleware for Adding Products:
+
+Implement middleware specifically for administrators to validate data when adding products.
+Error Handling:
+
+Set up error handling mechanisms to provide meaningful messages for unauthorized actions.
+Testing:
+
+Write unit tests to ensure the reliability of your authentication and authorization mechanisms.
+Styling:
+
+Apply styling to enhance the user experience on both buyer and administrator dashboards.
+Deployment:
+
+Deploy your Node.js app to a hosting service (e.g., Heroku, AWS) for public access.
+Documentation:
+
+Document your code, explaining the structure, routes, and any other essential details.
+Remember to take it step by step, test your functionalities as you go, and don't hesitate to ask for help if needed. Happy coding! Is there a specific part you'd like more details on?

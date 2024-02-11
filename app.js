@@ -1,5 +1,6 @@
 // working hour 5pm to 7pm -10feb2024 - express, mongose , routes,views.
 // working hour 12pm to 6am - 11feb2024 - passport, session, localstrategy, user model.
+// working hour 6am to 7m - 11feb2024 - admin routes, checkUserType middleware.//un commit
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -10,6 +11,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 
 const User = require('./models/User');
+
 
 
 
@@ -78,10 +80,13 @@ app.set('views', 'views');
 
 const authRoutes = require('./routes/auth');
 const homeRoutes = require('./routes/home');
+const adminRoutes = require('./routes/admin');
 
 
 app.use(authRoutes);
 app.use(homeRoutes);
+
+app.use('/admin', adminRoutes);
 
 
 
