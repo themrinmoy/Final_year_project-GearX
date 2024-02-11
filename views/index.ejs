@@ -10,5 +10,18 @@
 <body>
     <h1>Welcome to app.js</h1>
     <p>This is a simple EJS template.</p>
+    <p>Click <a href="/login">here</a> to login.</p>
+    <p>Click <a href="/signup">here</a> to signup.</p>
+
+
+
+    <!-- logout -->
+
+
+    <% if (isAuthenticated) { %>
+        <p>Click <a href="/logout">here</a> to logout.</p>
+    <% } %>
+
+    <!-- <p>Click <a href="/logout">here</a> to logout.</p> -->
 </body>
 </html>

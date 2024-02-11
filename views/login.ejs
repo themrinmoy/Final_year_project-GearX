@@ -5,23 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <h2>Login</h2>
-    <form action="/auth/login" method="POST">
+    <form action="/login" method="POST">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
 
-        <label for="userType">User Type:</label>
+        <!-- <label for="userType">User Type:</label>
         <select id="userType" name="userType" required>
             <option value="buyer">Buyer</option>
-            <option value="administrator">Administrator</option>
+            <option value="administrator">Administrator</option> -->
         </select>
 
         <button type="submit">Login</button>
+        <a href="/signup">signup</a>
+        <a href="/">home</a>
     </form>
 </body>
 </html>
