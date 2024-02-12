@@ -1,0 +1,57 @@
+<!-- views/products/show.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details</title>
+  <!-- Add any additional styles or scripts here -->
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .product-details {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Product Details</h1>
+
+  <div class="product-details">
+    <h2><%= product.name %></h2>
+    <p>Description: <%= product.description %></p>
+    <p>Price: <%= product.price %></p>
+    <p>Category: <%= product.category %></p>
+    <img src="<%= product.imageUrl %>" alt="<%= product.name %> Image">
+
+    <!-- Add any additional product details you want to display -->
+  </div>
+
+  <!-- Add any additional HTML, scripts, or styles here -->
+</body>
+</html>

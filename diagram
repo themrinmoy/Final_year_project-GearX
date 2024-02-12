@@ -1,0 +1,22 @@
+project/
+|-- controllers/
+|   |-- productController.js
+|   |-- buyerController.js
+|   |-- cartController.js
+|-- models/
+|   |-- Product.js
+|   |-- User.js
+|   |-- Cart.js
+|-- views/
+|   |-- products/
+|       |-- productList.ejs
+|       |-- productDetails.ejs
+|   |-- buyers/
+|       |-- cart.ejs
+|-- public/
+|   |-- css/
+|       |-- style.css
+|-- routes/
+|   |-- index.js
+|-- app.js
+|-- package.json

@@ -1,6 +1,8 @@
 // working hour 5pm to 7pm -10feb2024 - express, mongose , routes,views.
 // working hour 12pm to 6am - 11feb2024 - passport, session, localstrategy, user model.
-// working hour 6am to 7m - 11feb2024 - admin routes, checkUserType middleware.//un commit
+// working hour 6am to 7m - 11feb2024 - admin routes, checkUserType middleware.
+// working hour 3am to 8.30am - 12feb2024 - Routes for buyers and admin add product, views product,views by catagory wise
+
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -79,13 +81,13 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 const authRoutes = require('./routes/auth');
-const homeRoutes = require('./routes/home');
-const adminRoutes = require('./routes/admin');
 
 
 app.use(authRoutes);
-app.use(homeRoutes);
+const shopRoutes = require('./routes/shop');
+app.use(shopRoutes);
 
+const adminRoutes = require('./routes/admin');
 app.use('/admin', adminRoutes);
 
 

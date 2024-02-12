@@ -1,0 +1,67 @@
+<!-- views/products/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product List</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .product {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+
+    .details-button {
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Product List</h1>
+
+  <% products.forEach(product => { %>
+    <div class="product">
+      <h2><%= product.name %></h2>
+      <p><%= product.description %></p>
+      <p>Price: <%= product.price %></p>
+      <p>Category: <%= product.category %></p>
+      <img src="<%= product.imageUrl %>" alt="<%= product.name %> Image">
+      
+      <!-- Add Details Button with a link to the product details page -->
+      <a href="/products/<%= product._id %>" class="details-button">Details</a>
+    </div>
+  <% }) %>
+</body>
+</html>
