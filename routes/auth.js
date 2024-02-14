@@ -6,14 +6,17 @@ const bcrypt = require('bcryptjs');
 
 const User = require('../models/User');
 
+
+
 // Login route
 
 router.get('/login', (req, res) => {
     if (req.isAuthenticated()) {
         res.json({ message: 'You are authenticated!' });
+        // res.redirect('/');
     }
     else {
-        res.render('login');
+        res.render('./auth/login');
     }
 }
 );
@@ -25,13 +28,13 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 
     const userType = req.user.userType;
 
-    if (userType === 'administrator') {
+    if (userType === 'admin') {
         // res.json({ message: 'Administrator login successfull!' });
-        res.redirect('/')
+        res.redirect('/admin')
         console.log('Administrator login successfull!');
     }
     else if (userType === 'buyer') {
-        res.redirect('/')
+        res.redirect('/',)
         // res.json({ message: 'Buyer login successfull!' });
 
         console.log('Buyer login successfull!');
@@ -42,10 +45,7 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
     }
 
 
-    // res.json({ message: 'Login successful!' });
-
-
-
+    // res.json({ message: 'Login successful!' }
 });
 
 // router.get('/logout', (req, res) => {
@@ -61,22 +61,17 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 // });
 
 router.get('/logout', (req, res) => {
-    // req.logout((err) => {
-    //     if (err) {
-    //         return res.status(500).json({ message: 'Error  logging out' });
-    //     }
-    //     res.json({ message: 'Logout successful!' });
-    // });
-    // req.logout();  // No callback function is needed
-    // res.json({ message: 'Logout successful' });
-
     req.session.destroy((err) => {
         if (err) {
             return res.status(500).json({ message: 'Error destroying session' });
         }
         // res.json({ message: 'Session destroyed' });
         console.log('Session destroyed');
+
+   
+
         res.redirect('/');
+        
     });
 });
 
@@ -89,7 +84,7 @@ router.get('/signup', (req, res) => {
         res.json({ message: 'You are authenticated!' });
     }
     else {
-        res.render('signup');
+        res.render('./auth/signup');
     }
 }
 );
@@ -111,7 +106,8 @@ router.post('/signup', (req, res, next) => {
             return user.save();
         })
         .then(result => {
-            res.json({ message: 'Registration successful!' });
+            // res.json({ message: 'Registration successful!' });
+            res.redirect('/login');
             console.log('User created');
         })
         .catch(err => {

@@ -16,7 +16,7 @@ const addProduct = (req, res) => {
 };
 
 const showAddProductPage = (req, res) => {
-    res.render('add-product');
+    res.render('./admin/update-product');
 };
 
 const updateProduct = (req, res) => {

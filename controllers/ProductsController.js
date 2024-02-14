@@ -45,7 +45,7 @@ const ProductController = {
     }
   },
 
-  show: (req, res) => {
+  productDetails: (req, res) => {
     const productId = req.params.productId;
     Product.findById(productId)
       .then((product) => {
@@ -55,7 +55,7 @@ const ProductController = {
         }
 
         // Render an EJS view with the product data
-        res.render('product/show', { product });
+        res.render('product/product-details', { product });
       })
       .catch((error) => {
         console.error('Error fetching product:', error);
@@ -67,7 +67,7 @@ const ProductController = {
 
 
 
-  indexByCategory: async (req, res) => {
+  productsByCategory: async (req, res) => {
     try {
       const { category } = req.params;
       let products;
@@ -87,13 +87,13 @@ const ProductController = {
         description: product.description,
         price: product.price,
         category: product.category,
-        imagePath: product.imageUrl, // Include the image path or URL
+        imageUrl: product.imageUrl, // Include the image path or URL
       }));
 
       // Render an EJS view with the product data
       // res.json(productsWithImages);
 
-      res.render('product/category', { category, products: productsWithImages });
+      res.render('product/all-products', { category, products: productsWithImages });
     } catch (error) {
       console.error('Error fetching products:', error);
       res.status(500).render('error', { message: 'Internal Server Error' });

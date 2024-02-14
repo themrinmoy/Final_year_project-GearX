@@ -1,0 +1,45 @@
+<!-- views/cart.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+</head>
+<body>
+    <h1>Your Shopping Cart</h1>
+
+    <% if (cart.items.length === 0) { %>
+        <p>Your cart is empty.</p>
+    <% } else { %>
+        <ul>
+            <% cart.items.forEach(item => { %>
+                <li>
+                    Product ID: <%= item.productId %>, Quantity: <%= item.quantity %>
+                    <form method="POST" action="/cart/remove-from-cart/<%= item.productId %>?_method=DELETE">
+                        <label for="quantity">Remove Quantity:</label>
+                        <input type="number" name="quantity" min="1" max="<%= item.quantity %>" value="1" required>
+                        <button type="submit">Remove from Cart</button>
+                    </form>
+                    
+                    <!-- Add button to increase quantity -->
+                    <form method="POST" action="/cart/add-to-cart/<%= item.productId %>">
+                        <label for="quantity">Add Quantity:</label>
+                        <input type="number" name="quantity" min="1" max="<%= item.quantity %>" value="1" required>
+                        <button type="submit">Add Quantity</button>
+                    </form>
+                </li>
+            <% }); %>
+        </ul>
+
+        <!-- Form for placing an order -->
+        <form method="POST" action="/cart/place-order">
+            <button type="submit">Place Order</button>
+        </form>
+    <% } %>
+
+    <a href="/">Continue Shopping</a>
+</body>
+</html>

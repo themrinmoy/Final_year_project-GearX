@@ -6,7 +6,13 @@ const userSchema = new mongoose.Schema({
     username: { type: String },
     email: { type: String },
     password: { type: String },
-    userType: { type: String, enum: ['buyer', 'administrator'], default: 'buyer' },
+    userType: { type: String, enum: ['buyer', 'admin'], default: 'buyer' },
+    cart: {
+        items: [{
+            productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+            quantity: { type: Number, required: true }
+        }]
+    }
 });
 // userSchema.plugin(passportLocalMongoose); 
 // userSchema.plugin(passportLocalMongoose, { usernameField: 'email' } ); 

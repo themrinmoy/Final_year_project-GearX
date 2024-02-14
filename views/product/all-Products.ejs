@@ -2,10 +2,11 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product List</title>
+  <title>all products</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -48,20 +49,34 @@
     }
   </style>
 </head>
+
 <body>
   <h1>Product List</h1>
 
-  <% products.forEach(product => { %>
+  <% products.forEach(product=> { %>
     <div class="product">
-      <h2><%= product.name %></h2>
-      <p><%= product.description %></p>
-      <p>Price: <%= product.price %></p>
-      <p>Category: <%= product.category %></p>
+      <h2>
+        <%= product.name %>
+      </h2>
+      <p>
+        <%= product.description %>
+      </p>
+      <p>Price: <%= product.price %>
+      </p>
+      <p>Category: <%= product.category %>
+      </p>
       <img src="<%= product.imageUrl %>" alt="<%= product.name %> Image">
-      
+
       <!-- Add Details Button with a link to the product details page -->
-      <a href="/products/<%= product._id %>" class="details-button">Details</a>
+      <a href="/products/<%= product._id %>" class="details-button">Detaisls</a>
+      <form action="/cart/add-to-cart/<%= product._id %>" method="post">
+        <button type="submit" class="add-to-cart-button">Add to Cart</button>
+      </form>
     </div>
-  <% }) %>
+
+
+
+    <% }) %>
 </body>
+
 </html>

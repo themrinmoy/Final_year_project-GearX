@@ -7,8 +7,10 @@ const User = require('../models/User');
 
 const adminController = require('../controllers/adminController');
 
-router.get('/', checkUserType('administrator'), (req, res) => {
-    res.render('admin-dashboard', { user: req.user });
+//:/admin
+router.get('/', checkUserType('admin'), (req, res) => {
+    res.render('./admin/admin.ejs', { user: req.user });
+    // res.send('admin');
 });
 
 // router.get('/users', checkUserType('administrator'), adminController.getAllUsers);
@@ -29,7 +31,7 @@ router.get('/', checkUserType('administrator'), (req, res) => {
 // router.post('/add-product', checkUserType('administrator'), adminController.addProduct);
 // router.put('/update-product/:productId',checkUserType('administrator'), adminController.updateProduct);
 // router.delete('/delete-product/:productId',checkUserType('administrator'), adminController.deleteProduct);
-router.get('/add-product',  adminController.showAddProductPage);
+router.get('/add-product', checkUserType('admin'), adminController.showAddProductPage);
 router.post('/add-product',  adminController.addProduct);
 router.put('/update-product/:productId', adminController.updateProduct);
 router.delete('/delete-product/:productId', adminController.removeProduct);
