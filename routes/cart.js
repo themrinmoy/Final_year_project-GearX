@@ -11,10 +11,17 @@ const cartController = require('../controllers/CartController');
 //     // res.send('cart');
 // });
 
-router.get('/', cartController.showCart);
 
+
+
+// /cart => GET
+router.get('/', cartController.showCart);
 router.post('/add-to-cart/:productId', cartController.addToCart);
 
-router.post('/remove-from-cart/:productId', cartController.removeFromCart);
+router.post('/cart-delete-item',  cartController.postCartDeleteProduct);
+// router.post('/cart-delete-item',  cartController.deleteFromCart);
+
+
+// router.post('/remove-from-cart/:productId', cartController.removeFromCart);
 
 module.exports = router;

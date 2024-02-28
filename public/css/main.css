@@ -1,0 +1,1017 @@
+/* Navbar Styles */
+* {
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    /* background-color: #f4f4f4; */
+    background-color: #F0F0F0;
+
+    color: #333;
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+} */
+.navbar {
+    background: linear-gradient(to right, #4568DC, #B06AB3);
+    /* Example gradient */
+    color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    /* Makes navbar stick to the top */
+    top: 0;
+    /* width: 100%; */
+    /* width: ; */
+    /* Adjust width as needed */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /* Subtle shadow effect */
+    z-index: 10;
+    /* Ensures navbar stays on top of other elements */
+}
+
+.logo a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: larger;
+    display: flex;
+    /* transition: 0.3s ease; */
+
+}
+
+.nav-links li {
+    margin-left: 25px;
+    text-underline-position: below;
+    /* transition: 0.3s ease; */
+
+
+}
+
+.nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    /* transition:  0.3s ease; */
+}
+
+.nav-links li a:hover {
+    color: #ffdd55;
+    /* Example hover color */
+    /* ADD A TEXT UNDER LINE */
+
+
+    text-decoration: underline;
+    text-decoration-color: #B06AB3;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 5px;
+
+    /* transition: 0.3s ease; */
+    /* background-color: rgba(255,255,255,0.1); */
+    /*  Subtle hover background */
+}
+
+.nav-links li.active a {
+    /* Style for the currently active page */
+    font-weight: bold;
+    text-decoration: underline;
+    text-decoration-color: #B06AB3;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 5px;
+}
+
+.icons {
+    display: flex;
+    align-items: center;
+}
+
+.icons a {
+    margin-left: 20px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.icons a i {
+    transition: color 0.3s ease;
+    /* Smooth transition on hover */
+}
+
+.icons a i:hover {
+    color: #ffdd55;
+}
+
+.btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.signin {
+    margin-right: 5px;
+}
+
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 5px 0;
+}
+
+/* Responsive Navbar for Smaller Screens */
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(to right, #4568DC, #B06AB3);
+        display: none;
+        flex-direction: column;
+    }
+
+    .nav-links li {
+        margin: 10px 0;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+}
+
+/* Banner Styles */
+.banner-section {
+    position: relative;
+    /* height: 100vh;  */
+    top: auto;
+    /* padding: 220px 20px; */
+    min-height: 20rem;
+    /* background-color: #ff9900; */
+    /* background-color: #b26b00; */
+
+    /* For positioning arrows */
+    overflow: hidden;
+    /* Hide slides outside the container */
+}
+
+.banner-container {
+    display: flex;
+}
+
+.banner-slide {
+    flex: 0 0 100%;
+    /* Each slide takes up full width */
+    min-width: 100%;
+    text-align: center;
+    position: relative;
+    display: none;
+    /* Initially hide slides */
+}
+
+.banner-slide img {
+    width: 100%;
+    height: auto;
+}
+
+
+
+.banner-slide.active {
+    display: block;
+    /* Show the active slide */
+}
+
+.banner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+}
+
+.banner-text h2 {
+    /* Targets the h2 heading specifically */
+    font-family: 'Arial Black', sans-serif;
+    font-size: 48px;
+    background-color: transparent;
+    /* Ensures transparency */
+
+    /* color: #ede6cb; Bold yellow color */
+    /* background: radial-gradient(circle, #FF6633, #FFB399, #FF33FF, #FFFF99, #00B3E6); */
+    /* background-size: 600%; */
+    /* text-shadow: 2px 2px 3px rgba(0,0,0,0.4); */
+}
+
+.banner-text p {
+    /* If you have a paragraph in the banner  */
+    font-size: 18px;
+    line-height: 1.5;
+    /* Adds spacing between lines  */
+}
+
+
+.banner-prev,
+.banner-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 20px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.banner-section::before {
+    /* Creates a pseudo-element to act as an overlay */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    /* White with 10% opacity */
+}
+
+.banner-prev {
+    left: 20px;
+}
+
+.banner-next {
+    right: 20px;
+}
+
+/* jugar laga dia for mobile view */
+
+@media (max-width: 768px) {
+    .banner-text h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+        /* Smaller on mobile */
+    }
+
+    .banner-section {
+        height: 20vh;
+        /* padding: 120px 20px;  */
+        /* min-height: 400px;  */
+        /* Adjust height as needed */
+        /* height: 1240%; */
+        /* background-color: red; */
+    }
+
+    .banner-slide img {
+        width: 100%;
+        /* height: auto;  */
+        /* Maintain aspect ratio */
+        height: 140%;
+        /* Maintain aspect ratio */
+        object-fit: cover;
+        /* object-fit: contain; */
+
+    }
+
+    .banner-prev,
+    .banner-next {
+        /* top: 70%;  */
+        /* Adjust arrow position as needed */
+    }
+}
+
+
+
+
+/* catagory section */
+/* ... (Your existing grid styles)  */
+
+
+.category-section {
+    /* Style the container */
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* background-color: #999; */
+    /* display: grid; */
+    /* grid-template-columns: 1fr; One column for the full width */
+    /* grid-template-rows: auto 1fr;  Auto row for header, rest for grid */
+    /* gap: 20px;  */
+}
+
+.category-section h2 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 42px;
+    font-weight: 600;
+    /* Slightly bolder */
+    color: #333;
+    /* Dark text against gradient  */
+    background: linear-gradient(to right, #f4f4f4, #e8e8e8);
+    /* Subtle gray gradient */
+    padding: 8px 20px;
+    margin-bottom: 30px;
+    position: relative;
+    text-align: center;
+
+
+
+
+    /* border-radius: 3000px; */
+
+    /* position: relative; Allows positioning of the pseudo-element */
+
+
+}
+
+/* .category-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 10rem;
+
+    height: 3px;
+    background-color: red;
+
+} */
+
+.category-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10rem;
+    height: 3px;
+    /* background-color: red; */
+
+
+    /* Adjust the value for desired roundedness */
+}
+
+
+
+
+.category-grid {
+    /* margin: auto auto 50px auto; Center the grid and add some space at the bottom */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    /* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */
+    /* Responsive columns */
+    gap: 20px;
+    /* Space between items */
+    padding: 0 20px;
+    /* background-color: #007bff; */
+}
+
+.category-item {
+    position: relative;
+    /* For positioning the text */
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+
+    /* Centers image initially */
+}
+
+.category-item:hover {
+    transform: scale(1.05);
+    transition: all 0.3s ease-in-out;
+    /* Subtle zoom on hover */
+    /* box-shadow: 0 5px 10px rgba(0,0,0,0.2); Adds a shadow */
+}
+
+.category-item img {
+    width: 100%;
+    height: 90%;
+    /* width: auto;  */
+    /* height: auto; */
+    display: block;
+}
+
+.category-name {
+    /* position: absolute;
+    background-color: rgba(62, 20, 20, 0.6); 
+    color: #fff;
+    padding: 8px 12px;*/
+    font-weight: bold;
+    font-size: 30px;
+
+
+    position: absolute;
+    top: 50%;
+    /* Initial centering */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Precise centering */
+    /* background-color: rgba(0, 0, 0, 0.7);  */
+    background-color: rgba(0, 0, 0, 0.7);
+    /* color: #FF9900; */
+    color: #E92626;
+    /* letter-spacing: -12px; */
+    /* fo */
+    /* padding: 5px 10px; */
+
+    writing-mode: vertical-rl;
+    /* writing-mode: vertical-lr;  */
+    text-orientation: upright;
+    /* transform: rotate(180deg);   */
+    right: auto;
+    /* Reset default left positioning */
+    left: 10%;
+    /* Place it slightly from the right */
+    /* border-radius: 10%; */
+
+}
+
+
+/* for deal section */
+
+.promo-hero {
+    /* height: ; */
+    /* margin: 555px; */
+    background-image: url('../img/feature3.png');
+    /* background-position: 60% 30%; */
+
+    background-size: cover;
+    /* background-size: 100% 10%; */
+    background-position: center;
+    color: #fff;
+    text-align: center;
+    /* padding: 80px 20px;  */
+    padding: 220px 20px;
+}
+
+.promo-hero h2 {
+    font-family: 'Arial Black', sans-serif;
+    /* Bold font choice */
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.promo-hero p {
+    font-size: 20px;
+}
+
+.promo-hero button {
+    background-color: #FF6633;
+    /* Bold orange color */
+    border: none;
+    color: #fff;
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+}
+
+.promo-hero button:hover {
+    background-color: #cc5522;
+    /* Slightly darker on hover */
+    transition: all 0.3s ease;
+}
+
+.promo-hero {
+    /* Your existing styles */
+}
+
+@media (max-width: 768px) {
+
+    /* Adjust breakpoint as needed */
+    .promo-hero {
+        /* background-position: we;  */
+        /* background-image: url('f3.png');  */
+        background-position: center top;
+        /* width: 100%; */
+        /* Focus on top of image for mobile */
+        /* object-fit: cover; */
+
+        /*  Focus on top of image for mobile */
+    }
+}
+
+
+/* feature product */
+/* Featured Products Section Styling */
+/* Featured Products Section */
+
+
+
+
+
+.featured-products {
+    padding: 40px 20px;
+    margin: 50px;
+    /* background-color: green; */
+    /* text-align: center; */
+}
+
+.featured-products h2 {
+    font-size: 30px;
+    margin-bottom: 25px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    color: #333;
+    /* align-items: center; */
+    text-align: center;
+    /* background-color: #007bff; */
+
+}
+
+.product-grid {
+    /* background-color: #007bff; */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px;
+    /* width: 1330px;  */
+    margin: 0 auto;
+    /* Centers the grid */
+    /* background-color: #007bff; */
+}
+
+
+
+
+
+/* Styling for All Product Cards */
+.product-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    width: 260px;
+    margin: 0 auto;
+    /* background-color: gray; */
+    /* text-align: center;  */
+}
+
+.product-image {
+    position: relative;
+    text-align: center;
+    /* Allows positioning of the badge */
+}
+
+.product-image img {
+    transition: transform 0.3s ease;
+}
+
+.product-image img:hover {
+    /* transform: scale(1.03); */
+    /*  Adjust the zoom level */
+}
+
+.product-badge {
+    /* position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #FFD700; 
+    color: #333; 
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-weight: bold; */
+
+
+    position: absolute;
+    top: 15px;
+    right: -20px;
+    padding: 5px 10px;
+    background-color: #dc3545;
+    color: white;
+    font-size: 0.8em;
+    border-radius: 3px;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.product-card.premium:hover .product-badge {
+    opacity: 1;
+    right: 15px;
+}
+
+.product-info {
+    margin-top: 15px;
+}
+
+.product-brand {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9em;
+    margin-bottom: 12px;
+    color: #666;
+}
+
+.product-title {
+    margin-bottom: 5px;
+}
+
+.product-price {
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 10px;
+
+}
+
+
+
+.discount-badge {
+    /* background-color: #ff6633;
+    color: #fff;
+    margin-left: 10px; 
+    padding: 3px 8px;
+    border-radius: 3px;  */
+    background-color: #dc3545;
+    color: white;
+    font-size: 0.8em;
+    margin-top: 2px;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 4px;
+    position: relative;
+
+    top: -5px;
+    margin-left: 8px;
+}
+
+.sale-price {
+    font-weight: bold;
+    color: #dc3545;
+    font-size: large;
+    /* A bold red for emphasis */
+}
+
+/* Specific Styling for Premium Cards */
+.product-card.premium {
+    border: 2px solid gold;
+    padding: 20px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+}
+
+/* Featured Products Section (Additions) */
+
+/* ...Your existing featured products CSS... */
+
+/* Button Styling */
+.product-actions button {
+    background-color: #FF6633;
+    /* Bold color */
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* For hover */
+    margin-right: 5px;
+    /* Spacing between buttons */
+}
+
+.product-actions button i {
+    margin-right: 5px;
+    /* Space between icon and text */
+}
+
+.add-to-cart:hover {
+    background-color: #cc5522;
+    /* Slightly darker on hover */
+}
+
+.wishlist:hover {
+    background-color: #FF3366;
+    /* Example - pink for wishlist */
+}
+
+/* "New" Badge Styling */
+
+
+
+/* Responsive Adjustments */
+@media (max-width: 1700px) {
+
+    /* Adjust breakpoint as needed */
+    .product-grid {
+        grid-template-columns: repeat(4, 1fr);
+        /* 4 products per row */
+    }
+}
+
+@media (max-width: 1400px) {
+
+    /* Adjust breakpoint as needed */
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+        /* 4 products per row */
+    }
+}
+
+/* Add more media queries for smaller screen sizes, going down 
+   to 3, 2, and finally 1 product per row  */
+
+
+@media (max-width: 1060px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+        /* Maybe 3 columns now? */
+    }
+}
+
+@media (max-width: 960px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* about us */
+
+/* General Styles (Adapt as needed) */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    /* Main text color */
+    background-color: #f8f8f8;
+    /* Subtle off-white background */
+}
+
+/* Other Website Sections - Your CSS for header, featured products, etc.  */
+
+/* About Us Styles */
+.about-us {
+    padding: 250px 20px;
+    /* Adjust spacing */
+    text-align: center;
+    background-image: url('../img/us.jpg');
+
+    /* opacity: 0.8; */
+    background-color: #dd1e1e !important;
+    /* background-attachment: fixed;  */
+    /* Enables parallax */
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    /* For the overlay */
+
+    /* background-attachment: fixed;  */
+    background-position: center top;
+    /* Focus on the top */
+    background-size: cover;
+}
+
+.about-us::after {
+    /* Creates the overlay */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(165, 161, 144, 0);
+    /* Example blue, adjust opacity */
+}
+
+.container {
+    /* max-width: 900px;  */
+    margin: 0 auto;
+
+}
+
+.about-us h2 {
+    text-align: left;
+    font-size: 36px;
+    margin-bottom: 20px;
+    /* color: #fff; White text over the image  */
+    color: #cc5522;
+    /* underline */
+    text-decoration: underline;
+    text-decoration-color: #cc5522;
+    text-decoration-thickness: 4px;
+    text-underline-offset: 10px;
+}
+
+.about-us .container {
+    /* Assuming your button is inside the container */
+    text-align: left;
+    /* margin-top: 10px; */
+    /* background-color: rgba(255, 242, 0, 0.219); */
+    background-color: rgba(18, 16, 13, 0.219);
+    padding: 10px;
+    border-radius: 10px;
+    /* display: inline; */
+    /* margin-left: 0;  */
+    /* float: left; */
+
+    /* margin-right: auto; */
+}
+
+/* add media query for mobile */
+@media (max-width: 1200px) {
+
+    .container {
+        background-color: rgba(18, 16, 13, 0.219);
+        padding: 10px;
+        border-radius: 10px;
+    }
+}
+
+
+
+.about-us p {
+    text-align: left;
+    max-width: 600px;
+    font-size: 20px;
+    font-weight: 600;
+    /* line-height: 1.6;  */
+    line-height: 1.6;
+    /* make  */
+    /* line-break: ; */
+    /* color: #fff; */
+    color: #c75423;
+    /* color: #feb30f; */
+    /* White for better contrast */
+}
+
+.learn-more {
+    margin-top: 20px;
+    background-color: #FF6633;
+    /* Bold color */
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+}
+
+.learn-more:hover {
+    background-color: #cc5522;
+    /* Darker on hover */
+}
+
+
+
+/* footer */
+
+/* .site-footer {
+    background-color: #333;
+   
+    color: #fff; 
+    padding: 30px 0; 
+    text-align: center;
+} */
+
+
+.site-footer {
+    /* background-color: #202529; Dark Footer */
+    background-color: #c6ddf0;
+    /* padding: 60px 0;  */
+    /* text-align: center; */
+
+    /* clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%); */
+}
+
+
+.site-footer {
+    /* background-color: #c6ddf0; */
+    /* Dark background */
+    /* background-color: #333; Dark background */
+    background: linear-gradient(to right, #4568DC, #B06AB3);
+
+    color: #172547;
+    padding: 30px 0;
+    text-align: center;
+    font-weight: 400;
+
+    /* top: auto; */
+    bottom: 0;
+    
+}
+
+.footer-container {
+    /* max-width: 900px; */
+    margin: 0 30px;
+    /* background-color: red; */
+    display: flex;
+    justify-content: space-between; /* Pushes items to the sides */
+    align-items: center; 
+}
+
+.footer-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.footer-nav li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.footer-nav a {
+    color: #1a2e59;
+    text-decoration: none;
+}
+
+/* ... your existing footer styles ... */
+
+.copyright {
+    font-size: 16px;
+    /* Adjust size as needed */
+    margin-bottom: 15px;
+    /* Add space below copyright */
+}
+
+.social-links {
+    margin-top: 10px;
+    /* Space above social icons */
+}
+
+.social-links a {
+    display: inline-block;
+    color: #fff;
+    background-color: #4267B2;
+    /* Example blue for Facebook */
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    /* Makes them circular */
+    line-height: 35px;
+    /* Centers icons vertically */
+    margin: 0 5px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    /* For hover effect */
+}
+
+.social-links a:hover {
+    background-color: #385898;
+    /* Slightly darker on hover */
+}
+/* ...your existing footer styles... */
+
+/* .copyright {
+    float: left;
+}
+
+.social-links {
+    float: right;
+} */
+
+.footer-nav { 
+    /* clear: both;  */
+    /* Prevents overlap with floated elements */
+} 
+
+/* Replace #4267B2 with the colors for your other social icons */
+
+
+/* Add styles for .copyright and .social-links as needed */
+
+
+/* Add styles for copyright, social icons (if you have them) etc. */

@@ -1,45 +1,90 @@
-<!-- views/cart.ejs -->
+<%- include('../include/head.ejs') %>
+    </head>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
-</head>
-<body>
-    <h1>Your Shopping Cart</h1>
+    <body>
+        <%- include('../include/navigation.ejs') %>
 
-    <% if (cart.items.length === 0) { %>
-        <p>Your cart is empty.</p>
-    <% } else { %>
-        <ul>
-            <% cart.items.forEach(item => { %>
-                <li>
-                    Product ID: <%= item.productId %>, Quantity: <%= item.quantity %>
-                    <form method="POST" action="/cart/remove-from-cart/<%= item.productId %>?_method=DELETE">
-                        <label for="quantity">Remove Quantity:</label>
-                        <input type="number" name="quantity" min="1" max="<%= item.quantity %>" value="1" required>
-                        <button type="submit">Remove from Cart</button>
-                    </form>
-                    
-                    <!-- Add button to increase quantity -->
-                    <form method="POST" action="/cart/add-to-cart/<%= item.productId %>">
-                        <label for="quantity">Add Quantity:</label>
-                        <input type="number" name="quantity" min="1" max="<%= item.quantity %>" value="1" required>
-                        <button type="submit">Add Quantity</button>
-                    </form>
-                </li>
-            <% }); %>
-        </ul>
+            <main>
+                <link rel="stylesheet" href="../css/cart.css">
 
-        <!-- Form for placing an order -->
-        <form method="POST" action="/cart/place-order">
-            <button type="submit">Place Order</button>
-        </form>
-    <% } %>
 
-    <a href="/">Continue Shopping</a>
-</body>
-</html>
+
+                <section class="cart-page">
+                    <% let totalPrice=0; %>
+                        <div class="container">
+                            <h2>Your Shopping Cart</h2>
+                            <div class="cart-container">
+
+
+                                <div class="cart-items">
+                                    <% for (const item of cart.items) { %>
+                                        <div class="cart-item">
+                                            <div class="item-image">
+                                                <img src="<%= item.productId.imageUrl %>"
+                                                    alt="<%= item.productId.name %>">
+                                            </div>
+                                            <div class="item-details">
+                                                <h3>
+                                                    <%= item.productId.name %>
+                                                </h3>
+                                                <p class="item-price">$<%= item.productId.price.toFixed(2) %>
+                                                </p>
+                                                <!-- <div class="cart-item"> -->
+                                                <div class="quantity">
+                                                    <p>Quantity: <%= item.quantity %>
+                                                    </p>
+                                                </div>
+                                                <% for (const item of cart.items) { %>
+                                                    <% totalPrice +=item.quantity * item.productId.price; %>
+
+                                                        <% } %>
+                                                            <p class="item-total">Items Total: $<%=
+                                                                    (item.productId.price * item.quantity).toFixed(2) %>
+                                                            </p>
+
+                                                            <form action="/cart/cart-delete-item" method="POST"
+                                                                class="remove-form">
+                                                                <input type="hidden" name="productId"
+                                                                    value="<%= item.productId._id %>">
+                                                                <button class="remove-item"
+                                                                    type="submit">Remove</button>
+                                                            </form>
+
+                                                            <!-- <button class="remove-item">Remove</button> -->
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                </div>
+                                <div class="cart-summary">
+                                    <h3>Order Summary</h3>
+                                    <div class="subtotal">
+                                        <p>Subtotal:</p>
+                                        <p>$<%= totalPrice %>
+                                        </p>
+                                    </div>
+                                    <!-- <p>$<%= 0%></p>
+                    </div> -->
+                                    <div class="shipping">
+                                        <p>Shipping:</p>
+                                        <p>Calculated at checkout</p>
+                                    </div>
+                                    <div class="total">
+                                        <p>Total:</p>
+                                        <p>$ <%= totalPrice %>
+                                        </p>
+                                    </div>
+
+
+                                    <div class="cleckoutbtn">
+                                        <button class="checkout-btn">Proceed to Checkout</button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                </section>
+
+            </main>
+
+            <%- include('../include/footer.ejs') %>

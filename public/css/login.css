@@ -1,0 +1,122 @@
+main {
+    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
+
+    /* background: linear-gradient(to right, #e0f2fe, #e0f2fe); */
+    background: linear-gradient(to right, #fefbe0, #e0f2fe);
+    /* background: linear-gradient(to right, #fefbe0, #75bff0); */
+    /* animation: backgroundAnimation 10s ease infinite; */
+    /* background-size: 400% 400%; */
+
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 88vh;
+    /* background-color: #f0f0f0; */
+}
+
+/* @keyframes backgroundAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+} */
+
+.container {
+    background-color: #fff;
+    /* background: linear-gradient(to right, #e0f2fe, #e0f2fe); */
+
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.input-field {
+    margin-bottom: 15px;
+    /* background: linear-gradient(to right, #e0f2fe, #e0f2fe); */
+
+}
+
+.input-field label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-field input {
+    /* width: 100%; */
+    /* padding: 10px; */
+    /* border: 1px solid #ccc; */
+    border-radius: 3px;
+    /* background: linear-gradient(to right, #e0f2fe, #e0f2fe); */
+
+    width: 100%;
+    padding: 10px 5px; 
+    border: none; 
+    background-color: transparent; 
+    border-bottom: 1px solid #ccc; 
+    /* border-bottom: 2px solid #ccc;  */
+
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    /* Trustworthy blue */
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin: 0 auto;
+}
+
+.input-field input:hover {
+    /* border-color: #007bff; */
+    /* Example hover color */
+}
+
+.input-field input:focus {
+    border-color: #007bff;
+    outline: none; 
+
+    /* border-bottom: 2px solid #007bff;  */
+
+    /* border: 4px 2px  solid #007bff; */
+    /* Example hover color */
+}
+
+.input-field input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    /* border-bottom: 21px solid #aa0a0a; */
+    /* font-size: 24px; */
+    /* Remove all borders */
+    border-bottom: 1px solid #ccc;
+    /* Add bottom border */
+}
+
+.input-field input:focus {
+    outline: none;
+    outline-color: #2b88eb;
+    /* outline-width: 44px; */
+    outline-color: 0 0 0 4px rgba(0, 123, 255, 0.5);
+
+    /* box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5);  */
+    /* Adjust color and spread as desired */
+}
+
+.input-field input {
+    /* ... your other styles */
+    transition: border-color 0.1s ease;
+    /* Adjust time if needed */
+}

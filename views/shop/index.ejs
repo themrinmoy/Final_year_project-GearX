@@ -1,0 +1,226 @@
+<!-- <link rel="stylesheet" href="addtocart.css"> -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"> -->
+
+<%- include('../include/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../include/navigation.ejs',{isAuthenticated} ) %>
+
+            <!-- <main> -->
+
+
+            <section class="banner-section">
+                <div class="banner-container">
+                    <div class="banner-slide active">
+                        <img src="img/feature1.png" alt="40% Off Sale">
+                        <div class="banner-text">
+                            <h2>40% Off Summer Styles</h2>
+                            <a href="#" class="btn">Shop Now</a>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <img src="img/feature2.png" alt="Buy One Get One Free">
+                        <div class="banner-text">
+                            <h2>Buy One, Get One Free</h2>
+                            <a href="#" class="btn">Explore Deals</a>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <img src="img/feature3.png" alt="New Arrivals">
+                        <div class="banner-text">
+                            <h2>Fresh New Arrivals</h2>
+                            <a href="#" class="btn">Discover Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="banner-prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="banner-next"><i class="fas fa-chevron-right"></i></button>
+            </section>
+
+
+            <!-- <section class="category-grid">
+        <div class="category-item">
+            <img src="gloves.jpg" alt="Gloves">
+            <div class="category-name">Gloves</div>
+        </div>
+        <div class="category-item">
+            <img src="shoes.jpg" alt="Shoes">
+            <div class="category-name">Shoes</div>
+        </div> -->
+            <!-- </section> -->
+
+            <section class="category-section">
+                <h2>Explore Our Categories</h2>
+                <div class="category-grid">
+
+                    <a class="category-item" href="#">
+                        <img src="img/gloves.png" alt="Gloves">
+                        <div class="category-name">Gloves</div>
+                    </a>
+                    <a class="category-item" href="#">
+                        <img src="img/shoes.png" alt="Shoes">
+                        <!-- <a href=""></a> -->
+                        <div class="category-name">Shoes</div>
+                    </a>
+                    <a class="category-item" href="#">
+                        <img src="img/helmet.png" alt="Helmets">
+                        <div class="category-name">Helmets</div>
+                    </a>
+                    <a class="category-item" href="#">
+                        <img src="img/backpack.png" alt="Backpacks">
+                        <div class="category-name">Backpacks</div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- <section class="promo-banner">
+        <div class="Pbanner-text">
+            <h2>Summer Sale is Sizzling!</h2>
+            <p>Get 30% Off Your Favorites</p>
+            <button>Explore Now</button>
+        </div>
+    </section> -->
+
+            <section class="featured-products">
+                <h2>Featured Products</h2>
+                <div class="product-grid">
+
+                    <div class="product-card premium">
+                        <div class="product-image">
+                            <img src="img/shoes.png" alt="Premium Product">
+                            <div class="product-badge">New</div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Premium Luxury Product</h3>
+                            <p class="product-brand">Exclusive Brand</p>
+                            <div class="product-price">
+                                <span class="original-price">$100</span>
+                                <span class="sale-price">$80</span>
+                                <span class="discount-badge">20% OFF</span>
+                            </div>
+
+                            <div class="product-actions">
+                                <button class="add-to-cart"><i class="fa fa-shopping-cart"></i>
+                                    Add</button>
+                                <button class="wishlist"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card premium">
+                        <div class="product-image">
+                            <img src="img/shoes.png" alt="Premium Product">
+                            <div class="product-badge">New</div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Premium Luxury Product</h3>
+                            <p class="product-brand">Exclusive Brand</p>
+                            <div class="product-price">
+                                <span class="original-price">$100</span>
+                                <span class="sale-price">$80</span>
+                                <span class="discount-badge">20% OFF</span>
+                            </div>
+
+                            <div class="product-actions">
+                                <button class="add-to-cart"><i class="fa fa-shopping-cart"></i>
+                                    Add</button>
+                                <button class="wishlist"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card premium">
+                        <div class="product-image">
+                            <img src="img/shoes.png" alt="Premium Product">
+                            <div class="product-badge">New</div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Premium Luxury Product</h3>
+                            <p class="product-brand">Exclusive Brand</p>
+                            <div class="product-price">
+                                <span class="original-price">$100</span>
+                                <span class="sale-price">$80</span>
+                                <span class="discount-badge">20% OFF</span>
+                            </div>
+
+                            <div class="product-actions">
+                                <button class="add-to-cart"><i class="fa fa-shopping-cart"></i>
+                                    Add</button>
+                                <button class="wishlist"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card premium">
+                        <div class="product-image">
+                            <img src="img/shoes.png" alt="Premium Product">
+                            <div class="product-badge">New</div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Premium Luxury Product</h3>
+                            <p class="product-brand">Exclusive Brand</p>
+                            <div class="product-price">
+                                <span class="original-price">$100</span>
+                                <span class="sale-price">$80</span>
+                                <span class="discount-badge">20% OFF</span>
+                            </div>
+
+                            <div class="product-actions">
+                                <button class="add-to-cart"><i class="fa fa-shopping-cart"></i>
+                                    Add</button>
+                                <button class="wishlist"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card premium">
+                        <div class="product-image">
+                            <img src="img/shoes.png" alt="Premium Product">
+                            <div class="product-badge">New</div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Premium Luxury Product</h3>
+                            <p class="product-brand">Exclusive Brand</p>
+                            <div class="product-price">
+                                <span class="original-price">$100</span>
+                                <span class="sale-price">$80</span>
+                                <span class="discount-badge">20% OFF</span>
+                            </div>
+
+                            <div class="product-actions">
+                                <button class="add-to-cart"><i class="fa fa-shopping-cart"></i>
+                                    Add</button>
+                                <button class="wishlist"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            <section class="promo-hero">
+                <div class="hero-text">
+                    <h2>Summer Sale is Sizzling!</h2>
+                    <p>Get 30% Off Your Favorites</p>
+                    <button>Explore Now</button>
+                </div>
+            </section>
+
+
+
+            <section class="about-us">
+                <div class="container">
+                    <h2>Tour in Style Without Breaking the Bank</h2>
+                    <p>We understand that not every cyclist can afford brand-new gear for every adventure. That's
+                        why we
+                        offer quality rental and pre-owned bikes, parts, and gear, making touring accessible to
+                        everyone.</p>
+                    <p>Whether you're a seasoned cyclist or just getting started, we're here to help you hit the
+                        road
+                        fully equipped. </p>
+                    <button class="learn-more">Learn More About Us</button>
+                </div>
+            </section>
+            </main>
+            <%- include('../include/footer.ejs') %>
+
+
+
+                <script src="js/script.js"></script>

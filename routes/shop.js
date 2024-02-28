@@ -4,7 +4,7 @@ const ProductController = require('../controllers/ProductsController');
 
 
 router.get('/', (req, res, next) => {
-    res.render('home', { title: 'Home' });
+    res.render('shop/index', { pageTitle: 'Home' });
 });
 router.get('/shop', (req, res, next) => {
     // res.render('index');

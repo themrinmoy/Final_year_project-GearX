@@ -1,42 +1,65 @@
-<!-- views/admin-dashboard.ejs -->
+<%- include('../include/head.ejs', pageTitle='Login' ) %>
+    <%- //include('../css/login.css') %>
+        </head>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <!-- Add your stylesheets and scripts here -->
-</head>
-<body>
-    <header>
-        <h1>Welcome, <%= user.username %>!</h1>
-        <p>Administrator Dashboard</p>
-    </header>
+        <body>
+            <%- include('../include/navigation.ejs') %>
+                <%- // include('css/login.css') %>
+                    <link rel="stylesheet" href="../css/admin.css">
+                    <header style="text-align: center;">
+                        <h2>Admin Dashboard</h2>
+                    </header>
+                    <main class="main-content">
 
-    <nav>
-        <!-- Navigation links for the admin dashboard -->
-        <ul>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Manage Users</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="/admin/add-product">add-product</a></li>
-            <li><a href="/products">all product</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="/cart">cart</a></li>
-            <!-- Add more navigation links as needed -->
-        </ul>
-    </nav>
+                        <div class="dashboard-admin_cards">
+                            <div class="admin_card">
+                                <img src="../img/add-product.png" alt="Product Icon">
+                                <!-- <i class="fas fa-plus-circle"></i> -->
+                                <h3>Add Products</h3>
+                                <p>Add new items to your store.</p>
+                                <a href="/admin/add-product">Enter</a>
+                            </div>
+                            <div class="admin_card">
+                                <img src="../img/update-product.png" alt="Edit Icon">
 
-    <section>
-        <!-- Main content for the admin dashboard -->
-        <h2>Main Content Section</h2>
-        <p>This is where you can display information or functionality specific to administrators.</p>
-    </section>
+                                <!-- <i class="fas fa-edit"></i> -->
+                                <h3>Edit Products</h3>
+                                <p>Modify details of existing products.</p>
+                                <a href="/admin/edit-product">Enter</a>
 
-    <footer>
-        <!-- Footer content -->
-        <p>&copy; 2024 Admin Dashboard</p>
-    </footer>
-</body>
-</html>
+                            </div>
+                            <div class="admin_card">
+                                <img src="../img/products.png" alt="View Products Icon">
+                                <!-- <i class="fas fa-eye"></i> -->
+                                <h3>View Products</h3>
+                                <p>See a list of all your products.</p>
+                                <a href="/update-product">Enter</a>
+
+                            </div>
+                            <div class="admin_card">
+                                <img width="128" src="../img/add-product.png" alt="Users Icon">
+                                <!-- <i class="fas fa-users"></i> -->
+                                <h3>Users</h3>
+                                <p>Manage your customer accounts.</p>
+                                <a href="/update-product">Enter</a>
+
+                            </div>
+                            <div class="admin_card">
+                                <img src="../img/add-product.png" alt="Orders Icon">
+                                <!-- <i class="fas fa-shopping-cart"></i> -->
+                                <h3>Orders</h3>
+                                <p>View and manage customer orders.</p>
+                                <a href="/update-product">Enter</a>
+
+                            </div>
+                            <div class="admin_card">
+                                <img src="../img/settings.png" alt="Settings Icon">
+                                <!-- <i class="fas fa-cog"></i> -->
+                                <h3>Settings</h3>
+                                <p>Change your store settings.</p>
+                                <a href="/update-product">Enter</a>
+
+                            </div>
+                        </div>
+                    </main>
+                    <%- include('../include/footer.ejs') %>

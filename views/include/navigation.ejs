@@ -1,0 +1,49 @@
+<nav class="navbar">
+    <div class="logo">
+        <a href="/">bike</a>
+    </div>
+
+    <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/admin">Admin</a></li>
+        <li><a href="/order">Order</a></li>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/contact">Contact</a></li>
+    </ul>
+
+    <div class="icons">
+        <a href="/favorites"><i class="fas fa-heart"></i></a>
+        <a href="/cart"><i class="fas fa-shopping-cart"></i></a>
+
+
+        <% if(isAuthenticated){ %>
+            <a href="/logout" class="btn Login">Logout</a>
+            <!-- <a href="/logout" class="btn Login">Logout</a> -->
+            <%} else{ %>
+                <a href="/login" class="btn Login">Log In</a>
+                <a href="/signup" class="btn signup">Sign Up</a>
+                <!-- <a href="/signup" class="btn signup">Sign Up</a> -->
+                <%} %>
+
+
+
+    </div>
+
+    <button class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+
+</nav>
+
+
+<script>
+    const hamburger = document.querySelector(".hamburger");
+    const navLinks = document.querySelector(".nav-links");
+
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+</script>

@@ -1,0 +1,116 @@
+main {
+    /* No specific styles needed for the main container */
+}
+
+.dashboard-admin_cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 50px;
+    align-items: center;
+    align-content: space-around;
+}
+
+/* .dashboard-admin_cards {
+    display: flex;
+    justify-content: space-between; 
+    flex-wrap: wrap;
+    flex-direction: column; 
+    margin: 50px;
+    align-items: center; 
+} */
+
+
+
+
+.admin_card {
+    background: linear-gradient(to right, #f2f6fa, #fff);
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin: 10px;
+    text-align: center;
+    width: 22%;
+    transition: all 0.3s ease;
+    margin-bottom: 50px;
+
+}
+
+.admin_card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+}
+
+.admin_card i {
+    font-size: 3em;
+    color: #398722;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* ... your existing styles ... */
+
+.admin_card a { 
+    /* background-color: #04bcff;  */
+    /* background: linear-gradient(to right, #75ccec 40%, #4f5effd7 60%); */
+    /* background: linear-gradient(to right, #04bcff 430%, #4c5af0b1 60%); */
+    background: linear-gradient(to right, #007bff, #0056b3); /* Bold blue gradient */
+
+    /* background: linear-gradient(to right, #f8fafc, #e2e8f0); Soft gradient */
+    /* background-color: #e0f2fe;  Very light blue */
+
+    color: #fff;              
+    /* ... your other styles ... */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Initial subtle shadow */
+    transition: all 0.4s ease  ;      /* Darker blue for text contrast */
+    display: block;            /* Make the link take up full width */
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;     /* Remove default underline */ 
+    text-align: center;        
+    transition: all 0.3s ease;
+}
+
+.admin_card a:hover {
+    background-position: 100% 50%;   /* Shift the gradient */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3); /* Stronger shadow */ 
+}
+
+.admin_card:nth-child(even) i {
+    color: #3498db;
+}
+
+.admin_card:nth-child(5) i {
+    color: #cfad17;
+}
+
+.admin_card:not(:last-child) {
+    /* Targets all cards except the last */
+    /* margin-bottom: 50px; */
+    /* background-color: red;  */
+    /* color: yellow; */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .dashboard-admin_cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .admin_card {
+        width: 90%;
+        margin: 15px auto;
+    }
+}
+
+@media (min-width: 1768px) {
+    .dashboard-admin_cards {
+        margin: 50px 200px;
+        /* background-color: #28a745; */
+
+        /* height: calc(100vh - 100px);  */
+
+    }
+
+}
