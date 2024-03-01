@@ -13,14 +13,45 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
+// const rateLimit = require('express-rate-limit');
+// const helmet = require('helmet');
+
+// const MongoStore = require('connect-mongo')(session);
+
+
 
 const User = require('./models/User');
 
-
-
-
-
 const app = express();
+
+// const limiter = rateLimit({
+//     windowMs: 15 * 60 * 1000, // 15 minutes
+//     max: 10, // limit each IP to 100 requests per windowMs
+//     message: 'Too many requests from this IP, please try again later.',
+//     onLimitReached: (req, res, options) => {
+//         console.log(`Rate limit exceeded for IP ${req.ip}. Limit: ${options.max}, Window: ${options.windowMs}ms`);
+//       },
+//   });
+// const rateLimit = require('express-rate-limit');
+// app.use((req, res, next) => {
+//     console.log(`Request from IP: ${req.ip}`);
+//     next();
+// });
+// console.log('Request from IP has been logged');
+
+// const limiter = rateLimit({
+//     windowMs: 15 * 60 * 1000, // 15 minutes
+//     max: 100, // limit each IP to 100 requests per windowMs
+//     message: 'Too many requests from this IP, please try again later.',
+//     handler: (req, res, options) => {
+//         console.log(`Rate limit exceeded for IP ${req.ip}. Limit: ${options.max}, Window: ${options.windowMs}ms`);
+//         res.status(429).json({ message: options.message });
+//     }
+// });
+
+// app.use(limiter);
+// app.use(helmet()); 
+
 
 
 // app.use(express.json());
@@ -77,6 +108,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
     res.locals.isAuthenticated = req.isAuthenticated();
+    if (res.locals.isAuthenticated) {
+        res.locals.userType = req.user.userType; // Adjust this based on your user object structure
+    } else {
+        res.locals.userType = null; // Set to a default value if the user is not authenticated
+    }
     next();
 });
 

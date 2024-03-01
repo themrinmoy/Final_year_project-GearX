@@ -1,82 +1,69 @@
-<!-- views/products/index.ejs -->
+<%- include('../include/head.ejs') %>
+  </head>
 
-<!DOCTYPE html>
-<html lang="en">
+  <body>
+    <%- include('../include/navigation.ejs') %>
+      <link rel="stylesheet" href="/css/product-card.css">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>all products</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 20px;
-    }
+      <main>
 
-    h1 {
-      color: #333;
-    }
-
-    .product {
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 10px;
-      margin-bottom: 20px;
-      background-color: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 5px;
-    }
-
-    .details-button {
-      background-color: #4caf50;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 14px;
-      margin: 4px 2px;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-  </style>
-</head>
-
-<body>
-  <h1>Product List</h1>
-
-  <% products.forEach(product=> { %>
-    <div class="product">
-      <h2>
-        <%= product.name %>
-      </h2>
-      <p>
-        <%= product.description %>
-      </p>
-      <p>Price: <%= product.price %>
-      </p>
-      <p>Category: <%= product.category %>
-      </p>
-      <img src="<%= product.imageUrl %>" alt="<%= product.name %> Image">
-
-      <!-- Add Details Button with a link to the product details page -->
-      <a href="/products/<%= product._id %>" class="details-button">Detaisls</a>
-      <form action="/cart/add-to-cart/<%= product._id %>" method="post">
-        <button type="submit" class="add-to-cart-button">Add to Cart</button>
-      </form>
-    </div>
+        <section class="products">
+          <h2>Product List</h2>
 
 
 
-    <% }) %>
-</body>
 
-</html>
+
+
+          <div class="product-grid">
+
+            <% products.forEach(product=> { %>
+              <a href="/products/<%= product._id %>" class="a_card">
+
+                <div class="product-card premium">
+                  <div class="product-image">
+                    <img src="<%= product.imageUrl  %>" alt="<%= product.name %>">
+                    <div class="product-badge">New</div>
+                  </div>
+
+                  <div class="product-info">
+                    <h3 class="product-title">
+                      <%= product.name %>
+                    </h3>
+                    <p class="product-brand description">
+
+                      <%= product.description %>
+                    </p>
+                    <div class="product-price">
+                      <span class="original-price">$100</span>
+                      <span class="sale-price">$<%= product.price %></span>
+                      <span class="discount-badge">20% OFF</span>
+                    </div>
+
+
+                    <div class="product-actions">
+                      <form action="/cart/add-to-cart/<%= product._id %>" method="post">
+
+                        <!-- <button type="submit" class="add-to-cart"><i class="fa fa-shopping-cart"></i> Add</button> -->
+                        <!-- <button class="add-to-cart"><i class="fa fa-shopping-cart"></i> Add</button> -->
+                        <button class="add-to-cart"><i class="fa fa-shopping-cart"></i> Add</button>
+                      </form>
+                      <form action="">
+                        <button class="wishlist"><i class="far fa-heart"></i></button>
+
+                      </form>
+                      <!-- <button class="wishlist"><i class="far fa-heart"></i></button> -->
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <% }) %>
+
+          </div>
+
+        </section>
+
+
+
+      </main>
+      <%- include('../include/footer.ejs') %>

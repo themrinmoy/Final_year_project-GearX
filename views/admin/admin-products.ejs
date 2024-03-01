@@ -1,0 +1,98 @@
+<%- include('../include/head.ejs') %>
+  </head>
+
+  <body>
+    <%- include('../include/navigation.ejs') %>
+      <link rel="stylesheet" href="../css/product-card.css">
+
+      <main>
+
+        <section class="products">
+          <h2>Product List</h2>
+
+
+
+
+
+
+          <div class="product-grid">
+
+            <% products.forEach(product=> { %>
+              <a href="/products/<%= product._id %>" class="a_card">
+
+                <div class="product-card premium">
+                  <div class="product-image">
+                    <img src="<%= product.imageUrl  %>" alt="<%= product.name %>">
+                    <div class="product-badge">New</div>
+                  </div>
+
+                  <div class="product-info">
+                    <h3 class="product-title">
+                      <%= product.name %>
+                    </h3>
+                    <p class="product-brand description">
+
+                      <%= product.description %>
+                    </p>
+                    <div class="product-price">
+                      <span class="original-price">$100</span>
+                      <span class="sale-price">$<%= product.price %></span>
+                      <span class="discount-badge">20% OFF</span>
+                    </div>
+
+
+                    <div class="product-actions admin-prod-action">
+                      <form action="/admin/update-product/<%= product._id %>" method="get">
+
+                        <!-- <button type="submit" class="add-to-cart"><i class="fa fa-shopping-cart"></i> Add</button> -->
+                        <!-- <button class="add-to-cart"><i class="fa fa-shopping-cart"></i> Add</button> -->
+                        <button class="update-button"><i class="fa fa-edit"></i> Update</button>
+                      </form>
+
+                      <form action="/admin/delete-product/<%= product._id %>" method="post">
+
+                        <button class="delete-button" data-product-name="<%= product.name %>"><i
+                            class="fa fa-trash"></i> Delete</button>
+
+                      </form>
+                      <!-- <form action=""> -->
+
+                        <!-- <button class="add-to-cart"><i class="fa fa-eye"></i> View</button> -->
+
+                      <!-- </form> -->
+
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <% }) %>
+
+          </div>
+
+        </section>
+
+
+        <script>
+          // const deleteButtons = document.querySelectorAll('.delete-button'); // Targets buttons with the correct class
+          // deleteButtons.forEach(button => {
+          //   button.addEventListener('click', (event) => {
+          //     if (!confirm("Are you sure you want to delete this product?")) {
+          //       event.preventDefault(); // Prevents form submission if not confirmed
+          //     }
+          //   });
+          // });
+
+          const deleteButtons = document.querySelectorAll('.delete-button');
+          deleteButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+              const productName = button.dataset.productName; // Access the name
+              if (!confirm(`Are you sure you want to delete the product: ${productName}?`)) {
+                event.preventDefault();
+              }
+            });
+          });
+
+
+        </script>
+      </main>
+      <%- include('../include/footer.ejs') %>

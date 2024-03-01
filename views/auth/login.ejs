@@ -1,40 +1,54 @@
 <%- include('../include/head.ejs', pageTitle='Login' ) %>
-    <%- //include('../css/login.css') %>
+
         </head>
 
         <body>
             <%- include('../include/navigation.ejs') %>
-                <%- // include('css/login.css') %>
+             
                     <link rel="stylesheet" href="../css/login.css">
                     <main>
                         <div class="container">
                             <h1>Welcome Back!</h1>
+                            <!-- Add the warning container -->
+                            <div id="warning-container" class="warning-container"></div>
                             <form id="signup-form" action="/login" method="post">
                                 <div class="input-field">
                                     <label for="username">Username:</label>
                                     <input type="text" id="username" name="username" required>
                                 </div>
-                                <!-- <div class="input-field">
-                                    <label for="email">Email:</label>
-                                    <input type="email" id="email" required>
-                                </div> -->
                                 <div class="input-field">
                                     <label for="password">Password:</label>
                                     <input type="password" id="password" name="password" required>
                                 </div>
                                 <button type="submit">Log in</button>
                             </form>
-                            <!-- <form id="signup-form" action="/login" method="post">
-                                <div class="input-field">
-                                    <label for="username">Username:</label>
-                                    <input type="text" id="username" name="username" required>
-                                    <br>
-                                </div>
-                                <label for="password">Password:</label>
-                                <input type="password" id="password" name="password" required>
-                                <br>
-                                <button type="submit">Log in</button>
-                            </form> -->
                         </div>
                     </main>
+
+                    <script>
+                        // Parse the query parameter from the URL
+                        const params = new URLSearchParams(window.location.search);
+                        const warningMessage = params.get('warning');
+                
+                        // Display the warning message if it exists
+                        if (warningMessage) {
+                            // Get the warning container element
+                            const warningContainer = document.getElementById('warning-container');
+                
+                            // Set the warning message and make the container visible
+                            warningContainer.innerHTML = `<strong>Warning:</strong> ${warningMessage}`;
+                            warningContainer.style.display = 'block';
+                        }
+                    </script>
+                    <style>
+                        .warning-container {
+                            background-color: #ffc107;
+                            color: #333;
+                            padding: 10px;
+                            margin-bottom: 10px;
+                            border: 1px solid #ffc107;
+                            border-radius: 5px;
+                            display: none; /* Initially hide the container */
+                        }
+                    </style>
                     <%- include('../include/footer.ejs') %>

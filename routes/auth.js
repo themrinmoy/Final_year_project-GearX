@@ -95,7 +95,19 @@ router.post('/signup', (req, res, next) => {
     const password = req.body.password;
     const userType = req.body.userType;
 
-    bcrypt.hash(password, 12)
+
+    User.findOne({ username: username })
+    .then(existingUser => {
+        if (existingUser) {
+            // Username is already taken, send an error response
+            return res.status(400).json({ error: 'Username already exists. Choose a different username.' });
+        }
+
+        // If username is not taken, hash the password and create a new user
+        return bcrypt.hash(password, 12);
+    })
+
+    // bcrypt.hash(password, 12)
         .then(hashedPassword => {
             const user = new User({
                 username: username,
@@ -109,6 +121,7 @@ router.post('/signup', (req, res, next) => {
             // res.json({ message: 'Registration successful!' });
             res.redirect('/login');
             console.log('User created');
+            console.log(result);
         })
         .catch(err => {
             res.json({ error: err.message });

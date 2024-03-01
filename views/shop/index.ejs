@@ -9,6 +9,7 @@
 
             <!-- <main> -->
 
+                <div id="warning-container" class="warning-container"></div>
 
             <section class="banner-section">
                 <div class="banner-container">
@@ -221,6 +222,20 @@
             </main>
             <%- include('../include/footer.ejs') %>
 
-
+            <script>
+                // Parse the query parameter from the URL
+                const params = new URLSearchParams(window.location.search);
+                const warningMessage = params.get('warning');
+        
+                // Display the warning message if it exists
+                if (warningMessage) {
+                    // Get the warning container element
+                    const warningContainer = document.getElementById('warning-container');
+        
+                    // Set the warning message and make the container visible
+                    warningContainer.innerHTML = `<strong>Warning:</strong> ${warningMessage}`;
+                    warningContainer.style.display = 'block';
+                }
+            </script>
 
                 <script src="js/script.js"></script>

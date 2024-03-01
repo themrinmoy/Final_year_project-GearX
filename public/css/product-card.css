@@ -1,0 +1,297 @@
+.products {
+    padding: 40px 40px;
+
+    margin: 0 auto;
+    /* margin: 50px; */
+    /* background-color: green; */
+    /* text-align: center; */
+}
+
+.products h2 {
+    font-size: 30px;
+    margin-bottom: 25px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    color: #333;
+    /* align-items: center; */
+    text-align: center;
+    /* background-color: #007bff; */
+
+}
+
+
+
+.product-grid {
+    /* background-color: #007bff; */
+    /* display: grid; */
+    display: flex;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px;
+    justify-content: center !important;
+    /* Center the grid items horizontally */
+    margin: 0 auto;
+}
+
+.a_card {
+    text-decoration: none;
+    color: #333;
+
+}
+
+
+
+/* Styling for All Product Cards */
+
+.product-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    width: 260px;
+
+    margin: 0 auto;
+    height: 340px;
+    /* background-color: gray; */
+    /* text-align: center;  */
+}
+
+.product-image {
+    position: relative;
+    text-align: center;
+    height: 160px;
+    /* background-color: #666; */
+    overflow: hidden;
+
+    /* Allows positioning of the badge */
+}
+
+.product-image img {
+    width: 200px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.product-image img:hover {
+    transform: scale(1.03);
+    /*  Adjust the zoom level */
+}
+
+.product-badge {
+    /* position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #FFD700; 
+    color: #333; 
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-weight: bold; */
+
+
+    position: absolute;
+    top: 15px;
+    right: -20px;
+    padding: 5px 10px;
+    background-color: #dc3545;
+    color: white;
+    font-size: 0.8em;
+    border-radius: 3px;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.product-card.premium:hover .product-badge {
+    opacity: 1;
+    right: 15px;
+}
+
+.product-info {
+    /* margin-top: 0; */
+    /* margin-top: 50px; */
+    bottom: 0;
+    /* margin-bottom: 0px ; */
+    /* text-align: center; */
+}
+
+.product-brand {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9em;
+    margin-bottom: 12px;
+    color: #666;
+}
+
+.product-title {
+    margin-bottom: 5px;
+}
+
+.product-price {
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 10px;
+
+}
+
+
+
+.discount-badge {
+    /* background-color: #ff6633;
+    color: #fff;
+    margin-left: 10px; 
+    padding: 3px 8px;
+    border-radius: 3px;  */
+    background-color: #dc3545;
+    color: white;
+    font-size: 0.8em;
+    margin-top: 2px;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 4px;
+    position: relative;
+
+    top: -5px;
+    margin-left: 8px;
+}
+
+.sale-price {
+    font-weight: bold;
+    color: #dc3545;
+    font-size: large;
+    /* A bold red for emphasis */
+}
+
+/* Specific Styling for Premium Cards */
+.product-card.premium {
+    border: 2px solid gold;
+    padding: 20px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+}
+
+/* Featured Products Section (Additions) */
+
+/* ...Your existing featured products CSS... */
+.product-actions {
+    display: flex;
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* margin-top: 10px; */
+}
+
+/* display: inline-block; */
+/* Button Styling */
+.product-actions button {
+    background-color: #FF6633;
+    /* Bold color */
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* For hover */
+    margin-right: 5px;
+    margin-top: 20px;
+
+    /* Spacing between buttons */
+}
+.admin-prod-action
+{
+    display: flex;
+    justify-content: space-between;
+    /* align-items: center; */
+    margin-top: 20px;
+}
+.update-button {
+    background-color: #FFD700 !important;
+    /* A shade of gold to indicate update */
+
+    color: #333 !important;
+    /* margin-right:  !important; */
+}
+
+.update-button:hover {
+    background-color: #FFC107 !important;
+    /* A slightly darker shade of gold */
+}
+.delete-button {
+    background-color: #FF0000 !important;
+    /* A shade of red to indicate delete */
+
+    color: #fff !important;
+}
+
+.delete-button:hover {
+    background-color: #C8443A !important;
+    /* background-color: #FF0000;  */
+    /* background-color: #C8443A; */
+
+
+}
+
+
+
+.product-actions button i {
+    margin-right: 5px;
+    /* Space between icon and text */
+}
+
+
+.add-to-cart:hover {
+    background-color: #cc5522;
+    /* Slightly darker on hover */
+}
+
+.wishlist:hover {
+    background-color: #FF3366;
+    /* Example - pink for wishlist */
+}
+
+/* "New" Badge Styling */
+
+
+
+/* Responsive Adjustments */
+@media (max-width: 1700px) {
+
+    /* Adjust breakpoint as needed */
+    .product-grid {
+        grid-template-columns: repeat(4, 1fr);
+        /* 4 products per row */
+    }
+}
+
+@media (max-width: 1400px) {
+
+    /* Adjust breakpoint as needed */
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+        /* 4 products per row */
+    }
+}
+
+/* Add more media queries for smaller screen sizes, going down 
+   to 3, 2, and finally 1 product per row  */
+
+
+@media (max-width: 1060px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+        /* Maybe 3 columns now? */
+    }
+}
+
+@media (max-width: 960px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}

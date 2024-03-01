@@ -1,39 +1,72 @@
-<!-- views/add-product.ejs -->
+<%- include('../include/head.ejs' ) %>
+  <link rel="stylesheet" href="/css/add-product.css">
+  </head>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add Product</title>
-  <!-- Add any additional styles or scripts here -->
-</head>
-<body>
-  <h1>Add Product</h1>
+  <body>
+    <%- include('../include/navigation.ejs') %>
 
-  <form method="post" action="/admin/add-product">
-    <label for="productName">Product Name:</label>
-    <input type="text" id="productName" name="name" required>
+      <div class="container">
+        <% if (errorMessage) { %>
+          <div class="error-message">
+            <%= errorMessage %>
+          </div>
+          <% } %>
 
-    <label for="productDescription">Product Description:</label>
-    <textarea id="productDescription" name="description" rows="4" required></textarea>
+            <% if (editing) { %>
+              <h2>Update Product</h2>
+              <% } else { %>
+                <h2>Add New Product</h2>
+                <% } %>
 
-    <label for="productPrice">Product Price:</label>
-    <input type="number" id="productPrice" name="price" required>
+                  <form id="add-product-form" method="post"
+                    action="/admin/<%= editing ? 'update-product/' + product._id : 'add-product' %>">
+                    <div class="form-group">
+                      <label for="productName">Product Name:</label>
+                      <input type="text" id="productName" name="name" value="<%= editing ? product.name : '' %>"
+                        required>
+                    </div>
 
-    <label for="productCategory">Product Category:</label>
-    <input type="text" id="productCategory" name="category" required>
+                    <div class="form-group">
+                      <label for="productDescription">Product Description:</label>
+                      <textarea id="productDescription" name="description"
+                        rows="4"><%= editing ? product.description : '' %></textarea>
+                    </div>
 
-    <label for="productImageUrl">Product Image URL:</label>
-    <input type="text" id="productImageUrl" name="imageUrl" required>
+                    <div class="form-group">
+                      <label for="productPrice">Price:</label>
+                      <input type="number" id="productPrice" name="price" value="<%= editing ? product.price : '' %>">
+                    </div>
 
-    <button type="submit">Add Product</button>
-  </form>
+                    <div class="form-group">
+                      <label for="productCategory">Category:</label>
+                      <select id="productCategory" name="category">
+                        <option value="">Select Category</option>
+                        <option value="helmets" <%=editing && product.category==='helmets' ? 'selected' : '' %>>Helmets
+                        </option>
+                      </select>
+                    </div>
 
-  <!-- Add any additional HTML, scripts, or styles here -->
-</body>
-</html>
+                    <div class="form-group">
+                                <label for="productType">Sell/Rent:</label>
+                                  <select id="productType" name="type">
+                                      <option value="">Select Types</option>
+                                      <option value="sellable" <%=editing && product.type==='sellable' ? 'selected' : ''
+                          %>>Sell</option>
+                                      <option value="rentable" <%=editing && product.type==='rentable' ? 'selected' : ''
+                          %>>Rent</option>
+                                    </select>
+                                </div>
 
+                    <div class="form-group">
+                      <label for="productImageUrl">Image Upload:</label>
+                      <input type="text" id="productImageUrl" name="imageUrl"
+                        value="<%= editing ? product.imageUrl : '' %>">
+                    </div>
 
+                    <button type="submit">
+                      <%= editing ? 'Update Product' : 'Add Product' %>
+                    </button>
+                  </form>
+      </div>
 
-
+      <%- include('../include/footer.ejs') %>

@@ -1,9 +1,11 @@
-<%- include('../include/head.ejs', pageTitle='Login' ) %>
+<%- include('../include/head.ejs', pageTitle='Admin' ) %>
     <%- //include('../css/login.css') %>
         </head>
 
         <body>
-            <%- include('../include/navigation.ejs') %>
+            
+        <%- include('../include/navigation.ejs',{isAuthenticated} ) %>
+
                 <%- // include('css/login.css') %>
                     <link rel="stylesheet" href="../css/admin.css">
                     <header style="text-align: center;">
@@ -25,7 +27,7 @@
                                 <!-- <i class="fas fa-edit"></i> -->
                                 <h3>Edit Products</h3>
                                 <p>Modify details of existing products.</p>
-                                <a href="/admin/edit-product">Enter</a>
+                                <a href="/admin/edit-products">Enter</a>
 
                             </div>
                             <div class="admin_card">
@@ -33,23 +35,23 @@
                                 <!-- <i class="fas fa-eye"></i> -->
                                 <h3>View Products</h3>
                                 <p>See a list of all your products.</p>
-                                <a href="/update-product">Enter</a>
+                                <a href="/admin/products">Enter</a>
 
                             </div>
                             <div class="admin_card">
-                                <img width="128" src="../img/add-product.png" alt="Users Icon">
+                                <img width="128" src="../img/customer-2.png" alt="Users Icon">
                                 <!-- <i class="fas fa-users"></i> -->
                                 <h3>Users</h3>
                                 <p>Manage your customer accounts.</p>
-                                <a href="/update-product">Enter</a>
+                                <a href="/admin/users">Enter</a>
 
                             </div>
                             <div class="admin_card">
-                                <img src="../img/add-product.png" alt="Orders Icon">
+                                <img src="../img/orders-2.png" alt="Orders Icon">
                                 <!-- <i class="fas fa-shopping-cart"></i> -->
                                 <h3>Orders</h3>
                                 <p>View and manage customer orders.</p>
-                                <a href="/update-product">Enter</a>
+                                <a href="/admin/orders">Enter</a>
 
                             </div>
                             <div class="admin_card">
@@ -57,7 +59,7 @@
                                 <!-- <i class="fas fa-cog"></i> -->
                                 <h3>Settings</h3>
                                 <p>Change your store settings.</p>
-                                <a href="/update-product">Enter</a>
+                                <a href="/admin/settings">Enter</a>
 
                             </div>
                         </div>

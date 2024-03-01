@@ -1,42 +1,42 @@
 const express = require('express');
 const router = express.Router();
-const ProductController = require('../controllers/ProductsController');
+const productController = require('../controllers/productsController')
+// const productController = require('../controllers/productsController.js');
+// const ProductController = require('../controllers/productsController')
 
 
 router.get('/', (req, res, next) => {
     res.render('shop/index', { pageTitle: 'Home' });
 });
-router.get('/shop', (req, res, next) => {
-    // res.render('index');
-    // res.render('shop');
-    res.send('shop');
-});
 
-// router.get('/cart', (req, res, next) => {
-//     res.send('cart');
-// });
+router.get('/rent', productController.productsByType);
 
-// router.get('/checkout', (req, res, next) => {
-//     res.send('checkout');
-// });
+router.get('/products', productController.productsByCategory);
+router.get('/products/:productId', productController.productDetails);
 
-// router.get('/orders', (req, res, next) => {
-//     res.send('orders');
-// });
+// router.get('/rent', productController.productController);
 
-// router.get('/products', (req, res, next) => {
-//     res.send('products');
-// });
-// router.get('/products', ProductController.index);
-router.get('/products', ProductController.productsByCategory);
-router.get('/products/:productId', ProductController.productDetails);
+// router.get('/products', ProductController.productsByCategory);
+// router.get('/products/:productId', ProductController.productDetails);
 
-router.get('/products/category/:category', ProductController.productsByCategory);
+// router.get('/products/category/:category', productController.productsByCategory);
+router.get('/products/category/:category', productController.productsByCategory);
 
 
 // router.get('/products:productId', (req, res, next) => {
 //     res.send('product-detail');
 // });
+router.get('/order', (req, res, next) => {
+    res.render('user/order', { pageTitle: 'Order' });
+});
+router.get('/about', (req, res, next) => {
+    res.render('shop/about', { pageTitle: 'About' });
+});
+ router.get('/contact', (req, res, next) => {
+    res.render('shop/contact', { pageTitle: 'Contact' });
+}); router.get('/favorites', (req, res, next) => {
+    res.render('user/favorites', { pageTitle: 'Favorites' });
+});
 
 
 // Removing a Product from Cart
