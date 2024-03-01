@@ -1,9 +1,12 @@
 // routes/admin.js
 
 const express = require('express');
+const Product = require('../models/Product');
 const router = express.Router();
 const checkUserType = require('../middleware/checkUserType');
 const User = require('../models/User');
+const fileHelper = require('../utill/file');
+
 
 const adminController = require('../controllers/adminController');
 
@@ -38,7 +41,37 @@ router.get('/', (req, res) => {
 // router.get('/add-product', checkUserType('admin'), adminController.showAddProductPage);
 router.get('/add-product', adminController.showAddProductPage);
 // router.post('/add-product', checkUserType('admin'), adminController.addProduct);
-router.post('/add-product', adminController.addProduct);
+// router.post('/add-product', adminController.postAddProduct);
+
+router.post('/add-product', (req, res, next) => {
+    // Accessing the uploaded file
+    const image = req.file; 
+
+    if (!image) {
+        // Handle the case where no file was uploaded (optional)
+        return res.status(400).send('Please upload an image.'); 
+    }
+
+    // Create a new Product instance 
+    const product = new Product({
+        name: req.body.name,
+        description: req.body.description,
+        // ... other product properties
+        imageUrl: image.path 
+        // Assuming 'imageUrl' is a property in your Product model
+    });
+
+    product.save() // Save the product to your database
+        .then(result => {
+            res.redirect('/admin/products'); // Or any success response you prefer
+        })
+        .catch(err => {
+            // Handle database save errors
+            console.error(err);
+            res.status(500).send('Error saving product.');
+        });
+});
+
 // router.post('/add-product', checkUserType('admin'), adminController.addProduct);
 // done
 // router.get('edit-product', checkUserType('admin'), adminController.showEditProductPage);
