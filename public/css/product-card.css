@@ -60,13 +60,20 @@
     height: 160px;
     /* background-color: #666; */
     overflow: hidden;
+    align-items: center;
+    display: flex;
+    justify-content: center;
 
     /* Allows positioning of the badge */
 }
 
 .product-image img {
-    width: 200px;
+    max-width:  200px;
     height: auto;
+    background-color: red;
+
+   
+
     transition: transform 0.3s ease;
 }
 

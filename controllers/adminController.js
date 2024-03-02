@@ -4,8 +4,9 @@ const Product = require('../models/Product');
 
 const express = require('express');
 const router = express.Router();
+// const 
 // const multer = require('multer');
-// const fs = require('fs'); // Add this line to include the fs module
+const fs = require('fs'); // Add this line to include the fs module
 
 // Multer configuration
 // const fileStorage = multer.diskStorage({
@@ -42,7 +43,9 @@ const router = express.Router();
 //     }
 //   };
 
-
+exports.showAddProductPage = (req, res) => {
+    res.render('./admin/update-product', { pageTitle: 'Add Product', editing: false, errorMessage: null });
+};
 
 
 // const upload = multer({ storage: fileStorage, fileFilter: fileFilter }).single('imageUrl');
@@ -63,39 +66,36 @@ exports.getAllProducts = (req, res) => {
 };
 
 exports.postAddProduct = (req, res) => {
-    upload(req, res, (err) => {
-        if (err instanceof multer.MulterError) {
-            console.error(err);
-            return res.status(500).json({ message: 'Error uploading image' });
-        } else if (err) {
-            console.error(err);
-            return res.status(500).json({ message: 'Internal Server Error' });
-        }
+    const image = req.file;
 
-        if (req.file) {
-            req.body.imageUrl = req.file.path;
-        }
+    if (!image) {
+        // Handle the case where no file was uploaded (optional)
+        return res.status(400).send('Please upload an image.');
+    }
 
-        Product.create(req.body)
-            .then((newProduct) => {
-                // res.status(201).json({ message: 'Product added successfully', data: newProduct });
-                console.log('Product added successfully', newProduct);
-                res.redirect('/admin/products');
-            })
-            .catch((error) => {
-                if (error.name === 'ValidationError') {
-                    return res.status(400).json({ message: 'Validation failed', errors: error.errors });
-                } else {
-                    console.error(error);
-                    return res.status(500).json({ message: 'Internal Server Error' });
-                }
-            });
+    // Create a new Product instance 
+    const product = new Product({
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price,
+        category: req.body.category,
+        type: req.body.type,
+        imageUrl: image.path
+        // Assuming 'imageUrl' is a property in your Product model
     });
+
+    product.save() // Save the product to your database
+        .then(result => {
+            res.redirect('/admin/products'); // Or any success response you prefer
+        })
+        .catch(err => {
+            // Handle database save errors
+            console.error(err);
+            res.status(500).send('Error saving product.');
+        });
 };
 
-exports.showAddProductPage = (req, res) => {
-    res.render('./admin/update-product', { pageTitle: 'Add Product', editing: false, errorMessage: null });
-};
+
 
 exports.getUpdateProduct = (req, res) => {
     Product.findById(req.params.productId)
@@ -111,10 +111,44 @@ exports.getUpdateProduct = (req, res) => {
         });
 };
 
+// exports.postUpdateProduct = (req, res) => {
+//     Product.findByIdAndUpdate(req.params.productId, req.body, { new: true })
+//         .then((updatedProduct) => {
+//             console.log('Product updated successfully', updatedProduct);
+//             res.redirect('/admin/products');
+//         })
+//         .catch((error) => {
+//             console.error(error);
+//             res.status(500).render('./admin/update-product', {
+//                 pageTitle: 'Update Product',
+//                 editing: true,
+//                 product: req.body,
+//                 errorMessage: 'Failed to update product'
+//             });
+//         });
+// };
 exports.postUpdateProduct = (req, res) => {
     Product.findByIdAndUpdate(req.params.productId, req.body, { new: true })
         .then((updatedProduct) => {
-            console.log('Product updated successfully', updatedProduct);
+            if (req.file) { // New image uploaded
+                // Delete the old image
+                fs.unlink(updatedProduct.imageUrl, (err) => {
+                    if (err) {
+                        console.error('Failed to delete old image:', err);
+                    } else {
+                        console.log('Old image deleted successfully');
+                    }
+                });
+
+                // Update the imageUrl with the new image's path 
+                updatedProduct.imageUrl = req.file.path;
+                return updatedProduct.save(); // Save the updated product again
+            } else {
+                return updatedProduct; // No new image, just return
+            }
+        })
+        .then((result) => { // May receive updated product again
+            console.log('Product updated successfully', result);
             res.redirect('/admin/products');
         })
         .catch((error) => {

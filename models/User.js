@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     name: { type: String },
     email: { type: String },
     password: { type: String },
-    userType: { type: String, enum: ['buyer', 'admin'], default: 'buyer' },
+    userType: { type: String, enum: ['buyer', 'admin'], default: 'admin' },
     cart: {
         items: [{
             productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },

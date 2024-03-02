@@ -8,12 +8,18 @@ const CartController = {
 
     showCart: async (req, res) => {
         try {
+
             const user = await User.findById(req.user._id).populate({
                 path: 'cart.items.productId',
                 model: 'Product',
                 select: 'name price imageUrl', // Specify the fields you want to select
             });
+            // cart = user.cart;
             res.render('./user/cart', { cart: user.cart });
+            // res.render('./user/cart', { cart: user.cart });
+            // res.send(user.cart.items[0]);
+            // console.log(cart.items[0]);
+            // console.log(user.cart.items);
         } catch (error) {
             console.error('Error displaying cart:', error);
             res.status(500).json({ error: 'Internal Server Error' });
