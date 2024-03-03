@@ -3,7 +3,40 @@ const Product = require('../models/Product');
 const User = require('../models/User');
 
 // Create a new rental
-exports.createRental = async (req, res) => {
+
+
+
+// Get all rentals
+exports.getAllRentals = (req, res, next) => {
+    // const { type } = req.params;
+    // const  type  = "rentable";
+    // Fetch all products from the database
+    Product.find({ type: "rentable" }).then((products) => {
+        // Modify the response to include image path or URL
+        // const productsWithImages = products.map((product) => ({
+        //   _id: product._id,
+        //   name: product.name,
+        //   description: product.description,
+        //   price: product.price,
+        //   type: product.type,
+        //   imageUrl: product.imageUrl, 
+        // }));
+
+        // res.status(200).json(productsWithImages);
+  
+        // Render an EJS view with the product data
+        // res.json(productsWithImages);
+  
+        res.render('rent/all.ejs', {  products, pageTitle: ' for Rent', categoryTitle: "Ready for Rent"});
+        console.log(products);
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+        res.status(500).render('error', { message: 'Internal Server Error' });
+        // You may want to create an 'error.ejs' view to handle error messages
+      });
+  };
+  exports.createRental = async (req, res) => {
     try {
         // Extract required information from the request body
         const { userId, productId, rentalStartDate, rentalEndDate } = req.body;
@@ -29,16 +62,6 @@ exports.createRental = async (req, res) => {
     }
 };
 
-// Get all rentals
-exports.getAllRentals = async (req, res) => {
-    try {
-        const rentals = await Rental.find();
-        res.status(200).json(rentals);
-    } catch (error) {
-        console.error('Error fetching rentals:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-};
 
 // Get rental by ID
 exports.getRentalById = async (req, res) => {

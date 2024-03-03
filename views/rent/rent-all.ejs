@@ -1,0 +1,86 @@
+<%- include('../include/head.ejs') %>
+  </head>
+
+  <body>
+    <%- include('../include/navigation.ejs') %>
+
+      <link rel="stylesheet" href="/css/rent-card.css">
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+
+
+      <main>
+        
+        <h1>Rental Products</h1>
+        <div class="rent_products">
+        <% if (products.length > 0) { %>
+
+            <% products.forEach(product => { %>
+                <div class="rental-card">
+                    <img src="/<%= product.imageUrl %>" alt="Product Image">
+                    <div class="product-details">
+                        <h3><%= product.name %></h3>
+                        <p>Description: <%= product.description %></p>
+                        <p>Category: <%= product.category %></p>
+                    </div>
+                    <div class="rental-cost" id="rentalCost">
+                      Rental Cost: $<span id="rentalPricePerDay"><%= product.rentalInfo.rentalPricePerDay %></span> per day
+                    </div>
+                    <div class="rental-cost" id="rentalCost">
+                      Total: $<span id="totalCost">0.00</span> per day
+                    </div>
+                    <!-- Date Range Picker Input -->
+                    <div class="date-range-picker">
+                        <label for="dateRange">Select Dates:</label>
+                        <input type="text" id="dateRange<%= product._id %>" placeholder="Select dates" />
+                    </div>
+
+                    <!-- Rent Now Button -->
+                    <a href="#" class="rent-button" onclick="rentProduct('<%= product._id %>')">Rent Now</a>
+                </div>
+
+                <!-- Include flatpickr script -->
+                <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                <script>
+                    // Sample daily rental rate (adjust as needed)
+                    const dailyRentalRate = <%= product.rentalInfo.rentalPricePerDay %>;
+
+                    // Initialize flatpickr on the date input
+                    const dateRangeInput<%= product._id %> = flatpickr("#dateRange<%= product._id %>", {
+                        mode: "range", // Enable date range selection
+                        dateFormat: "Y-m-d", // Specify the date format
+                        minDate: "today", // Set minimum date to today
+                        disable: [
+                            // You can add disabled dates here if needed
+                        ],
+                        onChange: function (selectedDates, dateStr, instance) {
+                            // Calculate the number of days between start and end dates
+                            const numDays = Math.ceil((selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24));
+
+                            // Calculate the total rental cost based on the daily rate and number of days
+                            const totalCost = dailyRentalRate * numDays;
+
+                            // Update the rental cost in the UI
+                            document.getElementById("totalCost").innerText = totalCost.toFixed(2);
+                        },
+                    });
+
+                    function rentProduct(productId) {
+                        // Add logic to handle the renting of the product
+                        const selectedDates = dateRangeInput<%= product._id %>.selectedDates;
+
+                        // Example: send the productId and selectedDates to the server for processing
+                        console.log("Renting Product:", productId, "Selected Dates:", selectedDates);
+                    }
+                </script>
+            <% }); %>
+          </div>
+
+        <% } else { %>
+            <p>No rental products available.</p>
+        <% } %>
+
+    </main>
+
+
+
+      <%- include('../include/footer.ejs') %>

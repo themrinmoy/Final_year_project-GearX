@@ -39,43 +39,6 @@ exports.productsByCategory = (req, res, next) => {
       // You may want to create an 'error.ejs' view to handle error messages
     });
 };
-exports.productsByType = (req, res, next) => {
-  // const { type } = req.params;
-  // const  type  = "rentable";
-  const type = 'rentable'
-
-  let productsPromise;
-
-  if (type) {
-    // If a type is specified, filter products by type
-    productsPromise = Product.find({ type });
-  } else {
-    // If no type is specified, retrieve all products
-    productsPromise = Product.find();
-  }
-  productsPromise
-    .then((products) => {
-      // Modify the response to include image path or URL
-      const productsWithImages = products.map((product) => ({
-        _id: product._id,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        type: product.type,
-        imageUrl: product.imageUrl, // Include the image path or URL
-      }));
-
-      // Render an EJS view with the product data
-      // res.json(productsWithImages);
-
-      res.render('product/all-products', { type, products: productsWithImages, pageTitle: ' for Rent', categoryTitle: "Ready for Rent"});
-    })
-    .catch((error) => {
-      console.error('Error fetching products:', error);
-      res.status(500).render('error', { message: 'Internal Server Error' });
-      // You may want to create an 'error.ejs' view to handle error messages
-    });
-};
 
 
 exports.productDetails = (req, res) => {

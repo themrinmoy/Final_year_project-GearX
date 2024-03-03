@@ -1,0 +1,68 @@
+.rent_products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.rental-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px;
+  width: 300px;
+}
+
+.rental-card h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.rental-card img {
+  /* width: 100%; */
+  width: 100px;
+
+
+  height: 100px;
+  border-radius: 8px;
+  margin: 0 auto;
+  display: block;
+}
+
+
+
+.product-details {
+  margin-top: 8px;
+
+}
+
+
+.rental-cost {
+  margin-top: 8px;
+  font-weight: bold;
+  color: green;
+}
+
+.date-range-picker {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+
+}
+
+.rent-button {
+  margin-top: 10px;
+  display: block;
+  width: 100%;
+  padding: 8px;
+  background-color: #3498db;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

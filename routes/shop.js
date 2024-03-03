@@ -9,7 +9,7 @@ router.get('/', (req, res, next) => {
     res.render('shop/index', { pageTitle: 'Home' });
 });
 
-router.get('/rent', productController.productsByType);
+// router.get('/rent', productController.productsByType);
 
 router.get('/products', productController.productsByCategory);
 router.get('/products/:productId', productController.productDetails);

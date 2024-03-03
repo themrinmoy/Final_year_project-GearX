@@ -183,7 +183,7 @@ const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const cartRoutes = require('./routes/cart');
-const rentalRoutes = require('./routes/rental');
+const rentalRoutes = require('./routes/rent');
 
 
 
