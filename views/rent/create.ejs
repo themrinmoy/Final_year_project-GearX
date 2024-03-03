@@ -1,0 +1,31 @@
+<%- include('../include/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../include/navigation.ejs') %>
+
+        <main>
+
+            <h1>Create a New Rental</h1>
+
+            <form action="/rent/create" method="post">
+                <!-- Input fields for rental details -->
+                <label for="userId">User ID:</label>
+                <input type="text" id="userId" name="userId" required>
+        
+                <label for="productId">Product ID:</label>
+                <input type="text" id="productId" name="productId" required>
+        
+                <label for="rentalStartDate">Rental Start Date:</label>
+                <input type="date" id="rentalStartDate" name="rentalStartDate" required>
+        
+                <label for="rentalEndDate">Rental End Date:</label>
+                <input type="date" id="rentalEndDate" name="rentalEndDate" required>
+        
+                <button type="submit">Create Rental</button>
+            </form>
+            
+        </main>
+
+
+            <%- include('../include/footer.ejs') %>

@@ -1,5 +1,3 @@
-// models/Product.js
-
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema(
@@ -23,22 +21,45 @@ const productSchema = new mongoose.Schema(
         },
         type: {
             type: String,
-            required: false,
-            // default: 'sellable',
-            // default: 'rentable'
+            enum: ['sellable', 'rentable'],
+            default: 'sellable',
         },
         imageUrl: {
             type: String,
             required: false,
         },
+        isAvailable: {
+            type: Boolean,
+            default: true,
+        },
+        rentalInfo: {
+            rentalPricePerDay: {
+                type: Number,
+                default: 0, // You can adjust the default based on your needs
+                // required: function () {
+                //     return this.type === 'rentable';
+                // },
+            },
+            rentalDeposit: {
+                type: Number,
+                default: 0, // You can adjust the default based on your needs
+                // required: function () {
+                //     return this.type === 'rentable';
+                // },
+            },
+            rentalPeriod: {
+                type: String,
+                enum: ['day', 'week', 'month'],
+                default: 'day', // You can adjust the default based on your needs
+            },
+            // Add more rental-specific fields as needed
+        },
     },
     {
-        timestamps: true, // Add timestamps for createdAt and updatedAt
+        timestamps: true,
     }
 );
 
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;
-
-

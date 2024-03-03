@@ -8,11 +8,15 @@
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
+
 const bodyParser = require('body-parser');
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
+// const MongoDBStore = require('connect-mongodb-session')(session);
+const MongoStore = require('connect-mongo');
+
 const multer = require('multer');
 const fs = require('fs');
 
@@ -21,6 +25,8 @@ const fs = require('fs');
 
 // const MongoStore = require('connect-mongo')(session);
 
+const MONGODB_URI =
+    `mongodb+srv://deployment_user:WsbVw2k7aJbs7Tad@apitest.lspf3mf.mongodb.net/final_year_project`;
 
 
 const User = require('./models/User');
@@ -63,12 +69,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(require('./middleware/is-auth'));
 // app.use(require('./routes/logout'))
 // app.use(require('./routes/admin'))
+// const store =  MongoStore.create({
+//     uri: MONGODB_URI,
+//     collection: 'sessions',
+// });
 
 // this is for Express session Middleware
 app.use(session({
     secret: 'secret',
     resave: false,
     saveUninitialized: false,
+    // store: store,
+    store: MongoStore.create({ 
+        mongoUrl: MONGODB_URI,
+        collectionName: 'sessions',
+      }),
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 }
 }));
 
@@ -168,14 +183,17 @@ const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const cartRoutes = require('./routes/cart');
+const rentalRoutes = require('./routes/rental');
 
 
 
 app.use(authRoutes);
 app.use(shopRoutes);
+// app.use(rentalRoutes);
 app.use('/cart', cartRoutes);
 
 app.use('/admin', adminRoutes);
+app.use('/rent', rentalRoutes);
 
 
 

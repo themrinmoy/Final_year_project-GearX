@@ -1,0 +1,29 @@
+<%- include('../include/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../include/navigation.ejs') %>
+
+        <main>
+            <h1>All Rentals</h1>
+
+            <% if (rentals.length > 0) { %>
+                <ul>
+                    <% rentals.forEach(rental => { %>
+                        <li>
+                            <strong>Rental ID:</strong> <%= rental._id %><br>
+                            <strong>User ID:</strong> <%= rental.userId %><br>
+                            <strong>Product ID:</strong> <%= rental.productId %><br>
+                            <strong>Rental Start Date:</strong> <%= rental.rentalStartDate %><br>
+                            <strong>Rental End Date:</strong> <%= rental.rentalEndDate %><br>
+                            <strong>Status:</strong> <%= rental.status %>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } else { %>
+                <p>No rentals found.</p>
+            <% } %>
+        </main>
+
+
+            <%- include('../include/footer.ejs') %>

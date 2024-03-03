@@ -1,0 +1,30 @@
+<%- include('../include/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../include/navigation.ejs') %>
+
+        <main>
+            <div class="container">
+                <h1>All Rentals</h1>
+                <div class="row">
+                    <% rentals.forEach(rental => { %>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <img src="<%= rental.image %>" class="card-img-top" alt="<%= rental.name %>">
+                                <div class="card-body">
+                                    <h5 class="card-title
+                                    "><%= rental.name %></h5>
+                                    <p class="card-text">$<%= rental.price %> per day</p>
+                                    <a href="/rent/<%= rental._id %>" class="btn btn-primary">View</a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        </main>
+        
+
+
+            <%- include('../include/footer.ejs') %>

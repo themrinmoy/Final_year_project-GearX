@@ -1,4 +1,4 @@
-<%- include('../include/head.ejs' ) %>
+<%- include('../include/head.ejs') %>
   <link rel="stylesheet" href="/css/add-product.css">
   </head>
 
@@ -12,69 +12,156 @@
           </div>
           <% } %>
 
-            <% if (editing) { %>
-              <h2>Update Product</h2>
-              <% } else { %>
-                <h2>Add New Product</h2>
-                <% } %>
+            <h2>
+              <%= editing ? 'Update Product' : 'Add New Product' %>
+            </h2>
 
-                  <form id="add-product-form" method="post" enctype="multipart/form-data"
-                    action="/admin/<%= editing ? 'update-product/' + product._id : 'add-product' %>">
-                    <div class="form-group">
-                      <label for="productName">Product Name:</label>
-                      <input type="text" id="productName" name="name" value="<%= editing ? product.name : '' %>"
-                        required>
-                    </div>
+            <form id="add-product-form" method="post" enctype="multipart/form-data"
+              action="/admin/<%= editing ? 'update-product/' + product._id : 'add-product' %>">
+              <div class="form-group">
+                <label for="productName">Product Name:</label>
+                <input type="text" id="productName" name="name" value="<%= editing ? product.name : '' %>" required>
+              </div>
 
-                    <div class="form-group">
-                      <label for="productDescription">Product Description:</label>
-                      <textarea id="productDescription" name="description"
-                        rows="4"><%= editing ? product.description : '' %></textarea>
-                    </div>
+              <div class="form-group">
+                <label for="productDescription">Product Description:</label>
+                <textarea id="productDescription" name="description"
+                  rows="4"><%= editing ? product.description : '' %></textarea>
+              </div>
 
-                    <div class="form-group">
-                      <label for="productPrice">Price:</label>
-                      <input type="number" id="productPrice" name="price" value="<%= editing ? product.price : '' %>">
-                    </div>
+              <div class="form-group">
+                <label for="productPrice">Price:</label>
+                <input type="number" id="productPrice" name="price" value="<%= editing ? product.price : '' %>"
+                  required>
+              </div>
+
+              <div class="form-group">
+                <label for="productCategory">Category:</label>
+                <select id="productCategory" name="category">
+                  <option value="">Select Category</option>
+                  <option value="helmets" <%=editing && product.category==='helmets' ? 'selected' : '' %>>Helmets
+                  </option>
+                  <!-- Add other category options as needed -->
+                </select>
+              </div>
             
 
-                    <div class="form-group">
-                      <label for="productCategory">Category:</label>
-                      <select id="productCategory" name="category">
-                        <option value="">Select Category</option>
-                        <option value="helmets" <%=editing && product.category==='helmets' ? 'selected' : '' %>>Helmets
-                        </option>
-                      </select>
+              <div class="form-group">
+                <label for="productType">Sell/Rent:</label>
+                <select id="productType" name="type">
+                  <option value="sellable" <%=editing && product.type==='sellable' ? 'selected' : '' %>>Sell</option>
+                  <option value="rentable" <%=editing && product.type==='rentable' ? 'selected' : '' %>>Rent</option>
+                </select>
+              </div>
+
+
+              <!-- Rental-specific fields -->
+              <% //if (product?.type==='null' ) { %>
+                <% //if (editing && product.type==='rentable' ) { %>
+                  <% //}%>
+
+
+                    <!-- <div class="rental-details"> -->
+
+                    <div class="rental-details" <%=editing && product.type==='rentable' ? '' : 'style="display: none;"'
+                      %>>
+
+                      <div class="form-group">
+                        <label for="rentalPricePerDay">Rental Price Per Day:</label>
+                        <input type="number" id="rentalPricePerDay" name="rentalPricePerDay"
+                          value="<%= editing && product.type === 'rentable' ? product.rentalInfo?.rentalPricePerDay : '' %>">
+
+                      </div>
+
+                      <div class="form-group">
+                        <label for="rentalDeposit">Rental Deposit:</label>
+                        <input type="number" id="rentalDeposit" name="rentalDeposit"
+                          value="<%= editing && product.type==='rentable' ? product.rentalInfo?.rentalDeposit : '' %>">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="rentalPeriod">Rental Period:</label>
+                        <select id="rentalPeriod" name="rentalPeriod">
+                          <option value="day" <%=editing && product.type==='rentable' &&
+                            product.rentalInfo?.rentalPeriod==='day' ? 'selected' : '' %>
+                            >Day
+                          </option>
+                          <option value="week" <%=editing && product.type==='rentable' &&
+                            product.rentalInfo?.rentalPeriod==='week' ? 'selected' : '' %>
+                            >Week
+                          </option>
+                          <option value="month" <%=editing && product.type==='rentable' &&
+                            product.rentalInfo?.rentalPeriod==='month' ? 'selected' : '' %>
+                            >Month
+                          </option>
+                        </select>
+                      </div>
                     </div>
+                    <% // } %>
 
-                    <div class="form-group">
-                      <label for="productType">Sell/Rent:</label>
-                      <select id="productType" name="type">
-                        <option value="">Select Types</option>
-                        <option value="sellable" <%=editing && product.type==='sellable' ? 'selected' : '' %>>Sell
-                        </option>
-                        <option value="rentable" <%=editing && product.type==='rentable' ? 'selected' : '' %>>Rent
-                        </option>
-                      </select>
-                    </div>
+                      <!-- Other common fields -->
+                      <!-- ... -->
 
+                      <div class="form-group">
+                        <label for="image">Image</label>
+                        <input type="file" name="image" id="image">
+                      </div>
 
-                    <div class="form-group">
-                      <!-- <label for="imageUrl">Image Upload:</label> -->
-                      <!-- <input type="file" id="imageUrl" name="imageUrl"> -->
-                      <!-- <input type="file" id="imageUrl" name="imageUrl"> -->
-                      <!-- <input type="file" id="imageUrl" name="imageUrl">  -->
-
-                      <!-- <div class="form-control"> -->
-                      <label for="image">Image</label>
-                      <input type="file" name="image" id="image">
-                      <!-- </div> -->
-                    </div>
-
-                    <button type="submit">
-                      <%= editing ? 'Update Product' : 'Add Product' %>
-                    </button>
-                  </form>
+                      <button type="submit">
+                        <%= editing ? 'Update Product' : 'Add Product' %>
+                      </button>
+            </form>
       </div>
 
+      <style>
+        .rental-details {
+          /* display: none; */
+        }
+      </style>
+      <script>
+        // addproduct.js
+        // const productTypeSelect = document.getElementById('productType');
+        // const rentalDetailsDiv = document.querySelector('.rental-details');
+
+        // productTypeSelect.addEventListener('change', function () {
+        //   if (this.value === 'rentable') {
+        //     rentalDetailsDiv.style.display = 'block'; // Show rental details
+        //   } else {
+        //     rentalDetailsDiv.style.display = 'none'; // Hide rental details
+        //   }
+        // });
+
+        // enhanced version of the above code
+        const productTypeSelect = document.getElementById('productType');
+        const rentalDetailsDiv = document.querySelector('.rental-details');
+
+        // Function to toggle rental details
+        function toggleRentalDetails() {
+          if (productTypeSelect.value === 'rentable') {
+            rentalDetailsDiv.style.display = 'block';
+          } else {
+            rentalDetailsDiv.style.display = 'none';
+            clearRentalFormFields(); // Add a function to reset rental inputs
+
+          }
+        }
+
+        // Call the function on page load to set initial visibility
+        toggleRentalDetails();
+
+        productTypeSelect.addEventListener('change', toggleRentalDetails);
+        // Add the event listener for changes 
+
+        function clearRentalFormFields() {
+          document.getElementById('rentalPricePerDay').value = '';
+          document.getElementById('rentalDeposit').value = '';
+          document.getElementById('rentalPeriod').selectedIndex = 0;
+          // ... clear any other rental input fields ...
+        }
+
+      </script>
+
       <%- include('../include/footer.ejs') %>
+  </body>
+
+  </html>

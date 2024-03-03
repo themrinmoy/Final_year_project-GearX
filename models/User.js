@@ -13,7 +13,19 @@ const userSchema = new mongoose.Schema({
             productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
             quantity: { type: Number, required: true }
         }]
-    }
+    },
+    rentalCart: {
+        items: [{
+            productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+            quantity: { type: Number, required: true },
+        }],
+    },
+    rentals: [{
+        rentalId: { type: mongoose.Schema.Types.ObjectId, ref: 'Rental' },
+    }],
+    // rentals: [{
+    //     rentalId: { type: mongoose.Schema.Types.ObjectId, ref: 'Rental' },
+    // }],
 });
 // userSchema.plugin(passportLocalMongoose); 
 // userSchema.plugin(passportLocalMongoose, { usernameField: 'email' } ); 

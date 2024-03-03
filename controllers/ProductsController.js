@@ -1,4 +1,5 @@
 // ProductController.js
+// conrollers/ProductController.js
 
 const Product = require('../models/Product');
 
@@ -88,7 +89,7 @@ exports.productDetails = (req, res) => {
       }
 
       // Render an EJS view with the product data
-      res.render('product/product-details', { product });
+      res.render('product/product-details', { product, pageTitle: product.name});
     })
     .catch((error) => {
       console.error('Error fetching product:', error);

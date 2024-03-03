@@ -15,7 +15,7 @@ const CartController = {
                 select: 'name price imageUrl', // Specify the fields you want to select
             });
             // cart = user.cart;
-            res.render('./user/cart', { cart: user.cart });
+            res.render('./user/cart', { cart: user.cart, pageTitle: 'Cart'});
             // res.render('./user/cart', { cart: user.cart });
             // res.send(user.cart.items[0]);
             // console.log(cart.items[0]);
