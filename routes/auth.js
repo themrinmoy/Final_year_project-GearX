@@ -12,7 +12,19 @@ const User = require('../models/User');
 
 router.get('/login', (req, res) => {
     if (req.isAuthenticated()) {
-        res.json({ message: 'You are authenticated!' });
+        // res.json({ message: 'You are authenticated!' });
+        if(req.user.userType === 'admin'){
+            console.log('alredy logged in as admin');
+            res.redirect('/admin');
+            
+            // res.json({ message: 'Administrator login successfull!' });
+        }
+        else if(req.user.userType === 'buyer'){
+            console.log('alredy logged in as buyer');
+            res.redirect('/');
+        }
+
+        // res.redirect('/', message = 'You are authenticated!');
         // res.redirect('/');
     }
     else {

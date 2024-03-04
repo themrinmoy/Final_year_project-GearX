@@ -20,18 +20,23 @@ const MongoStore = require('connect-mongo');
 const multer = require('multer');
 const fs = require('fs');
 
+
+const compression = require('compression');
+
+// const morgan = require('morgan');
 // const rateLimit = require('express-rate-limit');
 // const helmet = require('helmet');
 
 // const MongoStore = require('connect-mongo')(session);
 
 const MONGODB_URI =
-    `mongodb+srv://deployment_user:WsbVw2k7aJbs7Tad@apitest.lspf3mf.mongodb.net/final_year_project`;
+`mongodb+srv://deployment_user:WsbVw2k7aJbs7Tad@apitest.lspf3mf.mongodb.net/final_year_project`;
 
 
 const User = require('./models/User');
 
 const app = express();
+// app.use(compression());
 
 // const limiter = rateLimit({
 //     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -80,11 +85,14 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     // store: store,
-    store: MongoStore.create({ 
+    store: MongoStore.create({
         mongoUrl: MONGODB_URI,
         collectionName: 'sessions',
-      }),
-    cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 }
+        // collection: 'sessions',
+
+    }),
+
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 } // 1 week
 }));
 
 const fileStorage = multer.diskStorage({
@@ -99,6 +107,32 @@ const fileStorage = multer.diskStorage({
 
     }
 })
+
+// Example route that uses the stored user data
+app.get('/user', (req, res) => {
+    // Check if the user is authenticated
+    if (req.session) {
+        // Access user-related data from the session
+        const userData = req.session.passport.user;
+        // Search in database for this user
+
+        User.findById(userData.id)
+            .then(user => {
+                // Do something with the user data
+                // res.render('profile', { user });
+                res.json({ user });
+            })
+
+
+        // res.render('profile', { userData });
+
+        // res.json({ userData });
+    } else {
+        // Redirect to the login page or handle accordingly if the user is not authenticated
+        res.redirect('/login');
+    }
+});
+
 
 const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/png' ||
@@ -199,16 +233,71 @@ app.use('/rent', rentalRoutes);
 
 
 
-// Connect to MongoDB
-mongoose.connect
-    ('mongodb+srv://deployment_user:WsbVw2k7aJbs7Tad@apitest.lspf3mf.mongodb.net/final_year_project')
-    .then(() => {
-        app.listen(3000, () => {
-            console.log('Server running on port 3000');
-        });
-    })
-    .catch(err => {
-        console.error('Error connecting to MongoDB:', err);
+// // Connect to MongoDB
+// mongoose.connect
+//     ('mongodb+srv://deployment_user:WsbVw2k7aJbs7Tad@apitest.lspf3mf.mongodb.net/final_year_project')
+//     .then(() => {
+//         app.listen(3000, () => {
+//             console.log('Server running on port 3000');
+//         });
+//     })
+//     .catch(err => {
+//         // new Error('Error connecting to MongoDB:', err);
+//         console.error('Error connecting to MongoDB:', err);
+//         app.get('*', (req, res) => {
+//             res.status(500).json({ error: 'Database connection error' });
+//         });
 
+//     });
+// working
+// const mongoose = require('mongoose');
+
+const connectWithRetry = () => {
+    mongoose.connect('mongodb+srv://deployment_user:WsbVw2k7aJbs7Tad@apitest.lspf3mf.mongodb.net/final_year_project')
+        .then(() => {
+            console.log('Connected to MongoDB');
+            startServer(); // Start the server once MongoDB connection is successful
+        })
+        .catch(err => {
+            console.error('Error connecting to MongoDB:', err);
+            console.log('Retrying connection...');
+            setTimeout(connectWithRetry, 5000); // Retry after 5 seconds
+        });
+};
+
+// Start the server function
+const startServer = () => {
+    app.listen(3000, () => {
+        console.log('Server running on port 3000');
     });
+};
+
+// Call the connectWithRetry function to initiate MongoDB connection
+connectWithRetry();
+
+
+// const retry = require('retry');
+
+// const operation = retry.operation({
+//   retries: 5, // Number of retries
+//   factor: 2, // Exponential backoff factor
+//   minTimeout: 1 * 1000, // 1 second
+//   maxTimeout: 60 * 1000, // 1 minute
+// });
+
+// operation.attempt(() => {
+//   mongoose.connect('mongodb+srv://deployment_user:WsbVw2k7aJbs7Tad@apitest.lspf3mf.mongodb.net/final_year_project', { /* options */ })
+//     .then(() => {
+//         app.listen(3000, () => {
+//                         console.log('Server running on port 3000');
+//                     });
+//     })
+//     .catch(err => {
+//         console.error('Error connecting to MongoDB:', err);
+//         if (operation.retry(err)) {
+//           return; // Tell the retry library to try again
+//         }
+//         process.exit(1); // Give up after retries are exhausted
+//     });
+// });
 

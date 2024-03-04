@@ -27,3 +27,5 @@ function calculateRentalCost(rentalStartDate, rentalEndDate, productPrice) {
 
     return totalCost;
 }
+
+
