@@ -22,48 +22,61 @@
                                             <div class="item-image">
                                                 <img src="/<%= item.productId.imageUrl %>"
                                                     alt="<%= item.productId.name %>">
-                                                    
+
                                             </div>
                                             <div class="item-details">
                                                 <h3>
                                                     <%= item.productId.name %>
                                                 </h3>
-                                                <p class="item-price">$<%= item.productId.price.toFixed(2) %></p>
-                        <p>price:  $<%= item.productId.rentalInfo.rentalPricePerDay %>/day</p>
-                        <p>rental period:  <%= item.productId.rentalInfo.rentalPeriod %></p>
-                        <p>start date: <%=item.rentalStartDate %> </p>
-                        <p>end date: <%=item.rentalEndDate %> </p>
-                        <p>quantity:  <%= item.quantity %></p>
-                        <p>total:  $<%= (item.quantity * item.productId.rentalInfo.rentalPricePerDay).toFixed(2) %></p>
-                        <form action="/rentcart/<%= item.productId._id %>/remove" method="post">
+                                                <p class="item-price">$<%= item.productId.price.toFixed(2) %>
+                                                </p>
+                                                <p>price: $<%= item.productId.rentalInfo.rentalPricePerDay %>/day</p>
+                                                <p>rental period: <%= item.productId.rentalInfo.rentalPeriod %>
+                                                </p>
+                                                <p>start date: <%=item.rentalStartDate %>
+                                                </p>
+                                                <p>end date: <%=item.rentalEndDate %>
+                                                </p>
+                                                <p>quantity: <%= item.quantity %>
+                                                </p>
+                                                <p>total: $<%= (item.quantity *
+                                                        item.productId.rentalInfo.rentalPricePerDay).toFixed(2) %>
+                                                </p>
+                                                <form action="/rentcart/<%= item.productId._id %>/remove" method="post">
 
-                                                <!-- <div class="cart-item"> -->
-                                                <div class="quantity">
-                                                    <p>Quantity: <%= item.quantity %>
-                                                    </p>
-                                                </div>
-                                                <% for (const item of items) { %>
-                                                    <% totalPrice +=item.quantity * item.productId.price; %>
+                                                    <!-- <div class="cart-item"> -->
+                                                    <div class="quantity">
+                                                        <p>Quantity: <%= item.quantity %>
+                                                        </p>
+                                                    </div>
+                                                    <% for (const item of items) { %>
+                                                        <% totalPrice +=item.quantity * item.productId.price; %>
 
-                                                        <% } %>
-                                                            <p class="item-total">Items Total: $<%=
-                                                                    (item.productId.price * item.quantity).toFixed(2) %>
-                                                            </p>
+                                                            <% } %>
+                                                                <p class="item-total">Items Total: $<%=
+                                                                        (item.productId.price *
+                                                                        item.quantity).toFixed(2) %>
+                                                                </p>
 
-                                                            <form action="/cart/cart-delete-item" method="POST"
-                                                                class="remove-form">
-                                                                <input type="hidden" name="productId"
-                                                                    value="<%= item.productId._id %>">
-                                                                <button class="remove-item"
-                                                                    type="submit">Remove</button>
-                                                            </form>
+                                                                <form action="/cart/cart-delete-item" method="POST"
+                                                                    class="remove-form">
+                                                                    <input type="hidden" name="productId"
+                                                                        value="<%= item.productId._id %>">
+                                                                    <button class="remove-item"
+                                                                        type="submit">Remove</button>
+                                                                </form>
 
-                                                            <!-- <button class="remove-item">Remove</button> -->
+                                                                <!-- <button class="remove-item">Remove</button> -->
                                             </div>
                                         </div>
                                         <% } %>
                                 </div>
                                 <div class="cart-summary">
+                                    <div class="date-range">
+                                        <h3>Select date range</h3>
+                                        <!-- add select date rage here -->
+
+                                    </div>
                                     <h3>Order Summary</h3>
                                     <div class="subtotal">
                                         <p>Subtotal:</p>
