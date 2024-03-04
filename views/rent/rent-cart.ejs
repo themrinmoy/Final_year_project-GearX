@@ -1,0 +1,98 @@
+<%- include('../include/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../include/navigation.ejs') %>
+
+            <main>
+                <link rel="stylesheet" href="../css/cart.css">
+
+
+
+                <section class="cart-page">
+                    <% let totalPrice=0; %>
+                        <div class="container">
+                            <h2>Your Shopping Cart</h2>
+                            <div class="cart-container">
+
+
+                                <div class="cart-items">
+                                    <% for (const item of items) { %>
+                                        <div class="cart-item">
+                                            <div class="item-image">
+                                                <img src="/<%= item.productId.imageUrl %>"
+                                                    alt="<%= item.productId.name %>">
+                                                    
+                                            </div>
+                                            <div class="item-details">
+                                                <h3>
+                                                    <%= item.productId.name %>
+                                                </h3>
+                                                <p class="item-price">$<%= item.productId.price.toFixed(2) %></p>
+                        <p>price:  $<%= item.productId.rentalInfo.rentalPricePerDay %>/day</p>
+                        <p>rental period:  <%= item.productId.rentalInfo.rentalPeriod %></p>
+                        <p>start date: <%=item.rentalStartDate %> </p>
+                        <p>end date: <%=item.rentalEndDate %> </p>
+                        <p>quantity:  <%= item.quantity %></p>
+                        <p>total:  $<%= (item.quantity * item.productId.rentalInfo.rentalPricePerDay).toFixed(2) %></p>
+                        <form action="/rentcart/<%= item.productId._id %>/remove" method="post">
+
+                                                <!-- <div class="cart-item"> -->
+                                                <div class="quantity">
+                                                    <p>Quantity: <%= item.quantity %>
+                                                    </p>
+                                                </div>
+                                                <% for (const item of items) { %>
+                                                    <% totalPrice +=item.quantity * item.productId.price; %>
+
+                                                        <% } %>
+                                                            <p class="item-total">Items Total: $<%=
+                                                                    (item.productId.price * item.quantity).toFixed(2) %>
+                                                            </p>
+
+                                                            <form action="/cart/cart-delete-item" method="POST"
+                                                                class="remove-form">
+                                                                <input type="hidden" name="productId"
+                                                                    value="<%= item.productId._id %>">
+                                                                <button class="remove-item"
+                                                                    type="submit">Remove</button>
+                                                            </form>
+
+                                                            <!-- <button class="remove-item">Remove</button> -->
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                </div>
+                                <div class="cart-summary">
+                                    <h3>Order Summary</h3>
+                                    <div class="subtotal">
+                                        <p>Subtotal:</p>
+                                        <p>$<%= totalPrice %>
+                                        </p>
+                                    </div>
+                                    <!-- <p>$<%= 0%></p>
+                    </div> -->
+                                    <div class="shipping">
+                                        <p>Shipping:</p>
+                                        <p>Calculated at checkout</p>
+                                    </div>
+                                    <div class="total">
+                                        <p>Total:</p>
+                                        <p>$ <%= totalPrice %>
+                                        </p>
+                                    </div>
+
+
+                                    <div class="cleckoutbtn">
+                                        <button class="checkout-btn">Proceed to Checkout</button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                </section>
+
+            </main>
+
+            <%- include('../include/footer.ejs') %>

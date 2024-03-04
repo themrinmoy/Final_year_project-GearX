@@ -17,7 +17,13 @@ const userSchema = new mongoose.Schema({
     rentalCart: {
         items: [{
             productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-            quantity: { type: Number, required: true },
+            quantity: { type: Number, required: false },
+            rentalStartDate: { type: Date, 
+                default: Date.now,
+                required: false },
+            rentalEndDate: { type: Date,
+                default: Date.now,
+                 required: false },
         }],
     },
     rentals: [{

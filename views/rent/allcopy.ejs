@@ -10,6 +10,7 @@
 
       <main>
         <h1>Rental Products</h1>
+        
 
         <% if (products.length> 0) { %>
           <div class="rent_products">
@@ -25,6 +26,9 @@
                 </div>
                 <div class="rental-cost" id="rentalCost-<%= product._id %>">
                     Rental Cost: $<%= product.rentalInfo.rentalPricePerDay %> per day
+                </div>
+                <div class="rental-cost" id="rentalCost">
+                  Total: $<span id="totalCost">0.00</span> per day
                 </div>
 
                 <div class="date-range-picker">
