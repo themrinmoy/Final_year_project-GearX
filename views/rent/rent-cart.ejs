@@ -13,7 +13,7 @@
 
 
                     <div class="container">
-                        <h2>Your Shopping Cart</h2>
+                        <h2>Your Rental Cart:</h2>
                         <div class="cart-container">
                             <div class="cart-items">
                                 <% for (const item of items) { %>
@@ -25,12 +25,16 @@
                                             <h3>
                                                 <%= item.productId.name %>
                                             </h3>
+                                            <p class="price">Actual Product Cost: <%= item.productId.price %>
+                                            </p>
 
                                             <p class="item-price">price: $<%=
                                                     item.productId.rentalInfo.rentalPricePerDay %>/day</p>
+
+
                                             <p class="quantity">quantity: <%= item.quantity %>
                                             </p>
-                                            <p>total: $<%= (item.quantity *
+                                            <p>Total Rental Cost: $<%= (item.quantity *
                                                     item.productId.rentalInfo.rentalPricePerDay).toFixed(2) %>
                                             </p>
                                             <!-- Remove the date picker for each product -->
@@ -45,19 +49,25 @@
                                     <% } %>
                             </div>
                             <div class="cart-summary rent-cart-summary">
+                                <!-- ... Other HTML code ... -->
+
                                 <div class="date-range">
                                     <h3>Select date range</h3>
                                     <form id="dateRangeForm" action="/rent/update-date-range" method="POST">
-
-                                        <input type="text" class="date-range-picker" id="dateRangeInput"
-                                            value="<%= fStartDate %> to <%= fEndDate %>"
-                                            placeholder="Select date range">
+                                        <div class="datepicker">
+                                            <input type="text" class="date-range-picker" id="dateRangeInput"
+                                                value="<%= fStartDate %> to <%= fEndDate %>"
+                                                placeholder="Select date range">
+                                        </div>
                                         <input type="hidden" name="startDate" id="startDateInput"
                                             value="<%= fStartDate %>">
                                         <input type="hidden" name="endDate" class="change" id="endDateInput"
                                             value="<%= fEndDate %>">
                                     </form>
                                 </div>
+
+                                <!-- ... Other HTML code ... -->
+
 
                                 <h3>Order Summary</h3>
                                 <div class="subtotal">
