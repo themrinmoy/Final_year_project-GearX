@@ -25,4 +25,29 @@ router.post('/create', rentalController.createRental);
 // Update rental (e.g., return a rented product)
 // router.put('/:rentalId/update', rentalController.updateRental);
 
+
+
+
+router.post('/update-date-range', async (req, res) => {
+    try {
+        console.log('Updating date range:', req.body.startDate, req.body.endDate);
+
+        // Get the user from the session or request
+        const user = req.user; // You might need to adjust this based on your authentication setup
+
+        // Update the rental cart date range in the user model
+        user.rentalCart.StartDate = new Date(req.body.startDate);
+        user.rentalCart.EndDate = new Date(req.body.endDate);
+
+        // Save the user model to update the database
+        await user.save();
+
+        // Redirect or send a response as needed
+        res.redirect('/rent/cart'); // Redirect to the cart page or update the page content
+    } catch (error) {
+        console.error('Error updating date range:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 module.exports = router;

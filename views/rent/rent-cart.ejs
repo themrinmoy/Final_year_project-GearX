@@ -6,106 +6,127 @@
 
             <main>
                 <link rel="stylesheet" href="../css/cart.css">
-
-
+                <!-- Include Flatpickr stylesheet -->
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
                 <section class="cart-page">
-                    <% let totalPrice=0; %>
-                        <div class="container">
-                            <h2>Your Shopping Cart</h2>
-                            <div class="cart-container">
 
 
-                                <div class="cart-items">
-                                    <% for (const item of items) { %>
-                                        <div class="cart-item">
-                                            <div class="item-image">
-                                                <img src="/<%= item.productId.imageUrl %>"
-                                                    alt="<%= item.productId.name %>">
-
-                                            </div>
-                                            <div class="item-details">
-                                                <h3>
-                                                    <%= item.productId.name %>
-                                                </h3>
-                                                <p class="item-price">$<%= item.productId.price.toFixed(2) %>
-                                                </p>
-                                                <p>price: $<%= item.productId.rentalInfo.rentalPricePerDay %>/day</p>
-                                                <p>rental period: <%= item.productId.rentalInfo.rentalPeriod %>
-                                                </p>
-                                                <p>start date: <%=item.rentalStartDate %>
-                                                </p>
-                                                <p>end date: <%=item.rentalEndDate %>
-                                                </p>
-                                                <p>quantity: <%= item.quantity %>
-                                                </p>
-                                                <p>total: $<%= (item.quantity *
-                                                        item.productId.rentalInfo.rentalPricePerDay).toFixed(2) %>
-                                                </p>
-                                                <form action="/rentcart/<%= item.productId._id %>/remove" method="post">
-
-                                                    <!-- <div class="cart-item"> -->
-                                                    <div class="quantity">
-                                                        <p>Quantity: <%= item.quantity %>
-                                                        </p>
-                                                    </div>
-                                                    <% for (const item of items) { %>
-                                                        <% totalPrice +=item.quantity * item.productId.price; %>
-
-                                                            <% } %>
-                                                                <p class="item-total">Items Total: $<%=
-                                                                        (item.productId.price *
-                                                                        item.quantity).toFixed(2) %>
-                                                                </p>
-
-                                                                <form action="/cart/cart-delete-item" method="POST"
-                                                                    class="remove-form">
-                                                                    <input type="hidden" name="productId"
-                                                                        value="<%= item.productId._id %>">
-                                                                    <button class="remove-item"
-                                                                        type="submit">Remove</button>
-                                                                </form>
-
-                                                                <!-- <button class="remove-item">Remove</button> -->
-                                            </div>
+                    <div class="container">
+                        <h2>Your Shopping Cart</h2>
+                        <div class="cart-container">
+                            <div class="cart-items">
+                                <% for (const item of items) { %>
+                                    <div class="cart-item">
+                                        <div class="item-image">
+                                            <img src="/<%= item.productId.imageUrl %>" alt="<%= item.productId.name %>">
                                         </div>
-                                        <% } %>
+                                        <div class="item-details">
+                                            <h3>
+                                                <%= item.productId.name %>
+                                            </h3>
+
+                                            <p class="item-price">price: $<%=
+                                                    item.productId.rentalInfo.rentalPricePerDay %>/day</p>
+                                            <p class="quantity">quantity: <%= item.quantity %>
+                                            </p>
+                                            <p>total: $<%= (item.quantity *
+                                                    item.productId.rentalInfo.rentalPricePerDay).toFixed(2) %>
+                                            </p>
+                                            <!-- Remove the date picker for each product -->
+                                            <br>
+
+                                            <form action="/rent/cart-delete-item" method="POST" class="remove-form">
+                                                <input type="hidden" name="productId" value="<%= item.productId._id %>">
+                                                <button class="remove-item" type="submit">Remove</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                            </div>
+                            <div class="cart-summary rent-cart-summary">
+                                <div class="date-range">
+                                    <h3>Select date range</h3>
+                                    <form id="dateRangeForm" action="/rent/update-date-range" method="POST">
+
+                                        <input type="text" class="date-range-picker" id="dateRangeInput"
+                                            value="<%= fStartDate %> to <%= fEndDate %>"
+                                            placeholder="Select date range">
+                                        <input type="hidden" name="startDate" id="startDateInput"
+                                            value="<%= fStartDate %>">
+                                        <input type="hidden" name="endDate" class="change" id="endDateInput"
+                                            value="<%= fEndDate %>">
+                                    </form>
                                 </div>
-                                <div class="cart-summary">
-                                    <div class="date-range">
-                                        <h3>Select date range</h3>
-                                        <!-- add select date rage here -->
 
-                                    </div>
-                                    <h3>Order Summary</h3>
-                                    <div class="subtotal">
-                                        <p>Subtotal:</p>
-                                        <p>$<%= totalPrice %>
-                                        </p>
-                                    </div>
-                                    <!-- <p>$<%= 0%></p>
-                    </div> -->
-                                    <div class="shipping">
-                                        <p>Shipping:</p>
-                                        <p>Calculated at checkout</p>
-                                    </div>
-                                    <div class="total">
-                                        <p>Total:</p>
-                                        <p>$ <%= totalPrice %>
-                                        </p>
-                                    </div>
-
-
-                                    <div class="cleckoutbtn">
-                                        <button class="checkout-btn">Proceed to Checkout</button>
-                                    </div>
+                                <h3>Order Summary</h3>
+                                <div class="subtotal">
+                                    <p>Subtotal:</p>
+                                    <p class="subtotal-amount">$<%= totalCost %>
+                                    </p>
                                 </div>
-
-
+                                <div class="shipping">
+                                    <p>Shipping:</p>
+                                    <p>Calculated at checkout</p>
+                                </div>
+                                <div class="total">
+                                    <p>Total:</p>
+                                    <p class="total-amount">$ <%= totalCost %>
+                                    </p>
+                                </div>
+                                <div class="cleckoutbtn">
+                                    <button class="checkout-btn">Proceed to Checkout</button>
+                                </div>
                             </div>
                         </div>
+                    </div>
                 </section>
-
             </main>
 
+            <!-- Include Flatpickr script -->
+            <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const dateRangeInput = document.querySelector('.date-range-picker');
+
+                    if (dateRangeInput) {
+                        let selectedStartDate; // Variable to store the selected start date
+
+                        const dateRangePicker = flatpickr(dateRangeInput, {
+                            mode: 'range',
+                            inline: true,
+                            dateFormat: 'Y-m-d',
+                            // maxDate: new Date().fp_incr(14),
+                            onChange: function (selectedDates, dateStr, instance) {
+                                // Check if both start and end dates are selected
+                                if (selectedDates.length === 2) {
+                                    const [startDate, endDate] = dateStr.split(' to ');
+
+                                    // Store the selected start date
+                                    selectedStartDate = startDate;
+
+                                    // Update the hidden inputs with the selected date range
+                                    document.getElementById('startDateInput').value = startDate;
+                                    document.getElementById('endDateInput').value = endDate;
+
+                                    // Submit the form
+                                    document.getElementById('dateRangeForm').submit();
+                                }
+                            },
+                            onClose: function () {
+                                // Reset the selected start date when the date picker is closed
+                                selectedStartDate = undefined;
+                            }
+                        });
+                    } else {
+                        console.error("Date range picker input not found!");
+                    }
+                });
+
+            </script>
+
             <%- include('../include/footer.ejs') %>
+    </body>
+
+    </html>

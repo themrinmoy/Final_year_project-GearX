@@ -16,9 +16,15 @@ main {
 }
 
 .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    /* background-color: green; */
+    background-color: inherit;
+}
+/* .container-rent {
     max-width: 900px;
     margin: 0 auto;
-}
+} */
 
 /* Layout for summary on top right */
 .cart-container {
@@ -36,9 +42,14 @@ main {
     order: 2;
     border-radius: 15px;
 }
+.rent-cart-summary {
+     width: 31%;
+    /*Adjust width as needed */
+
+}
 
 .cart-items {
-    width: 65%; 
+    width: 64%; 
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start; 
@@ -185,6 +196,7 @@ main {
     .cart-items {
         width: 100%; 
         margin-bottom: 20px;
+        /* background-color: #fff; */
     }
 } 
 
