@@ -101,12 +101,12 @@ const calculateRentalCost = (rentalStartDate, rentalEndDate, rentPerday, quantit
     const durationInMilliseconds = endDate - startDate;
 
     // Convert the duration to days
-    const durationInDays = durationInMilliseconds / (1000 * 60 * 60 * 24);
+    const durationInDays = (durationInMilliseconds / (1000 * 60 * 60 * 24)) + 1;
 
     console.log("Duration in days:", durationInDays);
 
     // Calculate the total cost
-    const totalCost = rentPerday * durationInDays * quantity;
+    const totalCost = rentPerday * (durationInDays + 1) * quantity;
 
     return totalCost;
 };
@@ -139,23 +139,54 @@ exports.getRentalCart = async (req, res, next) => {
             // Augment cartItems with rental details, if available
         }
 
+
         // 5. Calculate Total Cost
-        const totalCost = calculateRentalCost(user.rentalCart.StartDate, user.rentalCart.EndDate, cartItems[0].productId.rentalInfo.rentalPricePerDay, cartItems[0].quantity);
-        const s = new Date(user.rentalCart.startDate);
-        const e = new Date(user.rentalCart.endDate);
+        // let totalCost = 0;
+        // if (cartItems.length > 0) {
+        //     totalCost = calculateRentalCost(user.rentalCart.StartDate, user.rentalCart.EndDate, cartItems[0].productId.rentalInfo.rentalPricePerDay, cartItems[0].quantity);
+        // }
+
+        // const s = new Date(user.rentalCart.startDate);
+        // const e = new Date(user.rentalCart.endDate);
 
         // Calculate the duration in milliseconds
-        const durationInMilliseconds = e - s;
+        // const durationInMilliseconds = e - s;
 
         // Convert the duration to days
-        const durationInDays = durationInMilliseconds / (1000 * 60 * 60 * 24);
+        // const durationInDays = durationInMilliseconds / (1000 * 60 * 60 * 24);
 
-        console.log("Duration in days:", durationInDays);
-        console.log(user.rentalCart.StartDate);
-        console.log(user.rentalCart.EndDate);
-        console.log(cartItems[0].productId.rentalInfo.rentalPricePerDay);
-        console.log(cartItems[0].quantity);
-        console.log(totalCost);
+        // console.log("Duration in days:", durationInDays);
+        // console.log(user.rentalCart.StartDate);
+        // console.log(user.rentalCart.EndDate);
+        // console.log(cartItems[0].productId.rentalInfo.rentalPricePerDay);
+        // console.log(cartItems[0].quantity);
+        // console.log(totalCost);
+
+        let totalCost = 0;
+        let durationInDays = 0;
+
+        for (const cartItem of cartItems) {
+            // Assuming cartItem.productId.rentalInfo.rentalPricePerDay is the rental price per day for the product
+            const rentalPricePerDay = cartItem.productId.rentalInfo.rentalPricePerDay;
+            const quantity = cartItem.quantity;
+
+            // Assuming cartItem.productId.rentalInfo.rentalPricePerDay is the rental price per day for the product
+            const rentalStartDate = new Date(user.rentalCart.StartDate);
+            const rentalEndDate = new Date(user.rentalCart.EndDate);
+
+            // Calculate the duration in milliseconds
+            const durationInMilliseconds = rentalEndDate - rentalStartDate;
+
+            // Convert the duration to days
+            durationInDays = (durationInMilliseconds / (1000 * 60 * 60 * 24)) + 1;
+
+            // Calculate the total cost for this item
+            const itemTotalCost = rentalPricePerDay * quantity * durationInDays;
+
+            // Accumulate the total cost
+            totalCost += itemTotalCost;
+        }
+
         const startDate = new Date(user.rentalCart.StartDate);
         const endDate = new Date(user.rentalCart.EndDate);
 
@@ -170,11 +201,12 @@ exports.getRentalCart = async (req, res, next) => {
         // Format start and end dates
         const fStartDate = formatDate(startDate);
         const fEndDate = formatDate(endDate);
+        console.log('durationInDays:', durationInDays);
 
         console.log(fStartDate); // Output: "2024-03-05"
         console.log(fEndDate); // Output: "2024-03-10"
         // Render the View or return JSON as needed
-        res.render('./rent/rent-cart', { items: cartItems, fStartDate, fEndDate, user, totalCost, pageTitle: 'Rental Cart' });
+        res.render('./rent/rent-cart', { items: cartItems, fStartDate, fEndDate,durationInDays, totalCost, pageTitle: 'Rental Cart' });
         // res.status(200).json({ items: cartItems, user, totalCost });
 
     } catch (error) {
@@ -318,3 +350,6 @@ exports.updateRental = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+

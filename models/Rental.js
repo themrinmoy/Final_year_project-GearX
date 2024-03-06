@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const rentalSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+    productId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true }],
     rentalStartDate: { type: Date, required: true },
     rentalEndDate: { type: Date, required: true },
     returnDate: { type: Date },
@@ -19,6 +19,8 @@ module.exports = Rental;
 
 function calculateRentalCost(rentalStartDate, rentalEndDate, productPrice) {
     const durationInMilliseconds = rentalEndDate - rentalStartDate;
+    // const productPrice = getProductPriceFromDatabase(productId); // Implement this function to fetch product price
+
     const durationInDays = durationInMilliseconds / (1000 * 60 * 60 * 24); // Convert milliseconds to days
 
     // Customize your pricing strategy here
@@ -27,8 +29,3 @@ function calculateRentalCost(rentalStartDate, rentalEndDate, productPrice) {
 
     return totalCost;
 }
-
-
-
-
-

@@ -50,4 +50,25 @@ router.post('/update-date-range', async (req, res) => {
     }
 });
 
+router.post('/remove-from-cart', async (req, res) => {
+    try {
+        // Extract the product ID from the request body
+        // const { productId } = ;
+
+        const prodId = req.body.productId;
+        req.user.removeFromRentalCart(prodId)
+            .then(result => {
+                res.redirect('/rent/cart')
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+    } catch (error) {
+        console.error('Error removing product from rental cart:', error);
+        res.status(500).send('Internal Server Error');
+    }
+
+});
+
 module.exports = router;

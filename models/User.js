@@ -21,6 +21,8 @@ const userSchema = new mongoose.Schema({
         }],
         StartDate: {
             type: Date,
+            min: Date.now,
+
             default: Date.now,
             required: false
         },
@@ -61,6 +63,15 @@ userSchema.methods.removeFromcart = function (productId) {
     });
 
     this.cart.items = updatedCartItems;
+    return this.save();
+}
+
+userSchema.methods.removeFromRentalCart = function (productId) {
+    const updatedRentalCartItems = this.rentalCart.items.filter(item => {
+        return item.productId.toString() !== productId.toString();
+    });
+
+    this.rentalCart.items = updatedRentalCartItems;
     return this.save();
 }
 

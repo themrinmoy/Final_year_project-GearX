@@ -27,6 +27,8 @@
 
 
               <div class="product-grid">
+                <% if (products.length> 0) { %>
+
 
                 <% products.forEach(product=> { %>
                   <a href="/products/<%= product._id %>" class="a_card">
@@ -69,6 +71,14 @@
                     </div>
                   </a>
                   <% }) %>
+
+                  <% } else { %>
+                    <div>
+                      <h1 style="text-align: center; padding-bottom: 10px;">No Products Found</h1>
+                      <img style="border-radius: 8px;" src="https://picsum.photos/400/400" alt="">
+                    </div>
+
+                    <% } %>
 
               </div>
 

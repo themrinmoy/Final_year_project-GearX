@@ -34,13 +34,13 @@
 
                                             <p class="quantity">quantity: <%= item.quantity %>
                                             </p>
-                                            <p>Total Rental Cost: $<%= (item.quantity *
+                                            <p>Total Rental Cost Per Day: $<%= (item.quantity *
                                                     item.productId.rentalInfo.rentalPricePerDay).toFixed(2) %>
                                             </p>
                                             <!-- Remove the date picker for each product -->
                                             <br>
 
-                                            <form action="/rent/cart-delete-item" method="POST" class="remove-form">
+                                            <form action="/rent/remove-from-cart" method="POST" class="remove-form">
                                                 <input type="hidden" name="productId" value="<%= item.productId._id %>">
                                                 <button class="remove-item" type="submit">Remove</button>
                                             </form>
@@ -70,6 +70,20 @@
 
 
                                 <h3>Order Summary</h3>
+                                <div class="detail-cost subtotal">
+                                    <p>Number of days: </p>
+                                    <p class="days subtotal-amount">
+                                        <%= durationInDays %>
+                                    </p>
+                                </div>
+                                <div class="subtotal">
+
+                                    <p>Cost per day:</p>
+                                    <p class="cost-per-day subtotal-amount">$<%= totalCost/durationInDays %>
+                                    </p>
+                                </div>
+
+
                                 <div class="subtotal">
                                     <p>Subtotal:</p>
                                     <p class="subtotal-amount">$<%= totalCost %>
@@ -85,7 +99,8 @@
                                     </p>
                                 </div>
                                 <div class="cleckoutbtn">
-                                    <button class="checkout-btn">Proceed to Checkout</button>
+                                    <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to
+                                        Checkout</button>
                                 </div>
                             </div>
                         </div>
@@ -97,6 +112,10 @@
             <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
             <script>
+                function proceedToCheckout() {
+                    // Redirect to the checkout page or perform any other necessary actions
+                    window.location.href = '/checkout'; // Change the URL to your checkout page
+                }
                 document.addEventListener('DOMContentLoaded', function () {
                     const dateRangeInput = document.querySelector('.date-range-picker');
 
@@ -106,6 +125,7 @@
                         const dateRangePicker = flatpickr(dateRangeInput, {
                             mode: 'range',
                             inline: true,
+                            minDate: new Date().fp_incr(1),
                             dateFormat: 'Y-m-d',
                             // maxDate: new Date().fp_incr(14),
                             onChange: function (selectedDates, dateStr, instance) {

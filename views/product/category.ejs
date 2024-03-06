@@ -2,28 +2,53 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= category %> Products</title>
+  <title>
+    <%= category %> Products
+  </title>
   <!-- Add any additional styles or scripts here -->
 </head>
+
 <body>
-  <h1><%= category %> Products</h1>
+  <h1>
+    <%= category %> Products
+  </h1>
+  <% if (products.length> 0) { %>
+    <ul>
+      <% products.forEach(product=> { %>
+        <li>
+          <%= product.name %>
+        </li>
+        <% }) %>
+    </ul>
 
-  <% products.forEach(product => { %>
-    <div class="product">
-      <h2><%= product.name %></h2>
-      <p><%= product.description %></p>
-      <p>Price: <%= product.price %></p>
-      <p>Category: <%= product.category %></p>
-      <img src="/<%= product.imagePath %>" alt="<%= product.name %> Image">
-      
-      <!-- Add Details Button with a link to the product details page -->
-      <a href="/products/<%= product._id %>" class="details-button">Details</a>
-    </div>
-  <% }) %>
 
-  <!-- Add any additional HTML, scripts, or styles here -->
+    <% products.forEach(product=> { %>
+      <div class="product">
+        <h2>
+          <%= product.name %>
+        </h2>
+        <p>
+          <%= product.description %>
+        </p>
+        <p>Price: <%= product.price %>
+        </p>
+        <p>Category: <%= product.category %>
+        </p>
+        <img src="/<%= product.imagePath %>" alt="<%= product.name %> Image">
+
+        <!-- Add Details Button with a link to the product details page -->
+        <a href="/products/<%= product._id %>" class="details-button">Details</a>
+      </div>
+      <% }) %>
+        <% } else { %>
+          <p>No products found</p>
+          <% } %>
+
+            <!-- Add any additional HTML, scripts, or styles here -->
 </body>
+
 </html>
