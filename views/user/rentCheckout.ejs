@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('../include/head.ejs') %>
+
+    <body>
+        <%- include('../include/navigation.ejs') %>
+            <link rel="stylesheet" href="/css/checkout.css">
+
+
+            <main class="checkout-page">
+                <div class="container">
+                    <h2>Checkout</h2>
+                    <% if (items && items.length> 0) { %>
+
+                        <section class="checkout-summary">
+                            <div class="cart-items">
+                                <% for (const item of items) { %>
+                                    <div class="cart-item">
+                                        <div class="item-image">
+                                            <img src="/<%= item.productId.imageUrl %>" alt="<%= item.productId.name %>">
+                                        </div>
+                                        <div class="item-details">
+                                            <h3>
+                                                <%= item.productId.name %>
+                                            </h3>
+                                            <p class="item-price">$<%= item.productId.rentalInfo.rentalPricePerDay %>
+                                                    /day</p>
+                                            <p class="quantity">Quantity: <%= item.quantity %>
+                                            </p>
+                                            <p class="item-total">Total: $<%= (item.quantity *
+                                                    item.productId.rentalInfo.rentalPricePerDay).toFixed(2) %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                            </div>
+
+                            <div class="checkout-details">
+                                <h3>Selected Date Range:</h3>
+                                <p>
+                                    <%= fStartDate %> to <%= fEndDate %>
+                                </p>
+                                <h3>Rental Duration:</h3>
+                                <p>
+                                    <%= durationInDays %> days
+                                </p>
+
+                                <h3>Order Summary</h3>
+                                <div class="subtotal">
+                                    <p>Subtotal:</p>
+                                    <p class="price">$<%= totalCost.toFixed(2) %>
+                                    </p>
+                                </div>
+                                <div class="shipping">
+                                    <p>Shipping:</p>
+                                    <p>Calculated at checkout</p>
+                                </div>
+                                <div class="total">
+                                    <p>Total:</p>
+                                    <p class="price">$ <%= totalCost.toFixed(2) %>
+                                    </p>
+                                </div>
+
+                                <!-- Dummy Address Section for Future Purpose -->
+                                <div class="address-section">
+                                    <h3>Shipping Address</h3>
+                                    <p>John Doe</p>
+                                    <p>123 Main Street</p>
+                                    <p>Cityville, State 12345</p>
+                                    <p>Country</p>
+                                </div>
+
+                                <div class="checkout-btn">
+
+                                    <button class="proceed-btn">Proceed to Payment</button>
+                                </div>
+
+                                <div class="checkout-btn">
+                                    <button class="proceed-btn" id="proceed-btn">Proceed to Payment</button>
+                                    <script src="https://js.stripe.com/v3/"></script>
+                                    <script>
+                                        var stripe = Stripe('pk_test_51OaQJHSJMzEXtTp5wyVjLtxG1HR5owr2fy786eE8O1h60aTBiDqcHcnNu0vx6m8RoebDmYPOgXe0A9pBq6X7SBUp00mSNKCVkp');
+                                        var orderBtn = document.getElementById('proceed-btn');
+                                        orderBtn.addEventListener('click', function () {
+                                            stripe.redirectToCheckout({
+                                                sessionId: '<%= sessionId %>'
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                        </section>
+
+
+                        <% } else { %>
+                            <h2 class="headingcheckout">No products in your cart!</h2>
+                            <div class="centered">
+                                <a href="/rent/" class="btn">Go to Shop</a>
+                            </div>
+                            <% } %>
+                </div>
+            </main>
+
+            <script src="https://js.stripe.com/v3/"></script>
+            <script>
+
+
+            </script>
+            <!-- <script src="/js/script.js"></script> -->
+
+            <%- include('../include/footer.ejs') %>
+    </body>
+
+</html>

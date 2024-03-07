@@ -33,7 +33,7 @@ const compression = require('compression');
 // const MongoStore = require('connect-mongo')(session);
 
 const MONGODB_URI =
-`mongodb+srv://deployment_user:WsbVw2k7aJbs7Tad@apitest.lspf3mf.mongodb.net/final_year_project`;
+    `mongodb+srv://deployment_user:WsbVw2k7aJbs7Tad@apitest.lspf3mf.mongodb.net/final_year_project`;
 
 
 const User = require('./models/User');
@@ -43,46 +43,46 @@ const app = express();
 // app.use(compression());
 
 // const limiter = rateLimit({
-    //     windowMs: 15 * 60 * 1000, // 15 minutes
-    //     max: 10, // limit each IP to 100 requests per windowMs
-    //     message: 'Too many requests from this IP, please try again later.',
-    //     onLimitReached: (req, res, options) => {
+//     windowMs: 15 * 60 * 1000, // 15 minutes
+//     max: 10, // limit each IP to 100 requests per windowMs
+//     message: 'Too many requests from this IP, please try again later.',
+//     onLimitReached: (req, res, options) => {
 //         console.log(`Rate limit exceeded for IP ${req.ip}. Limit: ${options.max}, Window: ${options.windowMs}ms`);
 //       },
 //   });
 // const rateLimit = require('express-rate-limit');
 // app.use((req, res, next) => {
-    //     console.log(`Request from IP: ${req.ip}`);
-    //     next();
-    // });
-    // console.log('Request from IP has been logged');
-    
-    // const limiter = rateLimit({
-        //     windowMs: 15 * 60 * 1000, // 15 minutes
-        //     max: 100, // limit each IP to 100 requests per windowMs
-        //     message: 'Too many requests from this IP, please try again later.',
-        //     handler: (req, res, options) => {
-            //         console.log(`Rate limit exceeded for IP ${req.ip}. Limit: ${options.max}, Window: ${options.windowMs}ms`);
-            //         res.status(429).json({ message: options.message });
-            //     }
-            // });
-            
-            // app.use(limiter);
-            // app.use(helmet()); 
-            
-            
-            
-            // app.use(express.json());
-            app.use(bodyParser.urlencoded({ extended: false }));
-            // app.use(bodyParser.urlencoded({ extended: true }));
-            // app.use(require('./middleware/is-auth'));
-            // app.use(require('./routes/logout'))
-            // app.use(require('./routes/admin'))
-            // const store =  MongoStore.create({
-                //     uri: MONGODB_URI,
-                //     collection: 'sessions',
-                // });
-                
+//     console.log(`Request from IP: ${req.ip}`);
+//     next();
+// });
+// console.log('Request from IP has been logged');
+
+// const limiter = rateLimit({
+//     windowMs: 15 * 60 * 1000, // 15 minutes
+//     max: 100, // limit each IP to 100 requests per windowMs
+//     message: 'Too many requests from this IP, please try again later.',
+//     handler: (req, res, options) => {
+//         console.log(`Rate limit exceeded for IP ${req.ip}. Limit: ${options.max}, Window: ${options.windowMs}ms`);
+//         res.status(429).json({ message: options.message });
+//     }
+// });
+
+// app.use(limiter);
+// app.use(helmet()); 
+
+
+
+// app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(require('./middleware/is-auth'));
+// app.use(require('./routes/logout'))
+// app.use(require('./routes/admin'))
+// const store =  MongoStore.create({
+//     uri: MONGODB_URI,
+//     collection: 'sessions',
+// });
+
 // this is for Express session Middleware
 app.use(session({
     secret: 'secret',
@@ -93,9 +93,9 @@ app.use(session({
         mongoUrl: MONGODB_URI,
         collectionName: 'sessions',
         // collection: 'sessions',
-        
+
     }),
-    
+
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 } // 1 week
 }));
 
@@ -107,8 +107,8 @@ const fileStorage = multer.diskStorage({
         // cb(null, file.filename + '-' + file.originalname)
         // cb(null, new Date().toISOString() + '-' + file.originalname)
         cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname)
-        
-        
+
+
     }
 })
 
@@ -119,17 +119,17 @@ app.get('/user', (req, res) => {
         // Access user-related data from the session
         const userData = req.session.passport.user;
         // Search in database for this user
-        
+
         User.findById(userData.id)
-        .then(user => {
-            // Do something with the user data
-            // res.render('profile', { user });
-            res.json({ user });
-        })
-        
-        
+            .then(user => {
+                // Do something with the user data
+                // res.render('profile', { user });
+                res.json({ user });
+            })
+
+
         // res.render('profile', { userData });
-        
+
         // res.json({ userData });
     } else {
         // Redirect to the login page or handle accordingly if the user is not authenticated
@@ -140,9 +140,9 @@ app.get('/user', (req, res) => {
 
 const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/png' ||
-    file.mimetype === 'image/jpg' ||
-    file.mimetype === 'image/webp' ||
-    file.mimetype === 'image/jpeg'
+        file.mimetype === 'image/jpg' ||
+        file.mimetype === 'image/webp' ||
+        file.mimetype === 'image/jpeg'
     ) {
         cb(null, true)
     } else {
@@ -152,52 +152,52 @@ const fileFilter = (req, file, cb) => {
 
 app.use(
     multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
-    );
-    
-    // const storage = multer.diskStorage({
-        //     destination: function (req, file, cb) {
-            //         cb(null, path.join(__dirname, 'public/uploads')); 
-            //     },
-            //     filename: function (req, file, cb) {
-                //         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-                //     }
-                // });
-                // const upload = multer({ storage: storage });
-                
-                
-                
-                app.use(express.static(path.join(__dirname, 'public')));
-                app.use('/images', express.static(path.join(__dirname, 'images')));
-                // passport config
-                app.use(passport.initialize());
-                app.use(passport.session());
-                
-                // passport.use(new LocalStrategy(User.authenticate()));
-                // passport.use(User.createStrategy());
-                
-                passport.use(new LocalStrategy((username, password, done) => {
-                    User.authenticate(username, password)
-                    .then(
-                        user => {
-                            done(null, user);
-                        })
-                        .catch(
-                            err => {
-                                done(null, false,
-                                    { message: err.message })
-                                });
-                            }));
-                            
-                            // passport.serializeUser(User.serializeUser());
-                            passport.serializeUser((user, done) => {
-                                done(null, { id: user.id, userType: user.userType });
-                            })
-                            // passport.deserializeUser(User.deserializeUser());
-                            
-                            passport.deserializeUser((data, done) => {
-                                User.findById(data.id)
-                                .then(user => { done(null, user); })
-                                .catch(err => { done(null, false); })
+);
+
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, path.join(__dirname, 'public/uploads')); 
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+//     }
+// });
+// const upload = multer({ storage: storage });
+
+
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
+// passport config
+app.use(passport.initialize());
+app.use(passport.session());
+
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.use(User.createStrategy());
+
+passport.use(new LocalStrategy((username, password, done) => {
+    User.authenticate(username, password)
+        .then(
+            user => {
+                done(null, user);
+            })
+        .catch(
+            err => {
+                done(null, false,
+                    { message: err.message })
+            });
+}));
+
+// passport.serializeUser(User.serializeUser());
+passport.serializeUser((user, done) => {
+    done(null, { id: user.id, userType: user.userType });
+})
+// passport.deserializeUser(User.deserializeUser());
+
+passport.deserializeUser((data, done) => {
+    User.findById(data.id)
+        .then(user => { done(null, user); })
+        .catch(err => { done(null, false); })
 })
 
 app.use((req, res, next) => {
@@ -207,6 +207,12 @@ app.use((req, res, next) => {
     } else {
         res.locals.userType = null; // Set to a default value if the user is not authenticated
     }
+    next();
+});
+
+app.use((req, res, next) => {
+    // page title
+    res.locals.pageTitle = 'home';
     next();
 });
 

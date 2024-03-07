@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const rentalController = require('../controllers/rentalController');
 const productController = require('../controllers/productsController')
+// const { check, validationResult } = require('express-validator');
+const checkoutController = require('../controllers/checkoutController');
+// const stripe = require('stripe')('your_secret_key');
+const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9bR31hvgJnb7OGnBw8n1AjFnlgOI9NHYnRtKPUO9CSQPI27q55b6L001og14MAB')
+
 
 
 // Create a new rental
@@ -13,6 +18,9 @@ router.get('/', rentalController.getAllRentals);
 router.get('/cart', rentalController.getRentalCart);
 // Add to rental cart
 router.post('/add-to-cart/:productId', rentalController.postRentalCart);
+
+// chekout
+router.get('/checkout', rentalController.getRentChekout);
 // router.post('/add-to-rent/', rentalController.postRentalCart);
 
 router.post('/create', rentalController.createRental);
@@ -70,5 +78,37 @@ router.post('/remove-from-cart', async (req, res) => {
     }
 
 });
+
+
+router.post('/create-payment-intent', async (req, res) => {
+    try {
+      const { items } = req.body;
+  
+      // Calculate the total amount based on your cart items
+      const totalAmount = calculateTotalAmount(items);
+  
+      // Create a PaymentIntent
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: totalAmount,
+        currency: 'usd', // Replace with your preferred currency
+      });
+  
+      res.status(200).json({ clientSecret: paymentIntent.client_secret });
+    } catch (error) {
+      console.error('Error creating PaymentIntent:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  
+  // Helper function to calculate the total amount
+  function calculateTotalAmount(items) {
+    // Calculate the total amount based on your cart items
+    // Adjust this function based on your pricing logic
+    const totalAmount = items.reduce((acc, item) => {
+      return acc + item.quantity * item.productId.rentalInfo.rentalPricePerDay;
+    }, 0);
+  
+    return totalAmount * 100; // Convert to cents (Stripe requires amounts in cents)
+  }
 
 module.exports = router;

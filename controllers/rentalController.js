@@ -2,6 +2,9 @@ const Rental = require('../models/Rental');
 const Product = require('../models/Product');
 const User = require('../models/User');
 
+const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9bR31hvgJnb7OGnBw8n1AjFnlgOI9NHYnRtKPUO9CSQPI27q55b6L001og14MAB')
+
+
 // Create a new rental
 
 
@@ -140,27 +143,7 @@ exports.getRentalCart = async (req, res, next) => {
         }
 
 
-        // 5. Calculate Total Cost
-        // let totalCost = 0;
-        // if (cartItems.length > 0) {
-        //     totalCost = calculateRentalCost(user.rentalCart.StartDate, user.rentalCart.EndDate, cartItems[0].productId.rentalInfo.rentalPricePerDay, cartItems[0].quantity);
-        // }
 
-        // const s = new Date(user.rentalCart.startDate);
-        // const e = new Date(user.rentalCart.endDate);
-
-        // Calculate the duration in milliseconds
-        // const durationInMilliseconds = e - s;
-
-        // Convert the duration to days
-        // const durationInDays = durationInMilliseconds / (1000 * 60 * 60 * 24);
-
-        // console.log("Duration in days:", durationInDays);
-        // console.log(user.rentalCart.StartDate);
-        // console.log(user.rentalCart.EndDate);
-        // console.log(cartItems[0].productId.rentalInfo.rentalPricePerDay);
-        // console.log(cartItems[0].quantity);
-        // console.log(totalCost);
 
         let totalCost = 0;
         let durationInDays = 0;
@@ -206,13 +189,125 @@ exports.getRentalCart = async (req, res, next) => {
         console.log(fStartDate); // Output: "2024-03-05"
         console.log(fEndDate); // Output: "2024-03-10"
         // Render the View or return JSON as needed
-        res.render('./rent/rent-cart', { items: cartItems, fStartDate, fEndDate,durationInDays, totalCost, pageTitle: 'Rental Cart' });
+        res.render('./rent/rent-cart', { items: cartItems, fStartDate, fEndDate, durationInDays, totalCost, pageTitle: 'Rental Cart' });
         // res.status(200).json({ items: cartItems, user, totalCost });
 
     } catch (error) {
         next(error);
     }
 };
+exports.getRentChekout = async (req, res, next) => {
+    try {
+        const userId = req.user._id;
+
+        // 1. Fetch User with Cart Data
+        const user = await User.findById(userId).populate({
+            path: 'rentalCart.items.productId',
+            model: 'Product'
+        });
+
+        // 2. Handle Possible Scenarios
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // 3. Data for the View
+        const cartItems = user.rentalCart.items;
+
+        // 4. Optionally Fetch Additional Rental Details
+        if (cartItems.length > 0) {
+            const rentalPromises = cartItems.map(item =>
+                Rental.findOne({ productId: item.productId, userId }) // Adapt as needed
+            );
+            const rentals = await Promise.all(rentalPromises);
+
+            // Augment cartItems with rental details, if available
+        }
+
+
+
+
+        let totalCost = 0;
+        let durationInDays = 0;
+
+        for (const cartItem of cartItems) {
+            // Assuming cartItem.productId.rentalInfo.rentalPricePerDay is the rental price per day for the product
+            const rentalPricePerDay = cartItem.productId.rentalInfo.rentalPricePerDay;
+            const quantity = cartItem.quantity;
+
+            // Assuming cartItem.productId.rentalInfo.rentalPricePerDay is the rental price per day for the product
+            const rentalStartDate = new Date(user.rentalCart.StartDate);
+            const rentalEndDate = new Date(user.rentalCart.EndDate);
+
+            // Calculate the duration in milliseconds
+            const durationInMilliseconds = rentalEndDate - rentalStartDate;
+
+            // Convert the duration to days
+            durationInDays = (durationInMilliseconds / (1000 * 60 * 60 * 24)) + 1;
+
+            // Calculate the total cost for this item
+            const itemTotalCost = rentalPricePerDay * quantity * durationInDays;
+
+            // Accumulate the total cost
+            totalCost += itemTotalCost;
+        }
+
+        const startDate = new Date(user.rentalCart.StartDate);
+        const endDate = new Date(user.rentalCart.EndDate);
+
+
+        const formatDate = (date) => {
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
+
+        // Format start and end dates
+        const fStartDate = formatDate(startDate);
+        const fEndDate = formatDate(endDate);
+
+
+
+        const successUrl = req.protocol + '://' + req.get('host') + '/rent/checkout/success';
+        const cancelUrl = req.protocol + '://' + req.get('host') + '/rent/checkout/cancel';
+
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: cartItems.map(item => ({
+                price_data: {
+                    // currency: 'usd',
+                    currency: 'INR',  // Modify as needed
+
+                    product_data: {
+                        name: item.productId.name,
+                        // images: [item.productId.imageUrl],
+                    },
+                    unit_amount: item.productId.rentalInfo.rentalPricePerDay * 100,
+                },
+                quantity: item.quantity,
+            })),
+            mode: 'payment',
+            success_url: successUrl,
+            cancel_url: cancelUrl,
+            billing_address_collection: 'required', // Include this line for Indian regulations
+
+        });
+
+        res.render('./user/rentCheckout', {
+            items: cartItems, fStartDate, fEndDate, durationInDays,
+            totalCost, pageTitle: 'checkout',
+            totalCost, pageTitle: 'checkout', sessionId: session.id,
+        });
+        // res.status(200).json({ items: cartItems, user, totalCost });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
 
 // exports.postRentalCart = async (req, res, next) => {
 //     try {
