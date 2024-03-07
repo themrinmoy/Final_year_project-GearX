@@ -63,27 +63,130 @@ userSchema.methods.generateAuthToken = function () {
     const token = jwt.sign({ _id: this._id }, 'yourSecretKey', { expiresIn: '1h' });
     // Change 'yourSecretKey' to a secure secret, and '1h' to the desired expiration time
 
+    // const token = jwt.sign({ _id: this._id }, 'yourSecretKey', { expiresIn: '1h' });
     // Store the generated token in the usedTokens array
     // this.usedTokens.push(token);
+
+
+    this.usedTokens.push(token);
+    this.save().then(result => {
+        console.log('Token saved:', token);
+    }).catch(error => {
+        console.error('Token saving failed:', error);
+    });
+    // Save the user instance to the database
     return token;
+    // return token;
 };
 
-userSchema.statics.verifyAuthToken = function (token) {
+// userSchema.methods.verifyAuthToken = function (token) {
+userSchema.statics.verifyAuthToken = async function (token) {
 
-    return jwt.verify(token, 'yourSecretKey'); // Change 'yourSecretKey' to your secret
+
+    try {
+        // Check if the token has been used before
+        // if (this.usedTokens.includes(token)) {
+        //     throw new Error('Token has already been used');
+        // }
+
+        // Verify the token
+        const decodedToken = jwt.verify(token, 'yourSecretKey');
+
+        const user = await User.findById(decodedToken._id);
+
+        if (user.usedTokens.includes(token)) {
+            console.log('Token has already been used:', token);
+            throw new Error('Token has already been used');
+        }
+        user.usedTokens.push(token);
+        await user.save().then(result => {
+            console.log('Token saved:', token);
+        }).catch(error => {
+            console.error('Token saving failed:', error);
+        });
+
+        return decodedToken;
+
+
+    } catch (error) {
+        // Handle the error (e.g., token expired, invalid signature, token already used)
+        console.error('Token verification failed:', error);
+        // console.log(error.message, 'error')
+        throw new Error(error.message);
+
+    }
+
 };
+
+// userSchema.statics.verifyAuthToken = async function (token) {
+// userSchema.statics.verifyAuthToken = function (token) {
+//     try {
+//         // console.log(this , 'this')
+//         // console.log(this , 'this')
+//         // console.log('Token:', token);
+//         // this.usedTokens.push(token);
+//         // Check if the token has been used before
+//         // if (this.usedTokens.includes(token)) {
+//         //     console.log('Token has already been used:', token);
+//         //     throw new Error('Token has already been used');
+//         // }
+
+//         // Verify the token
+//         const decodedToken = jwt.verify(token, 'yourSecretKey');
+
+//         // const user = User.findOne({ _id: decodedToken._id });
+//         //  user.usedTokens.push(token).then;
+
+//         // User.usedTokens.push(token);
+//         // console.log(user, 'user')
+
+
+
+//         // Mark the token as used
+//         // this.usedTokens.push(token);
+
+//         // this.save();
+
+//         console.log('Token verification successful:', decodedToken);
+//         return decodedToken;
+
+//     } catch (error) {
+//         // Handle the error (e.g., token expired, invalid signature, token already used)
+//         console.error('Token verification failed:', error);
+//         // throw new Error('Invalid token');
+//     }
+// };
+
+
+
+
+
+// userSchema.statics.verifyAuthToken = function (token) {
+
+//     try {
+//         const decodedToken = jwt.verify(token, 'yourSecretKey');
+//         return decodedToken;
+
+//     }
+//     catch (error) {
+//         throw new Error('Invalid token');
+//     }
+// };
 // userSchema.add({
 // });
 
 // userSchema.statics.verifyAuthToken = function (token) {
 //     try {
 //         // Check if the token has been used before
+//         if (this.usedTokens.includes(token)) {
+//             throw new Error('Token has already been used');
+//         }
 
 //         // Verify the token
 //         const decodedToken = jwt.verify(token, 'yourSecretKey');
 
 //         // If verification is successful, mark the token as used
-//         // this.usedTokens.push(token);
+//         this.usedTokens.push(token);
 
 //         return decodedToken;
 //     } catch (error) {

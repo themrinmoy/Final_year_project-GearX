@@ -247,20 +247,36 @@ router.get('/verify/:token', async (req, res) => {
 
     try {
         // Verify the token
-        const decodedToken = User.verifyAuthToken(token);
+        const decodedToken = await  User.verifyAuthToken(token);
 
+        // if(decodedToken.message){
+        //     // console.log('Token verification from:', decodedToken.message);
+        //     // return res.status(404).json({ error: decodedToken.message, message: 'Invalid token' });
+        // }
+        
         // Find the user associated with the token
         const user = await User.findById(decodedToken._id);
+        // console.log('Token verification from:', decodedToken);
+        // console.log('Token verification successful:', user);
+        // console.log('Token verification successful:');
+
 
         if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+
+            return res.status(404).json({ error, message: 'User not found'});
+            // return res.status(404).json({'Token verification from:', decodedToken.message });
+            // return res.status(404).json({'Token verification from:', decodedToken.message });
         }
 
-        // Mark the user as verified (you may want to add a verified field in your user model)
+        if (user.verified) {
         user.verified = true;
         await user.save();
 
-        res.status(200).json({ message: 'Email verification successful' });
+        return res.status(200).json({ message: 'Email verification successful' }); 
+        // res.status(200).json({ message: 'Email verification successful' });
+        // res.redirect('/login');
+        }
+
         // res.redirect('/login');
     } catch (error) {
         console.error(error);
