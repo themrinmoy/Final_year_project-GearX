@@ -2,7 +2,11 @@
     </head>
 
     <body>
-        <%- include('include/navigation.ejs') %>
-
+        <%- include('include/navigation.ejs', {isAuthenticated}) %>
+        <main style="text-align: center;">
+            <h1 style="padding-top: 5rem;">404 Not Found</h1>
+            <p>Sorry, the page you are looking for might be in another castle.</p>
+            <img src="https://placekitten.com/400/300" alt="Sad Kitten">
+        </main>
 
         <%- include('include/footer.ejs') %>

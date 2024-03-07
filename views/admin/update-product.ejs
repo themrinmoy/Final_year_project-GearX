@@ -39,8 +39,13 @@
                 <label for="productCategory">Category:</label>
                 <select id="productCategory" name="category">
                   <option value="">Select Category</option>
-                  <option value="helmets" <%=editing && product.category==='helmets' ? 'selected' : '' %>>Helmets
-                  </option>
+                  <option value="helmets" <%=editing && product.category==='helmets' ? 'selected' : '' %>>Helmets</option>
+                  <option value="jackets" <%=editing && product.category==='jackets' ? 'selected' : '' %>>Jackets</option>
+                  <option value="gloves" <%=editing && product.category==='gloves' ? 'selected' : '' %>>Gloves</option>
+                  <option value="boots" <%=editing && product.category==='boots' ? 'selected' : '' %>>Boots</option>
+                  <option value="kits" <%=editing && product.category==='kits' ? 'selected' : '' %>>kits</option>
+                  <option value="bike" <%=editing && product.category==='bike' ? 'selected' : '' %>>bike</option>
+                  <option value="other" <%=editing && product.category==='other' ? 'selected' : '' %>>Other</option>
                   <!-- Add other category options as needed -->
                 </select>
               </div>
