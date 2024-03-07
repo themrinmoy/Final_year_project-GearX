@@ -255,6 +255,8 @@ exports.getRentChekout = async (req, res, next) => {
         const startDate = new Date(user.rentalCart.StartDate);
         const endDate = new Date(user.rentalCart.EndDate);
 
+        user.rentalCart.totalCost = totalCost;  // Add this line to store the total cost in the user's cart
+        await user.save();
 
         const formatDate = (date) => {
             const year = date.getFullYear();
@@ -267,6 +269,11 @@ exports.getRentChekout = async (req, res, next) => {
         const fStartDate = formatDate(startDate);
         const fEndDate = formatDate(endDate);
 
+
+        function constructImageUrl(imageName) {
+            // Assuming images are hosted at the root of your server
+            return req.protocol + '://' + req.get('host') + '/images/' + imageName;
+        }
 
 
         const successUrl = req.protocol + '://' + req.get('host') + '/rent/checkout/success';
@@ -281,9 +288,17 @@ exports.getRentChekout = async (req, res, next) => {
 
                     product_data: {
                         name: item.productId.name,
+                        description: item.productId.description,
+
+                        // images: [constructImageUrl(item.productId.imageUrl)], // Construct the image URL
+
+
+
+
                         // images: [item.productId.imageUrl],
                     },
-                    unit_amount: item.productId.rentalInfo.rentalPricePerDay * 100,
+                    unit_amount: item.productId.rentalInfo.rentalPricePerDay * durationInDays * 100,
+                    // unit_amount: item.productId.rentalInfo.rentalPricePerDay * 100,
                 },
                 quantity: item.quantity,
             })),
@@ -307,7 +322,120 @@ exports.getRentChekout = async (req, res, next) => {
 };
 
 
+async function calculateTotalRentalCost(cartItems, durationInDays) {
+    let totalCost = 0;
 
+    if (Array.isArray(cartItems)) {
+        for (const cartItem of cartItems) {
+            try {
+                // Fetch the product details using the productId
+                const product = await Product.findById(cartItem.productId);
+
+                if (product && product.rentalInfo) {
+                    totalCost += product.rentalInfo.rentalPricePerDay * durationInDays * (cartItem.quantity || 1);
+                } else {
+                    console.error('Invalid product or rentalInfo:', product);
+                    // Handle the case where product or rentalInfo is missing
+                }
+            } catch (error) {
+                console.error('Error fetching product details:', error);
+                // Handle the error (e.g., log, throw, or provide default values)
+            }
+        }
+    } else {
+        console.error('Invalid cartItems:', cartItems);
+        // Handle the case where cartItems is not an array
+    }
+
+    return totalCost;
+}
+
+
+
+
+exports.getRentCheckoutSuccess = async (req, res, next) => {
+    try {
+        // Perform actions after a successful payment, such as updating the database, sending confirmation emails, etc.
+        const rentalStartDate = new Date(req.user.rentalCart.StartDate);
+        const rentalEndDate = new Date(req.user.rentalCart.EndDate);
+        const durationInMilliseconds = rentalEndDate - rentalStartDate;
+        const durationInDays = durationInMilliseconds / (1000 * 60 * 60 * 24) + 1;
+        // Assuming you have a function to calculate rental cost based on the cartItems and duration
+        // console.log(req.user.rentalCart.items, 'items');
+        const totalRentalCost = await calculateTotalRentalCost(req.user.rentalCart.items, durationInDays);
+        // const totalRentalCost = 0
+        console.log(durationInDays, 'days');
+        console.log(totalRentalCost, 'total cost');
+        // console.log(totalRentalCost);
+        // Create a new rental
+        const newRental = new Rental({
+            userId: req.user.id,
+            productId: req.user.rentalCart.items.map(item => item.productId),
+            rentalStartDate,
+            rentalEndDate,
+            rentalCost: totalRentalCost,
+            paymentStatus: 'paid', // Assuming payment is successful
+        });
+        // Save the new rental to the database
+        await newRental.save();
+
+        // Clear the rental cart in the user model after successful payment
+        req.user.rentalCart.items = [];
+        req.user.save();
+
+        // Assuming you have a success view to render, you can render it like this:
+        res.redirect('/rent/rentals');
+        // res.render('rent/rentalSuccessView.ejs', {title: 'Rent Checkout Success', rental: newRental, totalCost: totalRentalCost, durationInDays: durationInDays});
+        // res.json({ message: 'Payment successful' });
+    } catch (error) {
+        // Handle any errors that may occur during database updates or email sending
+        console.error('Error processing successful payment:', error);
+
+        res.status(500).json({ error: 'Internal Server Error' });
+        // Render an error view or redirect to an error page
+        // res.render('errorView', {
+        //     title: 'Error',
+        //     errorMessage: 'An error occurred while processing the payment. Please contact support.',
+        // });
+    }
+};
+
+
+
+
+exports.getRentCheckoutCancel = async (req, res, next) => {
+
+    try {
+        // Perform actions after a payment is canceled, such as updating the database, sending notification emails, etc.
+
+        // Assuming you have a cancel view to render, you can render it like this:
+        // res.render('rent/rentalCancelView.ejs', { title: 'Rent Checkout Canceled' });
+        res.json({ message: 'Payment canceled' });
+    } catch (error) {
+        // Handle any errors that may occur during database updates or email sending
+        console.error('Error processing canceled payment:', error);
+
+        res.status(500).json({ error: 'Internal Server Error' });
+        // Render an error view or redirect to an error page
+        // res.render('errorView', {
+        //     title: 'Error',
+        //     errorMessage: 'An error occurred while processing the payment. Please contact support.',
+        // });
+    }
+};
+
+
+exports.getAllRentals = async (req, res, next) => {
+    try {
+        const rentals = await Rental.find();
+
+        res.render('user/rentals', { rentals, pageTitle: 'Rentals', title: 'All Rentals' });
+        // res.status(200).json(rentals);
+    } catch (error) {
+        console.error('Error fetching rentals:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
 
 // exports.postRentalCart = async (req, res, next) => {
 //     try {
@@ -387,6 +515,7 @@ exports.postRentalCart = async (req, res, next) => {
 
 
 exports.createRental = async (req, res) => {
+    // exports.getRentChekoutSuccess = async (req, res) => {
     try {
         // Extract required information from the request body
         const { userId, productId, rentalStartDate, rentalEndDate } = req.body;

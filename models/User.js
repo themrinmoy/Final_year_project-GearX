@@ -39,6 +39,7 @@ const userSchema = new mongoose.Schema({
             default: Date.now,
             required: false
         },
+    
     },
     usedTokens: [{ type: String }],
     rentals: [{

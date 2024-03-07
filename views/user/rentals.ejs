@@ -1,0 +1,94 @@
+<%- include('../include/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../include/navigation.ejs') %>
+        <link rel="stylesheet" href="/css/___.css">
+
+        <main>
+
+            <div class="main-content">
+                <section class="rental-section">
+                    <% if (rentals.length > 0) { %>
+                        <ul class="rental-list">
+                            <% rentals.forEach(rental => { %>
+                                <li class="rental-item">
+                                    <h2 class="rental-title">Rental ID: <%= rental._id %></h2>
+                                    <p class="rental-details">User ID: <%= rental.userId %></p>
+                                    <p class="rental-details">Rental Start Date: <%= rental.rentalStartDate %></p>
+                                    <p class="rental-details">Rental End Date: <%= rental.rentalEndDate %></p>
+                                    <p class="rental-details">Rental Status: <%= rental.status %></p>
+                                    <p class="rental-details">Rental Cost: <%= rental.rentalCost %></p>
+                                    <p class="rental-details">Payment Status: <%= rental.paymentStatus %></p>
+                                    <!-- Add more details as needed -->
+                                </li>
+                            <% }); %>
+                        </ul>
+                    <% } else { %>
+                        <p>No rentals available.</p>
+                    <% } %>
+                </section>
+            </div>
+
+            
+
+        </main>
+
+
+        <style>
+            /* body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f8f8f8;
+                color: #333;
+                margin: 0;
+                padding: 0;
+            } */
+        
+            .site-header, .site-footer {
+                background-color: #333;
+                color: #fff;
+                padding: 10px;
+                text-align: center;
+            }
+        
+            .main-content {
+                padding: 20px;
+            }
+        
+            .rental-section {
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+        
+            .rental-list {
+                list-style-type: none;
+                padding: 0;
+            }
+        
+            .rental-item {
+                margin-bottom: 20px;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                background-color: #fff;
+                transition: transform 0.2s ease-in-out;
+            }
+        
+            .rental-item:hover {
+                transform: scale(1.02);
+            }
+        
+            .rental-title {
+                color: #333;
+            }
+        
+            .rental-details {
+                color: #666;
+            }
+        </style>
+        
+
+
+            <%- include('../include/footer.ejs') %>

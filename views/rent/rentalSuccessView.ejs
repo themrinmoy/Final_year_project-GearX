@@ -1,0 +1,56 @@
+<%- include('../include/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../include/navigation.ejs') %>
+            <link rel="stylesheet" href="/css/___.css">
+
+            <main>
+                <section>
+                    <h1>
+                        <%= title %>
+                    </h1>
+                    <p>Congratulations! Your rental has been successfully processed.</p>
+
+                    <!-- rent details -->
+                    <h2>Rental Details</h2>
+                    <p>Rental ID: <%= rental.id %></p>
+                    <p>Start Date: <%= rental.rentalStartDate %></p>
+                    <p>End Date: <%= rental.rentalEndDate %></p>
+                    <p>Duration: <%= durationInDays  %> days</p>
+                    <p>Cost: $<%= rental.rentalCost %></p>
+
+
+
+                    <p>Thank you for choosing to rent with us. We hope you enjoy your rental experience.</p>
+                    <!-- view your all rented items -->
+                    <a href="/rent/rentals">View All Rentals</a>
+
+
+                    <!-- You can include additional details or messages here based on your needs -->
+                </section>
+
+
+
+            </main>
+
+<style>
+    main {
+        margin: 0 auto;
+        max-width: 800px;
+        padding: 20px;
+    }
+    section {
+        margin-bottom: 20px;
+    }
+    h1 {
+        margin-bottom: 20px;
+    }
+    p {
+        margin-bottom: 20px;
+    }
+
+
+    
+</style>
+            <%- include('../include/footer.ejs') %>

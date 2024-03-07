@@ -21,9 +21,15 @@ router.post('/add-to-cart/:productId', rentalController.postRentalCart);
 
 // chekout
 router.get('/checkout', rentalController.getRentChekout);
+
+router.get('/checkout/success', rentalController.getRentCheckoutSuccess);
+// router.get('/checkout/cancel', rentalController.getRentChekoutCancel);
+
+router.get('/rentals', rentalController.getAllRentals);
+
 // router.post('/add-to-rent/', rentalController.postRentalCart);
 
-router.post('/create', rentalController.createRental);
+// router.post('/create', rentalController.createRental);
 
 // router.get('/all', rentalController.getAllRentals);
 
