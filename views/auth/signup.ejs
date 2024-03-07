@@ -25,7 +25,9 @@
                         </div>
                         <div class="input-field">
                             <label for="email">Email id:</label>
-                            <input type="text" id="email" name="email" required>
+                            <input type="email" id="email" name="email" required
+                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+                            <span class="error-message">Enter a valid email address.</span>
                         </div>
                         <div class="input-field">
                             <label for="password">Password:</label>
@@ -37,6 +39,33 @@
             </main>
 
             <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const emailInput = document.getElementById('email');
+                    const errorMessage = document.querySelector('.error-message');
+                    const inputField = document.querySelector('.input-field');
+
+                    emailInput.addEventListener('input', function () {
+                        // Check validity on input
+                        if (emailInput.checkValidity()) {
+                            errorMessage.style.display = 'none';
+                            inputField.classList.remove('invalid');
+                        } else {
+                            errorMessage.style.display = 'block';
+                            inputField.classList.add('invalid');
+                        }
+                    });
+
+                    emailInput.addEventListener('blur', function () {
+                        // Check validity on blur
+                        if (emailInput.checkValidity()) {
+                            errorMessage.style.display = 'none';
+                            inputField.classList.remove('invalid');
+                        } else {
+                            errorMessage.style.display = 'block';
+                            inputField.classList.add('invalid');
+                        }
+                    });
+                });
                 // Parse the query parameter from the URL
                 const params = new URLSearchParams(window.location.search);
                 const warningMessage = params.get('warning');
@@ -61,6 +90,16 @@
                     border-radius: 5px;
                     display: none;
                     /* Initially hide the container */
+                }
+
+                .error-message {
+                    color: red;
+                    font-size: 0.8rem;
+                    display: none;
+                }
+
+                .input-field.invalid .error-message {
+                    display: block;
                 }
             </style>
             <%- include('../include/footer.ejs') %>

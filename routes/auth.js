@@ -152,6 +152,10 @@ router.post('/signup', async (req, res, next) => {
                 return res.status(400).json({ error: 'Email already exists. Choose a different email address.' });
             }
         }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(req.body.email)) {
+            return res.status(400).json({ error: 'Invalid email format.' });
+        }
 
         // If both username and email are not taken, hash the password and create a new user
         const hashedPassword = await bcrypt.hash(req.body.password, 12);
