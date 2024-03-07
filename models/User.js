@@ -1,12 +1,20 @@
 // models/User.js 
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 // const passportLocalMongoose = require('passport-local-mongoose'); 
 const userSchema = new mongoose.Schema({
     username: { type: String },
     name: { type: String },
     email: { type: String },
     password: { type: String },
+    resetToken: {
+        type: String,
+        require: false
+    },
+    resetTokenExpiration: Date,
+    verified: { type: Boolean, default: false },
+
     userType: { type: String, enum: ['buyer', 'admin'], default: 'admin' },
     cart: {
         items: [{
@@ -21,7 +29,7 @@ const userSchema = new mongoose.Schema({
         }],
         StartDate: {
             type: Date,
-            min: Date.now,
+            // min: Date.now-1,
 
             default: Date.now,
             required: false
@@ -32,6 +40,7 @@ const userSchema = new mongoose.Schema({
             required: false
         },
     },
+    usedTokens: [{ type: String }],
     rentals: [{
         rentalId: { type: mongoose.Schema.Types.ObjectId, ref: 'Rental' },
     }],
@@ -41,6 +50,48 @@ const userSchema = new mongoose.Schema({
 });
 // userSchema.plugin(passportLocalMongoose); 
 // userSchema.plugin(passportLocalMongoose, { usernameField: 'email' } ); 
+
+// userSchema.add({
+//     usedTokens: [{ type: String }]
+// });
+// Methods for generating and verifying tokens
+// userSchema.methods.generateAuthToken = function () {
+//     const token = jwt.sign({ _id: this._id }, 'yourSecretKey'); // Change 'yourSecretKey' to a secure secret
+//     return token;
+// };
+userSchema.methods.generateAuthToken = function () {
+    const token = jwt.sign({ _id: this._id }, 'yourSecretKey', { expiresIn: '1h' });
+    // Change 'yourSecretKey' to a secure secret, and '1h' to the desired expiration time
+
+    // Store the generated token in the usedTokens array
+    // this.usedTokens.push(token);
+    return token;
+};
+
+userSchema.statics.verifyAuthToken = function (token) {
+
+    return jwt.verify(token, 'yourSecretKey'); // Change 'yourSecretKey' to your secret
+};
+// userSchema.add({
+// });
+
+// userSchema.statics.verifyAuthToken = function (token) {
+//     try {
+//         // Check if the token has been used before
+
+//         // Verify the token
+//         const decodedToken = jwt.verify(token, 'yourSecretKey');
+
+//         // If verification is successful, mark the token as used
+//         // this.usedTokens.push(token);
+
+//         return decodedToken;
+//     } catch (error) {
+//         // Handle the error (e.g., token expired, invalid signature, token already used)
+//         throw new Error('Invalid token');
+//     }
+// };
+
 
 userSchema.statics.authenticate = async function (username, password) {
     const user = await this.findOne({ username });
