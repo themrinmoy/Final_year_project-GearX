@@ -31,7 +31,9 @@ exports.productsByCategory = (req, res, next) => {
       // Render an EJS view with the product data
       // res.json(productsWithImages);
 
-      res.render('product/all-products', { category, products: productsWithImages, pageTitle: 'All Products', categoryTitle: category});
+      // res.render('product/all-products', { category, products: productsWithImages, pageTitle: 'All Products', categoryTitle: category});
+      res.render('./product/all-Products.ejs', { category, products: productsWithImages, pageTitle: 'All Products', categoryTitle: category});
+
     })
     .catch((error) => {
       console.error('Error fetching products:', error);
