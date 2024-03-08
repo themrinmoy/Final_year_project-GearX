@@ -5,7 +5,7 @@ const router = express.Router();
 
 const isAuthenticated = require('../middleware/isAuthenticated');
 
-const cartController = require('../controllers/cartController');
+const cartController = require('../controllers/cart');
 
 
 

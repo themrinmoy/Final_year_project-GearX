@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const rentalController = require('../controllers/rentalController');
-const productController = require('../controllers/productsController')
+const productController = require('../controllers/product')
 // const { check, validationResult } = require('express-validator');
 const checkoutController = require('../controllers/checkoutController');
 // const stripe = require('stripe')('your_secret_key');
