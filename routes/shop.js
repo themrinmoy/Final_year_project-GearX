@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const productController = require('../controllers/productsController.js')
-// const productController = require('../controllers/productsController.js');
-// const ProductController = require('../controllers/productsController')
-
+const productController = require('../controllers/productsController');
 
 router.get('/', (req, res, next) => {
     res.render('shop/index', { pageTitle: 'Home' });
