@@ -425,7 +425,7 @@ exports.getRentCheckoutCancel = async (req, res, next) => {
 };
 
 
-exports.getAllRentals = async (req, res, next) => {
+exports.getAllRentedItems = async (req, res, next) => {
     try {
         const rentals = await Rental.find();
 

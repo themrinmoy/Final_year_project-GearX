@@ -25,7 +25,7 @@ router.get('/checkout', rentalController.getRentChekout);
 router.get('/checkout/success', rentalController.getRentCheckoutSuccess);
 // router.get('/checkout/cancel', rentalController.getRentChekoutCancel);
 
-router.get('/rentals', rentalController.getAllRentals);
+router.get('/rentals', rentalController.getAllRentedItems);
 
 // router.post('/add-to-rent/', rentalController.postRentalCart);
 
