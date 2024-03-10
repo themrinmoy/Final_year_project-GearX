@@ -177,10 +177,10 @@ router.post('/signup', async (req, res, next) => {
             subject: 'Signup succeeded!',
             html: `<h1>Welcome to our shop!</h1>
                 <p>You successfully signed up!</p>
-                // this will be expaired in 1 hour
                 
                 <p>Click this <a href="https://final-year-project-1tl6.onrender.com/verify/${token}">link</a> to verify your email address.</p>`,
-                
+                // <p>Click this <a href="http://localhost:3000/verify/${token}">link</a> to verify your email address.</p>`,
+
         });
         res.redirect('/login');
     } catch (err) {
@@ -251,15 +251,17 @@ router.get('/verify/:token', async (req, res) => {
 
     try {
         // Verify the token
-        const decodedToken = await  User.verifyAuthToken(token);
+        const decodedToken = await User.verifyAuthToken(token);
+        console.log('Token verification from:', decodedToken);
 
         // if(decodedToken.message){
         //     // console.log('Token verification from:', decodedToken.message);
         //     // return res.status(404).json({ error: decodedToken.message, message: 'Invalid token' });
         // }
-        
+
         // Find the user associated with the token
         const user = await User.findById(decodedToken._id);
+        console.log('Token verification from:', user);
         // console.log('Token verification from:', decodedToken);
         // console.log('Token verification successful:', user);
         // console.log('Token verification successful:');
@@ -267,18 +269,23 @@ router.get('/verify/:token', async (req, res) => {
 
         if (!user) {
 
-            return res.status(404).json({ error, message: 'User not found'});
+            return res.status(404).json({ error, message: 'User not found' });
             // return res.status(404).json({'Token verification from:', decodedToken.message });
             // return res.status(404).json({'Token verification from:', decodedToken.message });
         }
 
-        if (user.verified) {
-        user.verified = true;
-        await user.save();
-
-        return res.status(200).json({ message: 'Email verification successful' }); 
-        // res.status(200).json({ message: 'Email verification successful' });
-        // res.redirect('/login');
+        // console.log(user.verified, 'user.verified');
+        if(user.verified){
+            return res.status(400).json({ message: 'Email already verified' });
+        }
+        if (!user.verified) {
+            user.verified = true;
+            // return res.status(400).json({ message: 'Email already verified' });
+            await user.save();
+            
+            return res.status(200).json({ message: 'Email verification successful' });
+            // res.status(200).json({ message: 'Email verification successful' });
+            // res.redirect('/login');
         }
 
         // res.redirect('/login');
