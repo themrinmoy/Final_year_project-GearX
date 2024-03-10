@@ -69,12 +69,12 @@ userSchema.methods.generateAuthToken = function () {
     // this.usedTokens.push(token);
 
 
-    this.usedTokens.push(token);
-    this.save().then(result => {
-        console.log('Token saved:', token);
-    }).catch(error => {
-        console.error('Token saving failed:', error);
-    });
+    // this.usedTokens.push(token);
+    // this.save().then(result => {
+    //     console.log('Token saved:', token);
+    // }).catch(error => {
+    //     console.error('Token saving failed:', error);
+    // });
     // Save the user instance to the database
     return token;
     // return token;

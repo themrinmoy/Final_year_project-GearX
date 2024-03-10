@@ -171,17 +171,17 @@ router.post('/signup', async (req, res, next) => {
 
         const token = result.generateAuthToken();
         // Send verification email...
-        // transport.sendMail({
-        //     from: 'noreply@mrinmoy.org',
-        //     to: req.body.email,
-        //     subject: 'Signup succeeded!',
-        //     html: `<h1>Welcome to our shop!</h1>
-        //         <p>You successfully signed up!</p>
-        //         // this will be expaired in 1 hour
+        transport.sendMail({
+            from: 'noreply@mrinmoy.org',
+            to: req.body.email,
+            subject: 'Signup succeeded!',
+            html: `<h1>Welcome to our shop!</h1>
+                <p>You successfully signed up!</p>
+                // this will be expaired in 1 hour
                 
-        //         <p>Click this <a href="http://localhost:3000/verify/${token}">link</a> to verify your email address.</p>`,
+                <p>Click this <a href="https://final-year-project-1tl6.onrender.com/verify/${token}">link</a> to verify your email address.</p>`,
                 
-        // });
+        });
         res.redirect('/login');
     } catch (err) {
         return res.status(500).json({ error: err.message });
