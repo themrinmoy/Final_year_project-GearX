@@ -32,7 +32,12 @@ exports.productsByCategory = (req, res, next) => {
       // res.json(productsWithImages);
 
       // res.render('product/all-products', { category, products: productsWithImages, pageTitle: 'All Products', categoryTitle: category});
-      res.render('./product/all-Products.ejs', { category, products: productsWithImages, pageTitle: 'All Products', categoryTitle: category});
+      res.render('./product/all-Products.ejs', {
+        category, products: productsWithImages,
+        pageTitle: 'All Products',
+        path: '/products',
+        categoryTitle: category
+      });
 
     })
     .catch((error) => {
@@ -54,7 +59,11 @@ exports.productDetails = (req, res) => {
       }
 
       // Render an EJS view with the product data
-      res.render('product/product-details', { product, pageTitle: product.name});
+      res.render('product/product-details', {
+        product,
+        // path: '/products',
+        pageTitle: product.name
+      });
     })
     .catch((error) => {
       console.error('Error fetching product:', error);

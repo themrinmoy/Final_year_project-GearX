@@ -45,7 +45,9 @@ const fs = require('fs'); // Add this line to include the fs module
 exports.getAllProducts = (req, res) => {
     Product.find()
         .then((products) => {
-            res.render('./admin/admin-products', { products, pageTitle: 'Admin - Products' });
+            res.render('./admin/admin-products', { products,
+                path: '/admin/products',
+                 pageTitle: 'Admin - Products' });
         })
         .catch((error) => {
             console.error(error);

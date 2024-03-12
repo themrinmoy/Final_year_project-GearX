@@ -13,7 +13,7 @@ const adminController = require('../controllers/adminController');
 //:/admin
 // router.get('/', checkUserType('admin'), (req, res) => {
 router.get('/', (req, res) => {
-    res.render('./admin/admin.ejs', { user: req.user });
+    res.render('./admin/admin.ejs', { user: req.user, pageTitle: 'Admin', path: '/admin' });
     // res.send('admin');
 });
 
@@ -45,7 +45,7 @@ router.post('/add-product', adminController.postAddProduct);
 
 // router.post('/add-product', (req, res, next) => {
 //     // Accessing the uploaded file
-    
+
 // });
 
 // router.post('/add-product', checkUserType('admin'), adminController.addProduct);

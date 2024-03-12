@@ -30,7 +30,11 @@ exports.getAllRentals = (req, res, next) => {
         // Render an EJS view with the product data
         // res.json(productsWithImages);
 
-        res.render('rent/all.ejs', { products, pageTitle: ' for Rent', categoryTitle: "Ready for Rent" });
+        res.render('rent/all.ejs', {
+            products, pageTitle: ' for Rent',
+            path: '/rent',
+            categoryTitle: "Ready for Rent"
+        });
         // res.render('rent/allcopy.ejs', { products, pageTitle: ' for Rent', categoryTitle: "Ready for Rent" });
         // res.render('rent/rent-all.ejs', { products, pageTitle: ' for Rent', categoryTitle: "Ready for Rent" });
         console.log(products);
@@ -189,7 +193,11 @@ exports.getRentalCart = async (req, res, next) => {
         console.log(fStartDate); // Output: "2024-03-05"
         console.log(fEndDate); // Output: "2024-03-10"
         // Render the View or return JSON as needed
-        res.render('./rent/rent-cart', { items: cartItems, fStartDate, fEndDate, durationInDays, totalCost, pageTitle: 'Rental Cart' });
+        res.render('./rent/rent-cart', {
+            items: cartItems,
+            path: '/rent/cart',
+            fStartDate, fEndDate, durationInDays, totalCost, pageTitle: 'Rental Cart'
+        });
         // res.status(200).json({ items: cartItems, user, totalCost });
 
     } catch (error) {

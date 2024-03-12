@@ -49,7 +49,7 @@ router.get('/login', (req, res) => {
         // res.redirect('/');
     }
     else {
-        res.render('./auth/login');
+        res.render('./auth/login' , { pageTitle: 'Login', path: '/login' });
     }
 }
 );
@@ -137,7 +137,7 @@ router.get('/signup', (req, res) => {
         res.json({ message: 'You are authenticated!' });
     }
     else {
-        res.render('./auth/signup');
+        res.render('./auth/signup', { pageTitle: 'Signup', path: '/signup' });
     }
 }
 );
