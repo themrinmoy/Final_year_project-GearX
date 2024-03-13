@@ -229,10 +229,13 @@ const shopRoutes = require('./routes/shop');
 const cartRoutes = require('./routes/cart');
 const rentalRoutes = require('./routes/rent');
 
+const userRoutes = require('./routes/user');
+
 
 
 app.use(authRoutes);
 app.use(shopRoutes);
+app.use(userRoutes);
 // app.use(rentalRoutes);
 app.use('/cart', cartRoutes);
 

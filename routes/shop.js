@@ -4,7 +4,7 @@ const router = express.Router();
 const productController = require('../controllers/product')
 
 router.get('/', (req, res, next) => {
-    res.render('shop/index', { pageTitle: 'Home', path: '/'});
+    res.render('shop/index', { pageTitle: 'Home', path: '/' });
 });
 
 // router.get('/rent', productController.productsByType);
@@ -25,12 +25,12 @@ router.get('/products/category/:category', productController.productsByCategory)
 //     res.send('product-detail');
 // });
 router.get('/order', (req, res, next) => {
-    res.render('user/order', { pageTitle: 'Order' , path: '/order'});
+    res.render('user/order', { pageTitle: 'Order', path: '/order' });
 });
 router.get('/about', (req, res, next) => {
-    res.render('shop/about', { pageTitle: 'About' , path: '/about'});
+    res.render('shop/about', { pageTitle: 'About', path: '/about' });
 });
- router.get('/contact', (req, res, next) => {
+router.get('/contact', (req, res, next) => {
     res.render('shop/contact', { pageTitle: 'Contact', path: '/contact' });
 }); router.get('/favorites', (req, res, next) => {
     res.render('user/favorites', { pageTitle: 'Favorites', path: '/favorites' });

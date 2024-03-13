@@ -16,6 +16,7 @@
                     <%} %>
                         <% if(isAuthenticated){ %>
                             <li class="<%= path === '/order' ? 'active': '' %>"><a href="/order">Order</a></li>
+                            <li class="<%= path === '/user/rentals' ? 'active': '' %>"><a href="/rent/user/rentals">Rentals</a></li>
                             <li class="<%= path === '/rent/cart' ? 'active': '' %>"><a href="/rent/cart">Rent cart</a>
                             </li>
                             <%} %>

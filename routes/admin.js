@@ -7,8 +7,11 @@ const checkUserType = require('../middleware/checkUserType');
 const User = require('../models/User');
 const fileHelper = require('../utill/file');
 
+const rentalController = require('../controllers/rentalController');
+
 
 const adminController = require('../controllers/adminController');
+const { getRentCheckoutSuccess } = require('../controllers/rentalController');
 
 //:/admin
 // router.get('/', checkUserType('admin'), (req, res) => {
@@ -64,6 +67,9 @@ router.post('/update-product/:productId', adminController.postUpdateProduct);
 router.delete('/delete-product/:productId', adminController.removeProduct);
 router.post('/delete-product/:productId', adminController.removeProduct);
 
+router.get('/all-rentals', rentalController.getAllRentedItems);
+// router.get('/rentals/:rentalId', rentalController.getRentedItem);
+
 
 
 
@@ -78,6 +84,8 @@ router.post('/delete-product/:productId', adminController.removeProduct);
 // router.get('/orders/:orderId', checkUserType('administrator'), adminController.getOrder);
 
 // router.post('/orders', checkUserType('administrator'), adminController.createOrder);
+
+
 
 
 // router.put('/orders/:orderId', checkUserType('administrator'), adminController.updateOrder);

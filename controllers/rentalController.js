@@ -321,6 +321,7 @@ exports.getRentChekout = async (req, res, next) => {
             items: cartItems, fStartDate, fEndDate, durationInDays,
             totalCost, pageTitle: 'checkout',
             totalCost, pageTitle: 'checkout', sessionId: session.id,
+            path: '/rent/checkout'
         });
         // res.status(200).json({ items: cartItems, user, totalCost });
 
@@ -392,7 +393,8 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
         req.user.save();
 
         // Assuming you have a success view to render, you can render it like this:
-        res.redirect('/rent/rentals');
+        // res.redirect('/rent/rentals');
+        res.redirect('/rent/user/rentals');
         // res.render('rent/rentalSuccessView.ejs', {title: 'Rent Checkout Success', rental: newRental, totalCost: totalRentalCost, durationInDays: durationInDays});
         // res.json({ message: 'Payment successful' });
     } catch (error) {
@@ -437,7 +439,20 @@ exports.getAllRentedItems = async (req, res, next) => {
     try {
         const rentals = await Rental.find();
 
-        res.render('user/rentals', { rentals, pageTitle: 'Rentals', title: 'All Rentals' });
+        res.render('user/rentals', { rentals, pageTitle: 'Rentals', title: 'All Rentals', path: '/rentals' });
+        // res.status(200).json(rentals);
+    } catch (error) {
+        console.error('Error fetching rentals:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+exports.getRentedItemsByUser = async (req, res, next) => {
+    try {
+        const userId = req.user._id;
+        const rentals = await Rental.find({ userId });
+
+        res.render('user/rentals', { rentals, pageTitle: 'Rentals', title: 'Your Rentals', path: '/user/rentals'});
         // res.status(200).json(rentals);
     } catch (error) {
         console.error('Error fetching rentals:', error);
