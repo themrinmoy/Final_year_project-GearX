@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const rentalController = require('../controllers/rentalController');
 const productController = require('../controllers/product')
+
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 // const { check, validationResult } = require('express-validator');
 const checkoutController = require('../controllers/checkoutController');
 // const stripe = require('stripe')('your_secret_key');
@@ -13,6 +16,7 @@ const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9b
 // rent
 // Get all rentals
 router.get('/', rentalController.getAllRentals);
+// router.get('/', rentalController.getRentalCart);
 //rental cart
 
 router.get('/cart', rentalController.getRentalCart);

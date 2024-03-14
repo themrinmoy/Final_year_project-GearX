@@ -99,6 +99,18 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 } // 1 week
 }));
 
+
+// app.use(session({
+//     secret: 'your-secure-secret-key',
+//     resave: false,
+//     saveUninitialized: true,
+//     store: new MongoStore({
+//         mongooseConnection: mongoose.connection,
+//         collection: 'sessions' // Optional: Specify a collection name
+//     }),
+//     cookie: { secure: true } // Consider setting this for production
+// }));
+
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'images')
@@ -234,13 +246,13 @@ const userRoutes = require('./routes/user');
 
 
 app.use(authRoutes);
-app.use(shopRoutes);
-app.use(userRoutes);
-// app.use(rentalRoutes);
-app.use('/cart', cartRoutes);
-
 app.use('/admin', adminRoutes);
+app.use(shopRoutes);
 app.use('/rent', rentalRoutes);
+app.use(userRoutes);
+app.use('/cart', cartRoutes);
+// app.use(rentalRoutes);
+
 
 
 

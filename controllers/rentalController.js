@@ -1,7 +1,10 @@
 const Rental = require('../models/Rental');
 const Product = require('../models/Product');
 const User = require('../models/User');
+// const Session = require('../models/session'); // Adjust the path based on your file structure
 
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9bR31hvgJnb7OGnBw8n1AjFnlgOI9NHYnRtKPUO9CSQPI27q55b6L001og14MAB')
 
 
@@ -11,6 +14,7 @@ const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9b
 
 // Get all rentals
 exports.getAllRentals = (req, res, next) => {
+    console.log('get all rentals');
     // const { type } = req.params;
     // const  type  = "rentable";
     // Fetch all products from the database
@@ -204,6 +208,18 @@ exports.getRentalCart = async (req, res, next) => {
         next(error);
     }
 };
+
+function generateUniqueSessionId() {
+    // Generate a random alphanumeric session ID
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const sessionIdLength = 16;
+    let sessionId = '';
+    for (let i = 0; i < sessionIdLength; i++) {
+        sessionId += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return sessionId;
+}
+
 exports.getRentChekout = async (req, res, next) => {
     try {
         const userId = req.user._id;
@@ -285,7 +301,12 @@ exports.getRentChekout = async (req, res, next) => {
 
 
         const successUrl = req.protocol + '://' + req.get('host') + '/rent/checkout/success';
+        // const successUrl = `${req.protocol}://${req.get('host')}/rent/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
+
         const cancelUrl = req.protocol + '://' + req.get('host') + '/rent/checkout/cancel';
+        const sessionId = generateUniqueSessionId(); // Implement your own function
+
+
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -311,16 +332,31 @@ exports.getRentChekout = async (req, res, next) => {
                 quantity: item.quantity,
             })),
             mode: 'payment',
-            success_url: successUrl,
+            // success_url: successUrl,
+            success_url: `${successUrl}?session_id=${sessionId}`, // Include session ID in the success URL
+
+
+            // success_url: `${successUrl}?session_id=${sessionId}`, // Include session ID in the success URL
+
             cancel_url: cancelUrl,
             billing_address_collection: 'required', // Include this line for Indian regulations
 
         });
+        // sessionId = sessionId;
+        // req.session.expectedSessionId = session.id;
+        req.session.expectedSessionId = sessionId;
+
+        // req.session.stripeSessionId = sessionId;
+        await req.session.save();
 
         res.render('./user/rentCheckout', {
-            items: cartItems, fStartDate, fEndDate, durationInDays,
-            totalCost, pageTitle: 'checkout',
-            totalCost, pageTitle: 'checkout', sessionId: session.id,
+            items: cartItems,
+            fStartDate,
+            fEndDate,
+            durationInDays,
+            totalCost,
+            pageTitle: 'checkout',
+            sessionId: session.id,
             path: '/rent/checkout'
         });
         // res.status(200).json({ items: cartItems, user, totalCost });
@@ -359,11 +395,56 @@ async function calculateTotalRentalCost(cartItems, durationInDays) {
     return totalCost;
 }
 
+// exports.getRentCheckoutSuccess = async (req, res, next) => {
+//     try {
+//         const sessionId = req.query.session_id;
+
+//         try {
+//             const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+//             if (session.payment_status === 'paid') {
+//                 // ... (rest of your payment processing logic)
+//             } else {
+//                 res.status(400).send('Payment unsuccessful or order mismatch.');
+//             }
+//         } catch (error) {
+//             // Handle Stripe API errors
+//             if (error.type === 'StripeInvalidRequestError') {
+//                 console.error('Error fetching session:', error);
+//                 res.redirect('/rent/cart?error=session-expired'); // Redirect to cart with error indicator
+//             } else {
+//                 next(error); // Pass other errors to your general error handler
+//             }
+//         }
+//     } catch (error) {
+//         next(error);
+//     }
+// };
 
 
 
 exports.getRentCheckoutSuccess = async (req, res, next) => {
     try {
+        const sessionId = req.query.session_id;
+
+        // const sessionId = req.query.session_id;
+        console.log(sessionId , 'session id');
+
+        const expectedSessionId = req.session.expectedSessionId;
+        if (sessionId !== expectedSessionId) {
+            return res.status(400).send('Invalid session ID');
+        }
+        if (!sessionId) {
+            return res.status(400).send('Invalid session ID');
+        }
+
+        if(sessionId === expectedSessionId) {
+            console.log('session id is valid');
+        }
+
+
+        // const session = await stripe.checkout.sessions.retrieve(sessionId);
+
         // Perform actions after a successful payment, such as updating the database, sending confirmation emails, etc.
         const rentalStartDate = new Date(req.user.rentalCart.StartDate);
         const rentalEndDate = new Date(req.user.rentalCart.EndDate);
@@ -372,6 +453,9 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
         // Assuming you have a function to calculate rental cost based on the cartItems and duration
         // console.log(req.user.rentalCart.items, 'items');
         const totalRentalCost = await calculateTotalRentalCost(req.user.rentalCart.items, durationInDays);
+
+      
+
         // const totalRentalCost = 0
         console.log(durationInDays, 'days');
         console.log(totalRentalCost, 'total cost');
@@ -385,12 +469,17 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
             rentalCost: totalRentalCost,
             paymentStatus: 'paid', // Assuming payment is successful
         });
+        if (session.payment_status === 'paid') {
+            newRental.paymentStatus = 'paid';
+        }
         // Save the new rental to the database
         await newRental.save();
 
         // Clear the rental cart in the user model after successful payment
         req.user.rentalCart.items = [];
+        req.session.expectedSessionId = null;
         req.user.save();
+        // clear the session id
 
         // Assuming you have a success view to render, you can render it like this:
         // res.redirect('/rent/rentals');
@@ -452,7 +541,7 @@ exports.getRentedItemsByUser = async (req, res, next) => {
         const userId = req.user._id;
         const rentals = await Rental.find({ userId });
 
-        res.render('user/rentals', { rentals, pageTitle: 'Rentals', title: 'Your Rentals', path: '/user/rentals'});
+        res.render('user/rentals', { rentals, pageTitle: 'Rentals', title: 'Your Rentals', path: '/user/rentals' });
         // res.status(200).json(rentals);
     } catch (error) {
         console.error('Error fetching rentals:', error);
