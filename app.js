@@ -249,8 +249,8 @@ app.use(authRoutes);
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use('/rent', rentalRoutes);
-app.use(userRoutes);
 app.use('/cart', cartRoutes);
+app.use(userRoutes);
 // app.use(rentalRoutes);
 
 

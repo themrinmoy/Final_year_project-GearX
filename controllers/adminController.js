@@ -62,6 +62,7 @@ exports.getAllProducts = (req, res) => {
 // };
 
 exports.showAddProductPage = (req, res) => {
+    
     res.render('./admin/update-product', { pageTitle: 'Add Product', editing: false, errorMessage: null, product: null });
 };
 

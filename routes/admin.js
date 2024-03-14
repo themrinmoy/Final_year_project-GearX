@@ -16,6 +16,7 @@ const { getRentCheckoutSuccess } = require('../controllers/rentalController');
 //:/admin
 // router.get('/', checkUserType('admin'), (req, res) => {
 router.get('/', (req, res) => {
+    console.log('admin page');
     res.render('./admin/admin.ejs', { user: req.user, pageTitle: 'Admin', path: '/admin' });
     // res.send('admin');
 });

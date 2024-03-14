@@ -14,7 +14,7 @@ const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9b
 
 // Get all rentals
 exports.getAllRentals = (req, res, next) => {
-    console.log('get all rentals');
+    // console.log('get all rentals');
     // const { type } = req.params;
     // const  type  = "rentable";
     // Fetch all products from the database
@@ -41,7 +41,7 @@ exports.getAllRentals = (req, res, next) => {
         });
         // res.render('rent/allcopy.ejs', { products, pageTitle: ' for Rent', categoryTitle: "Ready for Rent" });
         // res.render('rent/rent-all.ejs', { products, pageTitle: ' for Rent', categoryTitle: "Ready for Rent" });
-        console.log(products);
+        // console.log(products);
     })
         .catch((error) => {
             console.error('Error fetching products:', error);
@@ -484,6 +484,7 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
         // Assuming you have a success view to render, you can render it like this:
         // res.redirect('/rent/rentals');
         res.redirect('/rent/user/rentals');
+        res.redirect('/user/rentals');
         // res.render('rent/rentalSuccessView.ejs', {title: 'Rent Checkout Success', rental: newRental, totalCost: totalRentalCost, durationInDays: durationInDays});
         // res.json({ message: 'Payment successful' });
     } catch (error) {
