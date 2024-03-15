@@ -483,7 +483,7 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
 
         // Assuming you have a success view to render, you can render it like this:
         // res.redirect('/rent/rentals');
-        res.redirect('/rent/user/rentals');
+        // res.redirect('/rent/user/rentals');
         res.redirect('/user/rentals');
         // res.render('rent/rentalSuccessView.ejs', {title: 'Rent Checkout Success', rental: newRental, totalCost: totalRentalCost, durationInDays: durationInDays});
         // res.json({ message: 'Payment successful' });

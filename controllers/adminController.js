@@ -63,7 +63,7 @@ exports.getAllProducts = (req, res) => {
 
 exports.showAddProductPage = (req, res) => {
     
-    res.render('./admin/update-product', { pageTitle: 'Add Product', editing: false, errorMessage: null, product: null });
+    res.render('./admin/update-product', { pageTitle: 'Add Product', editing: false, errorMessage: null, product: null, path: '/admin/add-product' });
 };
 
 
@@ -202,7 +202,7 @@ exports.getUpdateProduct = (req, res) => {
                 return res.status(404).json({ message: 'Product not found' });
             }
             // Assuming you have the 'product' object available
-            res.render('admin/update-product', { product: product, errorMessage: null, editing: true, pageTitle: 'Update Product' });
+            res.render('admin/update-product', { product: product, errorMessage: null, editing: true, pageTitle: 'Update Product', path: '/admin/products'});
 
             // res.render('./admin/update-product', { product, pageTitle: 'Update Product', editing: true, errorMessage: null });
         })

@@ -30,6 +30,7 @@ exports.productsByCategory = (req, res, next) => {
 
       // Render an EJS view with the product data
       // res.json(productsWithImages);
+      // res.json(products);
 
       // res.render('product/all-products', { category, products: productsWithImages, pageTitle: 'All Products', categoryTitle: category});
       res.render('./product/all-Products.ejs', {
