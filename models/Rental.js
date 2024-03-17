@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const rentalSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     productId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true }],
+    rentaldate: { type: Date, default: Date.now },
     rentalStartDate: { type: Date, required: true },
     rentalEndDate: { type: Date, required: true },
     returnDate: { type: Date },
