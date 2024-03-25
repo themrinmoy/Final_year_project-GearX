@@ -62,7 +62,7 @@ exports.productDetails = (req, res) => {
       // Render an EJS view with the product data
       res.render('product/product-details', {
         product,
-        // path: '/products',
+        path: '/products',
         pageTitle: product.name
       });
     })
