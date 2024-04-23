@@ -1,0 +1,106 @@
+<%- include('../include/head.ejs') %>
+<style>
+    .card {
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        transition: transform 0.2s;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    }
+    .card-img-top {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        object-fit: cover;
+        height: 200px;
+    }
+    .card-body {
+        padding: 1.5rem;
+    }
+    .card-title {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+    .card-text {
+        color: #666;
+        margin-bottom: 0.5rem;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+    .total-cost {
+        font-weight: bold;
+    }
+</style>
+</head>
+
+<body>
+    <%- include('../include/navigation.ejs') %>
+
+    <link rel="stylesheet" href="/css/rent-card.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+
+    <main class="container">
+        <h1>Rental Products</h1>
+        <div class="rent_products">
+            <% if (products.length > 0) { %>
+                <% products.forEach(product => { %>
+                    <div class="rental-card">
+                        <a href="/products/<%= product._id %>"> details</a>
+                        <img src="/<%= product.imageUrl %>" alt="Product Image">
+                        <div class="product-details">
+                            <h3><%= product.name %></h3>
+                            <p>Description: <%= product.description %></p>
+                            <p>Category: <%= product.category %></p>
+                        </div>
+                        <div class="rental-cost" id="rentalCost<%= product._id %>">
+                            Rental Cost: $<span id="rentalPricePerDay<%= product._id %>">
+                                <%= product.rentalInfo.rentalPricePerDay %>
+                            </span> per day
+                        </div>
+                        <div class="rental-cost" id="totalCost<%= product._id %>">
+                            Total Cost: $<span id="totalCostValue<%= product._id %>">0.00</span>
+                        </div>
+                        <div class="date-range-picker">
+                            <label for="dateRange<%= product._id %>">Select Dates:</label>
+                            <input type="text" id="dateRange<%= product._id %>" placeholder="Select dates" />
+                        </div>
+                        <form action="/rent/add-to-cart/<%= product._id %>" method="post">
+                            <button class="rent-button"><i class="fa fa-shopping-cart"></i> Add For Rent</button>
+                        </form>
+                    </div>
+
+                    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                    <script>
+                        const dateRangeInput<%= product._id %> = flatpickr("#dateRange<%= product._id %>", {
+                            mode: "range", 
+                            dateFormat: "Y-m-d", 
+                            minDate: "today", 
+                            disable: [ ], 
+                            onChange: function (selectedDates, dateStr, instance) {
+                                const dailyRentalRate<%= product._id %> = <%= product.rentalInfo.rentalPricePerDay %>;
+
+                                const numDays = Math.ceil((selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24));
+                                const totalCost = dailyRentalRate<%= product._id %> * (numDays+1);
+
+                                document.getElementById("totalCostValue<%= product._id %>").innerText = totalCost.toFixed(2);
+                            },
+                        });
+                    </script>
+                <% }); %>
+            <% } else { %>
+                <p>No rental products available.</p>
+            <% } %>
+        </div>
+    </main>
+
+    <%- include('../include/footer.ejs') %>
+</body>
+</html>
