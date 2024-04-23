@@ -1,0 +1,153 @@
+<footer class="site-footer">
+    <div class="footer-container">
+        <p class="copyright">&copy; 2023 Your Website Name</p>
+        <nav class="footer-nav">
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Privacy Policy</a></li> 
+            </ul>
+        </nav>
+        <div class="social-links">
+            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a> 
+            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a> 
+        </div>
+    </div>
+</footer>
+
+</body>
+
+<style>
+    /* footer */
+
+/* .site-footer {
+    background-color: #333;
+   
+    color: #fff; 
+    padding: 30px 0; 
+    text-align: center;
+} */
+
+
+.site-footer {
+    /* background-color: #202529; Dark Footer */
+    /* background-color: #c6ddf0; */
+    /* padding: 60px 0;  */
+    /* text-align: center; */
+
+    /* clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%); */
+}
+
+
+.site-footer {
+    /* background-color: #c6ddf0; */
+    /* Dark background */
+    /* background-color: #333; Dark background */
+    background: linear-gradient(to right, #4568DC, #B06AB3);
+
+    color: #172547;
+    padding: 10px 0;
+    text-align: center;
+    font-weight: 400;
+    transition: background-color 0.3s;
+
+
+    /* top: auto; */
+    bottom: 0;
+    
+}
+
+.footer-container {
+    /* max-width: 900px; */
+    margin: 0 30px;
+    /* background-color: red; */
+    display: flex;
+    justify-content: space-between; /* Pushes items to the sides */
+    align-items: center; 
+}
+
+.footer-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.footer-nav li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.footer-nav a {
+    color: #1a2e59;
+    text-decoration: none;
+    transition: color 0.3s; /* Add a smooth transition for color changes */
+
+}
+
+.footer-nav a:hover {
+    text-decoration: underline;
+    color: #ff9900; /* Change this to your desired hover color */
+
+}
+
+/* ... your existing footer styles ... */
+
+.copyright {
+    font-size: 16px;
+    /* Adjust size as needed */
+    /* margin-bottom: 15px; */
+    /* Add space below copyright */
+}
+
+.social-links {
+    margin-top: 3px;
+    /* Space above social icons */
+}
+
+.social-links a {
+    display: inline-block;
+    color: #fff;
+    background-color: #4267B2;
+    /* Example blue for Facebook */
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    /* Makes them circular */
+    line-height: 35px;
+    /* Centers icons vertically */
+    margin: 0 5px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    /* For hover effect */
+}
+
+.social-links a:hover {
+    background-color: #385898;
+    /* Slightly darker on hover */
+}
+/* ...your existing footer styles... */
+
+/* .copyright {
+    float: left;
+}
+
+.social-links {
+    float: right;
+} */
+
+.footer-nav { 
+    /* clear: both;  */
+    /* Prevents overlap with floated elements */
+} 
+
+/* Replace #4267B2 with the colors for your other social icons */
+
+
+/* Add styles for .copyright and .social-links as needed */
+
+
+/* Add styles for copyright, social icons (if you have them) etc. */
+</style>
+
+</html>

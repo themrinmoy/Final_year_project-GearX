@@ -1,231 +1,68 @@
-<nav class="navbar">
-    <div class="logo">
-        <a href="/">bike</a>
-    </div>
-
-    <ul class="nav-links">
-        <li class="<%= path === '/' ? 'active': '' %>"><a href="/">Home</a></li>
-        <li class="<%= path === '/rent' ? 'active': '' %>"><a href="/rent/">Rent</a></li>
-        <li class="<%= path === '/products' ? 'active': '' %>"><a href="/products">Products</a></li>
-        <!-- <li><a href="/services">Services</a></li> -->
-        <% if(isAuthenticated){ %>
-            <% if (userType==='admin' ) { %>
-                <li class="<%= path === '/admin' ? 'active': '' %>"><a href="/admin">Admin</a></li>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #cc5522;">
+    <div class="container">
+        <a class="navbar-brand" href="/">Bike</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="fw-bold nav-link <%= path === '/' ? 'active': '' %>" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="fw-bold nav-link <%= path === '/rent' ? 'active': '' %>" href="/rent/">Rent</a>
+                </li>
+                <li class="nav-item">
+                    <a class="fw-bold nav-link <%= path === '/products' ? 'active': '' %>" href="/products">Products</a>
+                </li>
+                <% if(isAuthenticated){ %>
+                    <% if (userType==='admin' ) { %>
+                        <li class="nav-item">
+                            <a class="fw-bold nav-link <%= path === '/admin' ? 'active': '' %>" href="/admin">Admin</a>
+                        </li>
+                    <% } %>
                 <% } %>
-                    <!-- <li><a href="/admin">Admin</a></li> -->
-                    <%} %>
-                        <% if(isAuthenticated){ %>
-                            <li class="<%= path === '/order' ? 'active': '' %>"><a href="/order">Order</a></li>
-                            <li class="<%= path === '/user/rentals' ? 'active': '' %>"><a href="/user/rentals">Rentals</a></li>
-                            <li class="<%= path === '/rent/cart' ? 'active': '' %>"><a href="/rent/cart">Rent cart</a>
-                            </li>
-                            <%} %>
-                                <!-- <li class="<%= path === '/about' ? 'active': '' %>"><a href="/about">About Us</a></li> -->
-                                <!-- <li class="<%= path === '/contact' ? 'active': '' %>"><a href="/contact">Contact</a></li> -->
-                                <!-- </ul> -->
-
-
-                                <!-- <li><a href="/admin">Admin</a></li> -->
-                                <!-- <li><a href="/order">Order</a></li> -->
-                                <!-- <li><a href="/about">About Us</a></li> -->
-                                <!-- <li><a href="/contact">Contact</a></li><i class="fa-solid fa-filter" style="color: #FFD43B;"></i> -->
-    </ul>
-
-    <div class="icons">
-        <a href="/favorites" ><i class="fas fa-heart <%= path === '/favorites' ? 'active': '' %> "></i></a>
-        <a href="/cart" ><i class="fas fa-shopping-cart <%= path === '/cart' ? 'active': '' %>"></i></a>
-
-
-        <% if(isAuthenticated){ %>
-            <a href="/logout" class="btn Login">Logout</a>
-            <!-- <a href="/logout" class="btn Login">Logout</a> -->
-            <%} else{ %>
-                <a href="/login" class="btn Login">Log In</a>
-                <a href="/signup" class="btn signup">Sign Up</a>
-                <!-- <a href="/signup" class="btn signup">Sign Up</a> -->
-                <%} %>
-
-
-
+                <% if(isAuthenticated){ %>
+                    <li class="nav-item">
+                        <a class="fw-bold nav-link <%= path === '/order' ? 'active': '' %>" href="/order">Order</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="fw-bold nav-link <%= path === '/user/rentals' ? 'active': '' %>" href="/user/rentals">Rentals</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="fw-bold nav-link <%= path === '/rent/cart' ? 'active': '' %>" href="/rent/cart">Rent cart</a>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link <%= path === '/favorites' ? 'active': '' %>" href="/favorites"><i class="fas fa-heart"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <%= path === '/cart' ? 'active': '' %>" href="/cart"><i class="fas fa-shopping-cart"></i></a>
+            </li>
+            <% if(isAuthenticated){ %>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary" href="/logout">Logout</a>
+                </li>
+            <% } else { %>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary" href="/login">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary" href="/signup">Sign Up</a>
+                </li>
+            <% } %>
+        </ul>
     </div>
-
-    <button class="hamburger">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-    </button>
-
 </nav>
 
-<style>
-    .navbar {
-        background: linear-gradient(to right, #4568DC, #B06AB3);
-        /* Example gradient */
-        color: #fff;
-        padding: 15px 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        position: sticky;
-        /* Makes navbar stick to the top */
-        top: 0;
-        /* width: 100%; */
-        /* width: ; */
-        /* Adjust width as needed */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        /* Subtle shadow effect */
-        z-index: 10;
-        /* Ensures navbar stays on top of other elements */
-    }
-
-    .logo a {
-        text-decoration: none;
-        color: #fff;
-        font-size: 20px;
-    }
-
-    .nav-links {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        font-size: larger;
-        display: flex;
-        /* transition: 0.3s ease; */
-
-    }
-
-    .nav-links li {
-        margin-left: 25px;
-        text-underline-position: below;
-        /* transition: 0.3s ease; */
-
-
-    }
-
-    .nav-links li a {
-        color: #fff;
-        text-decoration: none;
-        transition: background-color 0.3s ease;
-        /* transition:  0.3s ease; */
-    }
-
-    .nav-links li a:hover {
-        color: #ffdd55;
-        /* Example hover color */
-        /* ADD A TEXT UNDER LINE */
-
-
-        text-decoration: underline;
-        text-decoration-color: #B06AB3;
-        text-decoration-thickness: 3px;
-        text-underline-offset: 5px;
-
-        /* transition: 0.3s ease; */
-        /* background-color: rgba(255,255,255,0.1); */
-        /*  Subtle hover background */
-    }
-
-    .nav-links li.active a {
-        /* Style for the currently active page */
-        font-weight: bold;
-        text-decoration: underline;
-        text-decoration-color: #B06AB3;
-        text-decoration-thickness: 3px;
-        text-underline-offset: 5px;
-        color: #FFD43B;
-    }
-    .active{
-        /* background-color: #ffdd55; */
-       color: #FFD43B;
-        /* font-weight: bold;
-        text-decoration: underline;
-        text-decoration-color: #B06AB3;
-        text-decoration-thickness: 3px;
-        text-underline-offset: 5px; */
-    }
-
-    .icons {
-        display: flex;
-        align-items: center;
-    }
-
-    .icons a {
-        margin-left: 20px;
-        color: #fff;
-        text-decoration: none;
-        font-size: 18px;
-    }
-
-    .icons a i {
-        transition: color 0.3s ease;
-        /* Smooth transition on hover */
-    }
-
-    .icons a i:hover {
-        color: #ffdd55;
-    }
-
-    .btn {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 8px 15px;
-        border-radius: 5px;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .signin {
-        margin-right: 5px;
-    }
-
-    .hamburger {
-        display: none;
-        background: none;
-        border: none;
-        cursor: pointer;
-    }
-
-    .bar {
-        display: block;
-        width: 25px;
-        height: 3px;
-        background-color: #fff;
-        margin: 5px 0;
-    }
-
-    /* Responsive Navbar for Smaller Screens */
-    @media (max-width: 768px) {
-        .hamburger {
-            display: block;
-        }
-
-        .nav-links {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(to right, #4568DC, #B06AB3);
-            display: none;
-            flex-direction: column;
-        }
-
-        .nav-links li {
-            margin: 10px 0;
-        }
-
-        .nav-links.active {
-            display: flex;
-        }
-    }
-</style>
-
-
 <script>
-    const hamburger = document.querySelector(".hamburger");
-    const navLinks = document.querySelector(".nav-links");
+    const navbarToggler = document.querySelector(".navbar-toggler");
+    const navbarCollapse = document.querySelector(".navbar-collapse");
 
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
+    navbarToggler.addEventListener('click', () => {
+        navbarCollapse.classList.toggle('show');
     });
 </script>
