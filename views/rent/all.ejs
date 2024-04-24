@@ -16,7 +16,7 @@
                         <!--  details -->
                         <a style="text-decoration: none;color: inherit;" href="/products/<%= product._id %>">
                         
-                         <img class="card-img-top rounded-4 " src="/<%= product.imageUrl %>" alt="Product Image">
+                         <img class="card-img-top" style="border-radius: 16px 16px 0 0;aspect-ratio:4/3;" src="/<%= product.imageUrl %>" alt="Product Image">
                              <div class="card-body">
                                 <h3 class="card-title"><%= product.name %></h3>
                                 <p class="card-text">Description: <%= product.description %></p>
@@ -33,7 +33,7 @@
                     </a>
                         <div class="date-range-picker">
                             <!-- <label for="dateRange<%= product._id %>">Duration:</label> -->
-                            <input class="form-control w-100 border-1 border-success" type="text" id="dateRange<%= product._id %>" placeholder="Select dates" />
+                            <input class="form-control w-100 border-1 border-success" type="text" id="dateRange<%= product._id %>" placeholder="Select Date Range" />
                         </div>
                         <form action="/rent/add-to-cart/<%= product._id %>" method="post">
                             <button class="rent-button" style="background-color: #198754;"><i class="fa fa-shopping-cart"></i> Add For Rent</button>
