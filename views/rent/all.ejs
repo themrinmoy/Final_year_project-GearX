@@ -8,35 +8,38 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 
     <main class="container">
-        <h1>Rental Products</h1>
+        <h1 class="text-center m-3">Rental Products</h1>
         <div class="rent_products">
             <% if (products.length > 0) { %>
                 <% products.forEach(product => { %>
-                    <div class="rental-card">
-                        <a href="/products/<%= product._id %>"> details</a>
-                        <img src="/<%= product.imageUrl %>" alt="Product Image">
-                        <div class="product-details">
-                            <h3><%= product.name %></h3>
-                            <p>Description: <%= product.description %></p>
-                            <p>Category: <%= product.category %></p>
-                        </div>
-                        <div class="rental-cost" id="rentalCost<%= product._id %>">
-                            Rental Cost: $<span id="rentalPricePerDay<%= product._id %>">
-                                <%= product.rentalInfo.rentalPricePerDay %>
-                            </span> per day
-                        </div>
+                    <div class="card mb-5 rounded-4" style="width: 18rem; filter: drop-shadow(0px 4px 2px rgb(206, 205, 205) );">
+                        <!--  details -->
+                        <a style="text-decoration: none;color: inherit;" href="/products/<%= product._id %>">
+                        
+                         <img class="card-img-top rounded-4 " src="/<%= product.imageUrl %>" alt="Product Image">
+                             <div class="card-body">
+                                <h3 class="card-title"><%= product.name %></h3>
+                                <p class="card-text">Description: <%= product.description %></p>
+                                <p class="card-text">Category: <%= product.category %></p>
+                       
+                            <div class="rental-cost" id="rentalCost<%= product._id %>">
+                                Rental Cost: $<span id="rentalPricePerDay<%= product._id %>">
+                                    <%= product.rentalInfo.rentalPricePerDay %>
+                                </span> per day
+                            </div>
                         <div class="rental-cost" id="totalCost<%= product._id %>">
                             Total Cost: $<span id="totalCostValue<%= product._id %>">0.00</span>
                         </div>
+                    </a>
                         <div class="date-range-picker">
-                            <label for="dateRange<%= product._id %>">Select Dates:</label>
-                            <input type="text" id="dateRange<%= product._id %>" placeholder="Select dates" />
+                            <!-- <label for="dateRange<%= product._id %>">Duration:</label> -->
+                            <input class="form-control w-100 border-1 border-success" type="text" id="dateRange<%= product._id %>" placeholder="Select dates" />
                         </div>
                         <form action="/rent/add-to-cart/<%= product._id %>" method="post">
-                            <button class="rent-button"><i class="fa fa-shopping-cart"></i> Add For Rent</button>
+                            <button class="rent-button" style="background-color: #198754;"><i class="fa fa-shopping-cart"></i> Add For Rent</button>
                         </form>
                     </div>
-
+                    </div>
                     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
                     <script>
                         const dateRangeInput<%= product._id %> = flatpickr("#dateRange<%= product._id %>", {
