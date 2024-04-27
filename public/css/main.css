@@ -1,11 +1,23 @@
-/* Navbar Styles */
+/* font-family: "DM Sans", sans-serif;
+font-family: "Space Grotesk", sans-serif;
+font-family: "Sawarabi Mincho", serif;
+font-family: "Montserrat", sans-serif;
+font-family: "Poppins", sans-serif; */
 
 
 /* img, picture, video, canvas, svg {
   display: block;
   max-width: 100%;
 } */
-
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    /* Main text color */
+    background-color: #242424;
+    /* Subtle off-white background */
+}
 
 /* Banner Styles */
 .banner-section {
@@ -24,10 +36,17 @@
 
 .banner-container {
     display: flex;
+    /* transition: left 0.5s ease-in-out; */
+    transition: transform 0.5s ease-in-out !important;
+    /*  Use 'transform' for smooth sliding */
+
+    /* Smooth sliding effect */
+
 }
 
 .banner-slide {
     flex: 0 0 100%;
+    
     /* Each slide takes up full width */
     min-width: 100%;
     text-align: center;
@@ -167,13 +186,13 @@
 }
 
 .category-section h2 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
     font-size: 42px;
-    font-weight: 600;
+    font-weight: 700;
     /* Slightly bolder */
     color: #333;
     /* Dark text against gradient  */
-    background: linear-gradient(to right, #f4f4f4, #e8e8e8);
+    /* background: linear-gradient(to right, #f4f4f4, #e8e8e8); */
     /* Subtle gray gradient */
     padding: 8px 20px;
     margin-bottom: 30px;
@@ -377,10 +396,11 @@
 }
 
 .featured-products h2 {
-    font-size: 30px;
+    font-size: 42px;
     margin-bottom: 25px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
+    
+    font-family: "DM Sans", sans-serif;
+    font-weight: 700;
     color: #333;
     /* align-items: center; */
     text-align: center;
@@ -601,15 +621,7 @@
 /* about us */
 
 /* General Styles (Adapt as needed) */
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    color: #333;
-    /* Main text color */
-    background-color: #f8f8f8;
-    /* Subtle off-white background */
-}
+
 
 /* Other Website Sections - Your CSS for header, featured products, etc.  */
 
@@ -685,7 +697,7 @@ body {
 @media (max-width: 1200px) {
 
     .container {
-        background-color: rgba(18, 16, 13, 0.219);
+        /* background-color: rgba(246, 246, 246, 0.219); */
         padding: 10px;
         border-radius: 10px;
     }

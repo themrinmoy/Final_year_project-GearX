@@ -1,0 +1,88 @@
+<%- include('../include/head.ejs') %>
+  </head>
+
+  <body>
+    <%- include('../include/navigation.ejs') %>
+      <link rel="stylesheet" href="/css/product-card.css">
+
+      <main>
+
+        <section class="products">
+          <!-- <h2>Product List</h2> -->
+
+          <%if(categoryTitle){%>
+            <h2>
+              All types of <%= categoryTitle %> 
+            </h2>
+            <%} else{%>
+              <h2>
+                All Products
+              </h2>
+              <%}%>
+
+
+
+
+
+
+
+              <div class="product-grid container">
+                <% if (products.length> 0) { %>
+
+
+                <% products.forEach(product=> { %>
+                  <a href="/products/<%= product._id %>" class="a_card">
+
+                    <div class="product-card premium" style="padding-bottom: 0;">
+                      <div class="product-image">
+                        <img src="/<%= product.imageUrl  %>" alt="<%= product.name %>">
+                        <!-- <div class="product-badge">Tata</div> -->
+                      </div>
+                      <!-- <hr class="card-divider"> -->
+
+                      <div class="product-info">
+                        <h3 class="product-title fw-bold text-muted">
+                          <%= product.name %>
+                        </h3>
+                        <p class="product-brand description mb-0">
+
+                          <%= product.brand %>
+                        </p>
+                        <div class="product-price">
+                          <div class="row">
+                              <div class="col-lg-6 mt-4">
+                                  <h2 class="price fw-bold" style="color: #d36804;"><span class="text-muted fw-bold">र</span><%= product.price %></h2>
+                              </div>
+                              <div class="col-lg-6">
+                                  <form style="width: 120px;" action="/cart/add-to-cart/<%= product._id %>" method="post">
+                                      <button type="submit" class="fw-bold btn add-to-cart mt-4 rounded-5" style="background-color: #d36804;font-size: small;">ADD TO <i class="fa fa-shopping-cart"></i></button>
+                                  </form>
+                              </div>
+                          </div>
+                      </div>
+                      
+
+
+                          
+                      
+                      </div>
+                    </div>
+                  </a>
+                  <% }) %>
+
+                  <% } else { %>
+                    <div>
+                      <h1 style="text-align: center; padding-bottom: 10px;">No Products Found</h1>
+                      <img style="border-radius: 8px;" src="https://picsum.photos/400/200" alt="">
+                    </div>
+
+                    <% } %>
+
+              </div>
+
+        </section>
+
+
+
+      </main>
+      <%- include('../include/footer.ejs') %>

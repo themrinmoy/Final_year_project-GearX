@@ -21,6 +21,10 @@
               <div class="form-group">
                 <label for="productName">Product Name:</label>
                 <input type="text" id="productName" name="name" value="<%= editing ? product.name : '' %>" required>
+              </div> 
+                 <div class="form-group">
+                <label for="productBrand">Product Brand:</label>
+                <input type="text" id="productBrand" name="brand" value="<%= editing ? product.brand : '' %>" >
               </div>
 
               <div class="form-group">
@@ -39,12 +43,12 @@
                 <label for="productCategory">Category:</label>
                 <select id="productCategory" name="category">
                   <option value="">Select Category</option>
+                  <option value="bike" <%=editing && product.category==='bike' ? 'selected' : '' %>>bike</option>
+                  <option value="kits" <%=editing && product.category==='kits' ? 'selected' : '' %>>Kits</option>
                   <option value="helmets" <%=editing && product.category==='helmets' ? 'selected' : '' %>>Helmets</option>
                   <option value="jackets" <%=editing && product.category==='jackets' ? 'selected' : '' %>>Jackets</option>
                   <option value="gloves" <%=editing && product.category==='gloves' ? 'selected' : '' %>>Gloves</option>
                   <option value="boots" <%=editing && product.category==='boots' ? 'selected' : '' %>>Boots</option>
-                  <option value="kits" <%=editing && product.category==='kits' ? 'selected' : '' %>>kits</option>
-                  <option value="bike" <%=editing && product.category==='bike' ? 'selected' : '' %>>bike</option>
                   <option value="other" <%=editing && product.category==='other' ? 'selected' : '' %>>Other</option>
                   <!-- Add other category options as needed -->
                 </select>

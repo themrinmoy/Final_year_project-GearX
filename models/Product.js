@@ -6,6 +6,12 @@ const productSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        // add brand field with default value and required as false
+        brand: {
+            type: String,
+            default: 'Gears',
+            required: false,
+        },
         description: {
             type: String,
             required: false,

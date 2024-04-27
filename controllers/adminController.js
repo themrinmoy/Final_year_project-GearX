@@ -118,6 +118,7 @@ exports.postAddProduct = (req, res) => {
     // Create a new Product instance 
     const product = new Product({
         name: req.body.name,
+        brand: req.body.brand,
         description: req.body.description,
         price: req.body.price,
         category: req.body.category,
@@ -282,6 +283,7 @@ exports.postUpdateProduct = async (req, res) => {
         // 2. Gather updated data, including potential new image
         const updatedProductData = {
             name: req.body.name,
+            brand: req.body.brand,
             description: req.body.description,
             price: req.body.price,
             category: req.body.category,

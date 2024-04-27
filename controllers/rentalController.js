@@ -34,8 +34,8 @@ exports.getAllRentals = (req, res, next) => {
         // Render an EJS view with the product data
         // res.json(productsWithImages);
 
-        res.render('rent/all.ejs', {
-            products, pageTitle: ' for Rent',
+        res.render('./rent/all.ejs', {
+            products, pageTitle: 'For Rent',
             path: '/rent',
             categoryTitle: "Ready for Rent"
         });

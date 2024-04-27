@@ -1,3 +1,7 @@
+/* before adding the img to the div with the 
+"pcard-img" class, remove css styles 
+.pcard-img .img::before and .pcard-img .img::after,
+then set the desired styles for .pcard-img. */
 .products {
   padding: 40px 40px;
 
@@ -18,267 +22,149 @@
   /* background-color: #007bff; */
 }
 
-.product-grid {
-  /* background-color: #007bff; */
-  /* display: grid; */
-  display: flex;
-  flex-wrap: wrap;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 30px;
-  justify-content: center !important;
-  /* Center the grid items horizontally */
-  margin: 0 auto;
-}
-
 .a_card {
   text-decoration: none;
   color: #333;
 }
-
-/* Styling for All Product Cards */
-
-.product-card {
-  width: 260px;
-  margin: 0 auto;
-  border-radius: 14px;
-  background: rgb(250, 126, 13);
-  background: -moz-linear-gradient(
-    180deg,
-    rgba(250, 126, 13, 1) 0%,
-    rgba(238, 233, 231, 1) 42%
-  );
-  background: -webkit-linear-gradient(
-    180deg,
-    rgba(250, 126, 13, 1) 0%,
-    rgba(238, 233, 231, 1) 42%
-  );
-  background: linear-gradient(
-    180deg,
-    rgba(250, 126, 13, 1) 0%,
-    rgba(238, 233, 231, 1) 42%
-  );
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fa7e0d",endColorstr="#eee9e7",GradientType=1);
+.pcard {
+  --font-color: #323232;
+  --font-color-sub: #666;
+  --bg-color: #fff;
+  --main-color: #323232;
+  --main-focus: #2d8cf0;
+  /* width: 230px; */
+  /* height: 300px; */
+  background: var(--bg-color);
+  /* background-color: #363636; */
+  border: 2px solid var(--main-color);
+  box-shadow: 4px 4px var(--main-color);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 20px;
+  gap: 10px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.product-image {
-  position: relative;
-  text-align: center;
-  /* background-color: #666; */
-  overflow: hidden;
-  align-items: center;
+.pcard:last-child {
+  justify-content: flex-end;
+}
+
+
+
+.pcard-img {
+  transition: all 0.5s;
   display: flex;
   justify-content: center;
-  aspect-ratio: 1/1;
-  padding: 5px;
-  /* Allows positioning of the badge */
+  /* min-height: 8rem; */
+  aspect-ratio: 4/3;
+  /* background-color: #2d8cf0; */
 }
 
-.product-image img {
-  height: 100%;
+.pcard-img img {
   width: 100%;
-  border-radius: 8px;
-  border: 4px solid #8fff00;
-}
-
-.product-badge {
-  /* position: absolute;
-    top: 15px;
-    left: 15px;
-    background-color: #FFD700; 
-    color: #333; 
-    padding: 5px 10px;
-    border-radius: 3px;
-    font-weight: bold; */
-
-  position: absolute;
-  top: 15px;
-  right: -20px;
-  padding: 5px 10px;
-  background-color: #dc3545;
-  color: white;
-  font-size: 0.8em;
-  border-radius: 3px;
-  opacity: 0;
-  transition: all 0.3s ease-in-out;
-}
-
-.product-card.premium:hover .product-badge {
-  opacity: 1;
-  right: 15px;
-}
-
-.product-info {
-  /* margin-top: 0; */
-  /* margin-top: 50px; */
-  /* bottom: 0; */
-  /* margin-bottom: 0px ; */
-  /* text-align: center; */
-}
-
-.product-brand {
-  font-family: "Open Sans", sans-serif;
-  font-size: 0.9em;
-  color: #666;
-}
-
-.product-title {
-  margin-bottom: 5px;
-}
-
-.product-price {
-  display: flex;
-  align-items: center;
-  /* justify-content: center; */
-}
-
-.original-price {
-  text-decoration: line-through;
-  color: #999;
-  margin-right: 10px;
-}
-
-.discount-badge {
-  /* background-color: #ff6633;
-    color: #fff;
-    margin-left: 10px; 
-    padding: 3px 8px;
-    border-radius: 3px;  */
-  background-color: #dc3545;
-  color: white;
-  font-size: 0.8em;
-  margin-top: 2px;
-  font-weight: bold;
-  padding: 3px 8px;
-  border-radius: 4px;
-  position: relative;
-
-  top: -5px;
-  margin-left: 8px;
-}
-
-.sale-price {
-  font-weight: bold;
-  color: #dc3545;
-  font-size: large;
-  /* A bold red for emphasis */
-}
-
-/* Specific Styling for Premium Cards */
-.product-card .premium {
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-  /* Subtle shadow */
-}
-
-/* Featured Products Section (Additions) */
-
-/* ...Your existing featured products CSS... */
-.product-actions {
-  display: flex;
-  /* align-items: center; */
-  /* justify-content: center; */
-  /* margin-top: 10px; */
-}
-
-/* display: inline-block; */
-/* Button Styling */
-.product-actions button {
-  background-color: #ff6633;
-  /* Bold color */
-  color: #fff;
-  border: none;
-  padding: 10px 18px;
+  height: 100%;
+  /* aspect-ratio: 1/1; */
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  /* background-color: red; */
   border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  /* For hover */
-  margin-right: 5px;
-  margin-top: 20px;
-
-  /* Spacing between buttons */
 }
-.admin-prod-action {
+
+
+
+
+.pcard-title {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--font-color);
+}
+.pcard-brand{
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 5px;
+
+  /* text-align: center; */
+  /* background-color: #d0cdcd; */
+  /* display: inline-block; */
+  color: var(--font-color);
+
+}
+
+.pcard-subtitle {
+  /* font-size: 18px; */
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--font-color-sub);
+  line-height: 10px;
+}
+
+.pcard-divider {
+  width: 100%;
+  /* border: 1px solid var(--main-color); */
+  border: 2px solid #000000 !important;
+  border-color: #000000 !important;
+  color: var(--main-color);
+  border-radius: 50px;
+  margin: 10px 0;
+  /* line-height: 1px; */
+  /* background-color: yellow; */
+  /* padding: 1px; */
+}
+
+.pcard-footer {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
-  /* align-items: center; */
-  margin-top: 20px;
-}
-.update-button {
-  background-color: #ffd700 !important;
-  /* A shade of gold to indicate update */
-
-  color: #333 !important;
-  /* margin-right:  !important; */
+  align-items: center;
+  line-height: 0px;
+  
+  /* background-color: #a70d0d; */
 }
 
-.update-button:hover {
-  background-color: #ffc107 !important;
-  /* A slightly darker shade of gold */
-}
-.delete-button {
-  background-color: #ff0000 !important;
-  /* A shade of red to indicate delete */
-
-  color: #fff !important;
+.pcard-price {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--font-color);
+  /* line-height: 0px; */
 }
 
-.delete-button:hover {
-  background-color: #c8443a !important;
-  /* background-color: #FF0000;  */
-  /* background-color: #C8443A; */
+.pcard-price span {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--font-color-sub);
 }
 
-.product-actions button i {
-  margin-right: 5px;
-  /* Space between icon and text */
+.pcard-btn {
+  height: 35px;
+  background: var(--bg-color);
+  border: 2px solid var(--main-color);
+  border-radius: 5px;
+  padding: 0 15px;
+  transition: all 0.3s;
 }
 
-.add-to-cart:hover {
-  background-color: #cc5522;
-  /* Slightly darker on hover */
+.pcard-btn svg {
+  width: 100%;
+  height: 100%;
+  fill: var(--main-color);
+  transition: all 0.3s;
 }
 
-.wishlist:hover {
-  background-color: #ff3366;
-  /* Example - pink for wishlist */
+.pcard-img:hover {
+  transform: translateY(-3px);
 }
 
-/* "New" Badge Styling */
-
-/* Responsive Adjustments */
-@media (max-width: 1700px) {
-  /* Adjust breakpoint as needed */
-  .product-grid {
-    grid-template-columns: repeat(4, 1fr);
-    /* 4 products per row */
-  }
+.pcard-btn:hover {
+  border: 2px solid var(--main-focus);
 }
 
-@media (max-width: 1400px) {
-  /* Adjust breakpoint as needed */
-  .product-grid {
-    grid-template-columns: repeat(3, 1fr);
-    /* 4 products per row */
-  }
+.pcard-btn:hover svg {
+  fill: var(--main-focus);
 }
 
-/* Add more media queries for smaller screen sizes, going down 
-   to 3, 2, and finally 1 product per row  */
-
-@media (max-width: 1060px) {
-  .product-grid {
-    grid-template-columns: repeat(3, 1fr);
-    /* Maybe 3 columns now? */
-  }
-}
-
-@media (max-width: 960px) {
-  .product-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .product-grid {
-    grid-template-columns: 1fr;
-  }
+.pcard-btn:active {
+  transform: translateY(3px);
 }

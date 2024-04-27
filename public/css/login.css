@@ -31,12 +31,12 @@ main {
 } */
 
 .container {
-    background-color: #fff;
+    /* background-color: #fff; */
     /* background: linear-gradient(to right, #e0f2fe, #e0f2fe); */
 
-    padding: 50px;
-    border-radius: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /* padding: 50px; */
+    /* border-radius: 15px; */
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); */
 }
 
 .input-field {

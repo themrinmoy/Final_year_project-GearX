@@ -4,26 +4,51 @@
 
         <body>
             <%- include('../include/navigation.ejs') %>
+
+            
              
                     <link rel="stylesheet" href="../css/login.css">
-                    <main>
-                        <div class="container">
-                            <h1>Welcome Back!</h1>
-                            <!-- Add the warning container -->
-                            <div id="warning-container" class="warning-container"></div>
-                            <form id="signup-form" action="/login" method="post">
-                                <div class="input-field">
-                                    <label for="username">Username:</label>
-                                    <input type="text" id="username" name="username" required>
+                    <section style="height: 82vh;" class=" container  mt-5">
+                        <!-- <div class="container"> -->
+                          <div class="row d-flex justify-content-center align-items-center h-100">
+                            <div class="col-md-9 col-lg-6 col-xl-5">
+                              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                                class="img-fluid" alt="Sample image">
+                            </div>
+                            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                             
+                              <form id="signup-form" action="/login" method="post">
+                                <!-- Username input -->
+                                <div class="form-outline mb-4">
+                                    <input type="text" id="username" name="username" class="form-control form-control-lg"
+                                        placeholder="Enter your username" required>
+                                    <label class="form-label" for="username">Username</label>
                                 </div>
-                                <div class="input-field">
-                                    <label for="password">Password:</label>
-                                    <input type="password" id="password" name="password" required>
+                            
+                                <!-- Password input -->
+                                <div class="form-outline mb-4">
+                                    <input type="password" id="password" name="password" class="form-control form-control-lg"
+                                        placeholder="Enter your password" required>
+                                    <label class="form-label" for="password">Password</label>
                                 </div>
-                                <button type="submit">Log in</button>
+                            
+                                <!-- Submit button -->
+                                <button type="submit" class="btn btn-primary btn-lg"
+                                    style="padding-left: 2.5rem; padding-right: 2.5rem;">Log in</button>
+                            
+                                <!-- Optional: Forgot password link -->
+                                <a href="#!" class="text-body">Forgot password?</a>
+                            
+                                <!-- Optional: Register link -->
+                                <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/signup" class="link-danger">Register</a></p>
                             </form>
+                             
+                            </div>
+                          </div>
                         </div>
-                    </main>
+                        
+                      </section>
+
 
                     <script>
                         // Parse the query parameter from the URL

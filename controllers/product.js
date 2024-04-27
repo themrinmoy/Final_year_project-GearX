@@ -22,6 +22,7 @@ exports.productsByCategory = (req, res, next) => {
       const productsWithImages = products.map((product) => ({
         _id: product._id,
         name: product.name,
+        brand: product.brand,
         description: product.description,
         price: product.price,
         category: product.category,

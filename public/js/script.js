@@ -2,12 +2,45 @@
 
 
 // Banner JavaScript
+// const slides = document.querySelectorAll('.banner-slide');
+// const prevBtn = document.querySelector('.banner-prev');
+// const nextBtn = document.querySelector('.banner-next');
+// let currentSlide = 0; 
+
+// function showSlide(slideIndex) {
+//     slides.forEach(slide => slide.classList.remove('active'));
+//     slides[slideIndex].classList.add('active');
+// }
+
+// function nextSlide() {
+//     currentSlide = (currentSlide + 1) % slides.length;
+//     showSlide(currentSlide);
+// }
+
+// function prevSlide() {
+//     currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+//     showSlide(currentSlide);
+// }
+
+// prevBtn.addEventListener('click', prevSlide);
+// nextBtn.addEventListener('click', nextSlide);
+
+// Banner JavaScript end 
+
+
+// new banner JavaScript
 const slides = document.querySelectorAll('.banner-slide');
 const prevBtn = document.querySelector('.banner-prev');
 const nextBtn = document.querySelector('.banner-next');
-let currentSlide = 0; 
+const bannerContainer = document.querySelector('.banner-container');
+let currentSlide = 0;
 
 function showSlide(slideIndex) {
+    // Calculate the left position based on the slide index
+    const leftPosition = `-${slideIndex * 100}%`;
+    bannerContainer.style.left = leftPosition;
+
+    // Update the active slide class
     slides.forEach(slide => slide.classList.remove('active'));
     slides[slideIndex].classList.add('active');
 }
@@ -25,6 +58,29 @@ function prevSlide() {
 prevBtn.addEventListener('click', prevSlide);
 nextBtn.addEventListener('click', nextSlide);
 
+// Automatically transition to the next slide every 5 seconds
+let slideInterval = setInterval(nextSlide, 3000);
+
+// Pause the automatic slideshow when interacting with navigation buttons
+prevBtn.addEventListener('click', () => {
+    clearInterval(slideInterval);
+});
+
+nextBtn.addEventListener('click', () => {
+    clearInterval(slideInterval);
+});
+
+// Restart the automatic slideshow after a manual interaction
+function restartSlideShow() {
+    clearInterval(slideInterval);
+    slideInterval = setInterval(nextSlide, 5000);
+}
+
+
+
+
+
+// new banner JavaScript end
 
 // your-custom-script.js
 
