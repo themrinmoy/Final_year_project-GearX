@@ -4,7 +4,7 @@ font-family: "Sawarabi Mincho", serif;
 font-family: "Montserrat", sans-serif;
 font-family: "Poppins", sans-serif; */
 
-
+/* #c5c5c4 */
 /* img, picture, video, canvas, svg {
   display: block;
   max-width: 100%;
@@ -15,9 +15,13 @@ body {
     padding: 0;
     color: #333;
     /* Main text color */
-    background-color: #242424;
+    background-color: #ffffff;
+    /* background-color: #242424; */
     /* Subtle off-white background */
 }
+
+
+
 
 /* Banner Styles */
 .banner-section {

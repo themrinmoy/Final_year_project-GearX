@@ -1,72 +1,15 @@
 <%- include('../include/head.ejs') %>
-
-<!-- goodle -->
   </head>
 
   <body>
     <%- include('../include/navigation.ejs') %>
-
-      <link rel="stylesheet" href="/css/rent-card.css">
+      <link rel="stylesheet" href="/css/___.css">
 
       <main>
-        <h1>Rental Products</h1>
-        
-
-        <% if (products.length> 0) { %>
-          <div class="rent_products">
 
 
-            <% products.forEach(product=> { %>
-              <div class="rental-card">
-                <img src="<%= product.imageUrl %>" alt="<%= product.name %>">
-                <div class="product-details">
-                    <h3><%= product.name %></h3>
-                    <p>Description: <%= product.description %></p>
-                    <p>Category: <%= product.category %></p>
-                </div>
-                <div class="rental-cost" id="rentalCost-<%= product._id %>">
-                    Rental Cost: $<%= product.rentalInfo.rentalPricePerDay %> per day
-                </div>
-                <div class="rental-cost" id="rentalCost">
-                  Total: $<span id="totalCost">0.00</span> per day
-                </div>
-
-                <div class="date-range-picker">
-                     <label for="dateRange-<%= product._id %>">Select Dates:</label>
-                     <input type="text" id="dateRange-<%= product._id %>" placeholder="Select dates" />
-                </div>
-
-                <a href="#" class="rent-button">Rent Now</a>
-            </div>
-              <% }); %>
-          </div>
-          <% } else { %>
-            <p>No rental products available.</p>
-            <% } %>
 
       </main>
 
 
-
       <%- include('../include/footer.ejs') %>
-      <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
-
-      <script>
-        document.addEventListener("DOMContentLoaded", function() { 
-    const dateRangeInputs = document.querySelectorAll(".date-range-picker input"); 
-
-    dateRangeInputs.forEach(input => {
-        const productId = input.id.split("-")[1]; // Get product ID
-        flatpickr(input, {
-            mode: "range",
-            // ... flatpickr options ...
-            onChange: (selectedDates, dateStr, instance) => {
-                // ... Your calculation logic similar to your original code...
-                const rentalCostElement = document.getElementById(`rentalCost-${productId}`); 
-                rentalCostElement.innerText = `Rental Cost: $${totalCost.toFixed(2)}`; 
-            }
-        });
-    });
-});
-      </script>

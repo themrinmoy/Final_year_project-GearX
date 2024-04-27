@@ -37,11 +37,11 @@
                     <div class="pcard">
                       <div class="pcard-img"> <img src="/<%= product.imageUrl  %>" alt=""></div>
                       <div class="pcard-title">  <%= product.name %></div>
-                      <div class="pcard-brand"> #<%= product.brand %></div>
+                      <div class="pcard-brand " > #<%= product.brand %></div>
                       <div class="pcard-subtitle"> <%= product.description %> </div>
-                      <hr class="pcard-divider">
+                      <hr class="pcard-divider p-0 m-0 ">
                       <div class="pcard-footer">
-                          <div class="pcard-price"><span>र</span><%= product.price %>  </div>
+                          <div class="pcard-price"><span>र </span><%= product.price %>  </div>
                           <form  action="/cart/add-to-cart/<%= product._id %>" method="post">
                             
                             <button class="pcard-btn">

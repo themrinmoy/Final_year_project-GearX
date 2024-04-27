@@ -4,12 +4,15 @@
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background: linear-gradient(to right, #f0f8ff, #f8faff);
+    background: #42423f;
+
+    /* background: linear-gradient(to right, #f0f8ff, #f8faff); */
     border-radius: 5px;
 }
 
 h2 {
-    color: #333;
+    /* colorgb(255, 253, 253)333; */
+    color: rgb(232, 232, 224);
 }
 
 .form-group {
@@ -30,6 +33,7 @@ select {
     width: 100%;
     /* padding: 8px; */
     border: 1px solid #ddd;
+    background-color:  #c5c5c4;
     border-radius: 3px;
     padding: 10px;
     box-sizing: border-box;
