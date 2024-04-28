@@ -61,12 +61,12 @@
                             <p>Category: <%= product.category %></p>
                         </div>
                         <div class="rental-cost" id="rentalCost<%= product._id %>">
-                            Rental Cost: $<span id="rentalPricePerDay<%= product._id %>">
+                            Rental Cost: ₹<span id="rentalPricePerDay<%= product._id %>">
                                 <%= product.rentalInfo.rentalPricePerDay %>
                             </span> per day
                         </div>
                         <div class="rental-cost" id="totalCost<%= product._id %>">
-                            Total Cost: $<span id="totalCostValue<%= product._id %>">0.00</span>
+                            Total Cost: ₹<span id="totalCostValue<%= product._id %>">0.00</span>
                         </div>
                         <div class="date-range-picker">
                             <label for="dateRange<%= product._id %>">Select Dates:</label>

@@ -28,7 +28,7 @@
                                                 <h3>
                                                     <%= item.productId.name %>
                                                 </h3>
-                                                <p class="item-price">$<%= item.productId.price.toFixed(2) %>
+                                                <p class="item-price">₹<%= item.productId.price.toFixed(2) %>
                                                 </p>
                                                 <!-- <div class="cart-item"> -->
                                                 <div class="quantity">
@@ -39,7 +39,7 @@
                                                     <% totalPrice +=item.quantity * item.productId.price; %>
 
                                                         <% } %>
-                                                            <p class="item-total">Items Total: $<%=
+                                                            <p class="item-total">Items Total: ₹<%=
                                                                     (item.productId.price * item.quantity).toFixed(2) %>
                                                             </p>
 
@@ -60,10 +60,10 @@
                                     <h3>Order Summary</h3>
                                     <div class="subtotal">
                                         <p>Subtotal:</p>
-                                        <p>$<%= totalPrice %>
+                                        <p>₹<%= totalPrice %>
                                         </p>
                                     </div>
-                                    <!-- <p>$<%= 0%></p>
+                                    <!-- <p>₹<%= 0%></p>
                     </div> -->
                                     <div class="shipping">
                                         <p>Shipping:</p>
@@ -71,7 +71,7 @@
                                     </div>
                                     <div class="total">
                                         <p>Total:</p>
-                                        <p>$ <%= totalPrice %>
+                                        <p>₹ <%= totalPrice %>
                                         </p>
                                     </div>
 

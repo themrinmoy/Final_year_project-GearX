@@ -23,12 +23,12 @@
                                 <p class="card-text">Category: <%= product.category %></p>
                        
                             <div class="rental-cost" id="rentalCost<%= product._id %>">
-                                Rental Cost: $<span id="rentalPricePerDay<%= product._id %>">
+                                Rental Cost: ₹<span id="rentalPricePerDay<%= product._id %>">
                                     <%= product.rentalInfo.rentalPricePerDay %>
                                 </span> per day
                             </div>
                         <div class="rental-cost" id="totalCost<%= product._id %>">
-                            Estimated Cost: $<span id="totalCostValue<%= product._id %>">0.00</span>
+                            Estimated Cost: ₹<span id="totalCostValue<%= product._id %>">0.00</span>
                         </div>
                     </a>
                         <div class="date-range-picker">

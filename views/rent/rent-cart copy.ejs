@@ -38,13 +38,13 @@
                             style="width: 50px;">
 
                       <p>name:  <%= item.productId.name %> </p>
-                        <p>price:  $<%= item.productId.rentalInfo.rentalPricePerDay %>/day</p>
+                        <p>price:  ₹<%= item.productId.rentalInfo.rentalPricePerDay %>/day</p>
                         <p>rental period:  <%= item.productId.rentalInfo.rentalPeriod %></p>
                         <p>start date: <%=item.rentalStartDate %> </p>
                         <p>end date: <%=item.rentalEndDate %> </p>
 
                         <p>quantity:  <%= item.quantity %></p>
-                        <p>total:  $<%= (item.quantity * item.productId.rentalInfo.rentalPricePerDay).toFixed(2) %></p>
+                        <p>total:  ₹<%= (item.quantity * item.productId.rentalInfo.rentalPricePerDay).toFixed(2) %></p>
                         <form action="/rentcart/<%= item.productId._id %>/remove" method="post">
                             <button type="submit">Remove</button>
                         </form>
@@ -82,12 +82,12 @@
                                                     <%= item.productId.rentalInfo.rentalPeriod %>
                                                         <% } %>
                                             </td>
-                                            <td>$<%= item.productId.rentalInfo.rentalPricePerDay %>/day</td>
+                                            <td>₹<%= item.productId.rentalInfo.rentalPricePerDay %>/day</td>
                                             <td>
                                                 <%= item.quantity %>
                                             </td>
                                             <td>
-                                                $<%= (item.quantity *
+                                                ₹<%= (item.quantity *
                                                     item.productId.rentalInfo.rentalPricePerDay).toFixed(2) %>
                                             </td>
                                             <td>
@@ -101,7 +101,7 @@
                                 <tfoot>
                                     <tr>
                                         <td colspan="4">Total:</td>
-                                        <td>$ <%=10 %>
+                                        <td>₹ <%=10 %>
                                         </td>
                                         <td></td>
                                     </tr>

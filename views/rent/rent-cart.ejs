@@ -28,13 +28,13 @@
                                             <p class="price">Actual Product Cost: <%= item.productId.price %>
                                             </p>
 
-                                            <p class="item-price">price: $<%=
+                                            <p class="item-price">price: ₹<%=
                                                     item.productId.rentalInfo.rentalPricePerDay %>/day</p>
 
 
                                             <p class="quantity">quantity: <%= item.quantity %>
                                             </p>
-                                            <p>Total Rental Cost Per Day: $<%= (item.quantity *
+                                            <p>Total Rental Cost Per Day: ₹<%= (item.quantity *
                                                     item.productId.rentalInfo.rentalPricePerDay).toFixed(2) %>
                                             </p>
                                             <!-- Remove the date picker for each product -->
@@ -79,14 +79,14 @@
                                 <div class="subtotal">
 
                                     <p>Cost per day:</p>
-                                    <p class="cost-per-day subtotal-amount">$<%= totalCost/durationInDays %>
+                                    <p class="cost-per-day subtotal-amount">₹<%= totalCost/durationInDays %>
                                     </p>
                                 </div>
 
 
                                 <div class="subtotal">
                                     <p>Subtotal:</p>
-                                    <p class="subtotal-amount">$<%= totalCost %>
+                                    <p class="subtotal-amount">₹<%= totalCost %>
                                     </p>
                                 </div>
                                 <div class="shipping">
@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="total">
                                     <p>Total:</p>
-                                    <p class="total-amount">$ <%= totalCost %>
+                                    <p class="total-amount">₹ <%= totalCost %>
                                     </p>
                                 </div>
                                 <div class="cleckoutbtn">
