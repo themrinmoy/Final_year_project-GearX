@@ -27,22 +27,10 @@ router.post('/add-to-cart/:productId', rentalController.postRentalCart);
 router.get('/checkout', rentalController.getRentChekout);
 
 router.get('/checkout/success', rentalController.getRentCheckoutSuccess);
-// router.get('/checkout/cancel', rentalController.getRentChekoutCancel);
+router.get('/checkout/cancel', rentalController.getRentCheckoutCancel);
 
 router.get('/rentals', rentalController.getAllRentedItems);
-router.get('/user/rentals', rentalController.getRentedItemsByUser);
 
-// router.post('/add-to-rent/', rentalController.postRentalCart);
-
-// router.post('/create', rentalController.createRental);
-
-// router.get('/all', rentalController.getAllRentals);
-
-// Get rental by ID
-// router.get('/:rentalId', rentalController.getRentalById);
-
-// Update rental (e.g., return a rented product)
-// router.put('/:rentalId/update', rentalController.updateRental);
 
 
 

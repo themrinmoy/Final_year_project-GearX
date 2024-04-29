@@ -192,12 +192,12 @@ app.use(shopRoutes);
 app.use('/rent', rentalRoutes);
 app.use('/cart', cartRoutes);
 app.use(userRoutes);
-app.use(errorController.get404);
 // app.use(rentalRoutes);
 
 
 
 
+app.use(errorController.get404);
 
 
 // // Connect to MongoDB

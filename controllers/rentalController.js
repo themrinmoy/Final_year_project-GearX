@@ -3,8 +3,8 @@ const Product = require('../models/Product');
 const User = require('../models/User');
 // const Session = require('../models/session'); // Adjust the path based on your file structure
 
-const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const session = require('express-session');
 const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9bR31hvgJnb7OGnBw8n1AjFnlgOI9NHYnRtKPUO9CSQPI27q55b6L001og14MAB')
 
 
@@ -345,9 +345,9 @@ exports.getRentChekout = async (req, res, next) => {
         // sessionId = sessionId;
         // req.session.expectedSessionId = session.id;
         req.session.expectedSessionId = sessionId;
+        await req.session.save();
 
         // req.session.stripeSessionId = sessionId;
-        await req.session.save();
 
         res.render('./user/rentCheckout', {
             items: cartItems,
@@ -550,30 +550,6 @@ exports.getRentedItemsByUser = async (req, res, next) => {
     }
 }
 
-// exports.postRentalCart = async (req, res, next) => {
-//     try {
-//         const productId = req.body.productId;
-//         const startDate = req.body.startDate;
-//         const endDate = req.body.endDate;
-//         // ... Retrieve other POSTed data (quantity, etc.) as needed
-
-//         // Logic to obtain cart (depends on your storage method)
-//         let cart = await RentalCart.findById(req.session.cartId);
-//         if (!cart) { 
-//             cart = await RentalCart.create({}); // ... Or similar with a new cart  
-//         }
-
-//         // ... Add/update item logic based on your model
-
-//         await cart.save(); 
-
-//         res.redirect('/cart'); // Or a success page of your choice
-//     } catch (error) {
-//         next(error);
-//     }
-// };
-// const User = require('./models/User');
-// const Product = require('./models/Product'); // ...assuming you have a Product model
 
 exports.postRentalCart = async (req, res, next) => {
     try {

@@ -2,28 +2,22 @@ const express = require('express');
 const router = express.Router();
 //const productController = require('../controllers/productsController');
 const productController = require('../controllers/product')
+const checkoutController = require('../controllers/checkoutController');
+const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9bR31hvgJnb7OGnBw8n1AjFnlgOI9NHYnRtKPUO9CSQPI27q55b6L001og14MAB')
+
 
 router.get('/', (req, res, next) => {
     res.render('shop/index', { pageTitle: 'Home', path: '/' });
 });
 
-// router.get('/rent', productController.productsByType);
+
 
 router.get('/products', productController.productsByCategory);
 router.get('/products/:productId', productController.productDetails);
 
-// router.get('/rent', productController.productController);
 
-// router.get('/products', ProductController.productsByCategory);
-// router.get('/products/:productId', ProductController.productDetails);
-
-// router.get('/products/category/:category', productController.productsByCategory);
 router.get('/products/category/:category', productController.productsByCategory);
 
-
-// router.get('/products:productId', (req, res, next) => {
-//     res.send('product-detail');
-// });
 router.get('/order', (req, res, next) => {
     res.render('user/order', { pageTitle: 'Order', path: '/order' });
 });
@@ -37,8 +31,16 @@ router.get('/contact', (req, res, next) => {
 });
 
 
-// Removing a Product from Cart
-// app.post('/cart/remove', CartController.removeFromCart);
+
+// for payment integration
+
+router.get('/shop/checkout', checkoutController.getCheckout);
+
+// router.post('/shop/checkout', productController.postCheckout);
+
+router.get('/shop/checkout/success', checkoutController.getShopCheckoutSuccess);
+
+router.get('/shop/checkout/cancel', checkoutController.getShopCheckoutCancel);
 
 
 

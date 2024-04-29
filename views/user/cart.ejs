@@ -76,7 +76,7 @@
                                     </div>
 
 
-                                    <div class="cleckoutbtn">
+                                    <div class="cleckoutbtn" onclick="proceedToCheckout()">
                                         <button class="checkout-btn">Proceed to Checkout</button>
                                     </div>
                                 </div>
@@ -89,3 +89,11 @@
             </main>
 
             <%- include('../include/footer.ejs') %>
+
+            <script>
+               
+                function proceedToCheckout() {
+                    // Redirect to the checkout page or perform any other necessary actions
+                    window.location.href = '/shop/checkout'; // Change the URL to your checkout page
+                }
+            </script>
