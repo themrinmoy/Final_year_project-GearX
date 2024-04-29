@@ -15,6 +15,10 @@ exports.productsByCategory = (req, res, next) => {
   } else {
     // If no category is specified, retrieve all products
     productsPromise = Product.find();
+    // You can also add pagination to limit the number of products returned
+    // productsPromise = Product.find().limit(10).skip(0); // Limit to 10 products and skip the first 0 products
+    // productsPromise = Product.find({ type: 'sellable' });
+
   }
   productsPromise
     .then((products) => {

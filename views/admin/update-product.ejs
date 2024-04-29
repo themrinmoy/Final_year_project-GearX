@@ -1,9 +1,9 @@
 <%- include('../include/head.ejs') %>
-  <link rel="stylesheet" href="/css/add-product.css">
-  </head>
+</head>
 
-  <body>
-    <%- include('../include/navigation.ejs') %>
+<body>
+  <%- include('../include/navigation.ejs') %>
+  <link rel="stylesheet" href="/css/add-product.css">
 
       <div class="container">
         <% if (errorMessage) { %>
@@ -43,13 +43,13 @@
                 <label for="productCategory">Category:</label>
                 <select id="productCategory" name="category">
                   <option value="">Select Category</option>
-                  <option value="bike" <%=editing && product.category==='bikes' ? 'selected' : '' %>>bikes</option>
+                  <option value="bikes" <%=editing && product.category==='bikes' ? 'selected' : '' %>>Bikes</option>
                   <option value="kits" <%=editing && product.category==='kits' ? 'selected' : '' %>>Kits</option>
                   <option value="helmets" <%=editing && product.category==='helmets' ? 'selected' : '' %>>Helmets</option>
                   <option value="jackets" <%=editing && product.category==='jackets' ? 'selected' : '' %>>Jackets</option>
                   <option value="gloves" <%=editing && product.category==='gloves' ? 'selected' : '' %>>Gloves</option>
                   <option value="boots" <%=editing && product.category==='boots' ? 'selected' : '' %>>Boots</option>
-                  <option value="other" <%=editing && product.category==='backpacks' ? 'selected' : '' %>>Backpacks</option>
+                  <option value="backpacks" <%=editing && product.category==='backpacks' ? 'selected' : '' %>>Backpacks</option>
                   <!-- Add other category options as needed -->
                 </select>
               </div>
