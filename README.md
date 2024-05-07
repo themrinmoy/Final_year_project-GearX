@@ -6,8 +6,13 @@ This repository contains the code for a bike tour rental website where users can
 
 Visit the live demo of the project: [Bike Tour Rental Website Demo](https://final-year-project-1tl6.onrender.com/)
 
-- **Username:** user
-- **Password:** test
+- **User Login:**
+  - **Username:** user
+  - **Password:** test
+
+- **Admin Login:**
+  - **Username:** test5
+  - **Password:** test
 
 ### Getting Started
 
@@ -66,6 +71,7 @@ To run this project locally, follow these steps:
 ### Features
 
 - **User Authentication**: Users can register, login, and manage their profiles.
+- **Admin Panel**: Admin users have access to special functionalities like managing products.
 - **Authorization**: Differentiate between user roles (admin, regular user) for specific functionalities.
 - **Image Upload**: Supports image upload for product listings and user avatars.
 - **Session Management**: Uses `express-session` with `connect-mongo` for session storage in MongoDB.
@@ -89,8 +95,13 @@ To run this project locally, follow these steps:
 
 Visit the live demo of the project: [Bike Tour Rental Website Demo](https://final-year-project-1tl6.onrender.com/)
 
-- **Username:** user
-- **Password:** test
+- **User Login:**
+  - **Username:** user
+  - **Password:** test
+
+- **Admin Login:**
+  - **Username:** test5
+  - **Password:** test
 
 ### Contributing
 
