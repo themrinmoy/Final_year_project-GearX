@@ -1,6 +1,7 @@
 const { MailtrapClient } = require("mailtrap");
 
-const TOKEN = "c486150b023a89dbe3d0ba4d260d2baf";
+const TOKEN = "c486150b023a89dbe3d0ba4d260d2baf";  //mrinmoy.org domain admin
+
 const ENDPOINT = "https://send.api.mailtrap.io/";
 
 const client = new MailtrapClient({ endpoint: ENDPOINT, token: TOKEN });

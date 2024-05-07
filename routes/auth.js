@@ -15,21 +15,15 @@ var transport = nodemailer.createTransport({
     port: 587,
     auth: {
         user: "api",
-        pass: "c486150b023a89dbe3d0ba4d260d2baf"
-    }
+        pass: process.env.MAILTRAP_API_KEY
+
+
+    },
+    debug: true, // show debug output
 });
 
 
 
-// const personalizedEmailContent = emailContent_reset
-//     .replace('{{recipientName}}', name)
-//     .replace('{{token}}', token);
-
-
-
-
-
-// Login route
 
 router.get('/login', (req, res) => {
     if (req.isAuthenticated()) {
@@ -145,13 +139,13 @@ router.post('/signup', async (req, res, next) => {
     try {
         const existingUser = await User.findOne({ $or: [{ username: req.body.username }, { email: req.body.email }] });
 
-        if (existingUser) {
-            if (existingUser.username === req.body.username) {
-                return res.status(400).json({ error: 'Username already exists. Choose a different username.' });
-            } else {
-                return res.status(400).json({ error: 'Email already exists. Choose a different email address.' });
-            }
-        }
+        // if (existingUser) {
+        //     if (existingUser.username === req.body.username) {
+        //         return res.status(400).json({ error: 'Username already exists. Choose a different username.' });
+        //     } else {
+        //         return res.status(400).json({ error: 'Email already exists. Choose a different email address.' });
+        //     }
+        // }
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(req.body.email)) {
             return res.status(400).json({ error: 'Invalid email format.' });
@@ -183,6 +177,7 @@ router.post('/signup', async (req, res, next) => {
                 // <p>Click this <a href="http://localhost:3000/verify/${token}">link</a> to verify your email address.</p>`,
 
         });
+        console.log('Email sent to:', req.body.email);
         res.redirect('/login');
     } catch (err) {
         return res.status(500).json({ error: err.message });

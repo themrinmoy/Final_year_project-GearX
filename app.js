@@ -21,9 +21,7 @@ const compression = require('compression');
 
 
 
-const MONGODB_URI =
-    `mongodb+srv://deployment_user:WsbVw2k7aJbs7Tad@apitest.lspf3mf.mongodb.net/final_year_project`;
-
+const MONGODB_URI = `${process.env.MONGODB_URI}`
 
 const User = require('./models/User');
 
@@ -220,7 +218,7 @@ app.use(errorController.get404);
 // const mongoose = require('mongoose');
 
 const connectWithRetry = () => {
-    mongoose.connect('mongodb+srv://deployment_user:WsbVw2k7aJbs7Tad@apitest.lspf3mf.mongodb.net/final_year_project')
+    mongoose.connect(MONGODB_URI)
         .then(() => {
             console.log('Connected to MongoDB');
             startServer(); // Start the server once MongoDB connection is successful
@@ -234,7 +232,7 @@ const connectWithRetry = () => {
 
 // Start the server function
 const startServer = () => {
-    app.listen(3000, () => {
+    app.listen(process.env.PORT || 3000, () => {
         console.log('Server running on port 3000');
     });
 };
