@@ -4,8 +4,9 @@ This repository contains the code for a bike tour rental website where users can
 
 ### Live Demo
 
-Visit the live demo of the project: [Bike Tour Rental Website Demo](https://final-year-project-1tl6.onrender.com/)
-Visit the live demo2 of the project: [Bike Tour Rental Website Demo2](https://gearx.mrinmoy.org/)
+## Visit the live demo of the project[railway.app]: [Bike Tour Rental Website Demo](https://gearx.mrinmoy.org/)
+
+ ## Visit the live demo2 of the project[onrender]: [Bike Tour Rental Website Demo2](https://final-year-project-gearx.onrender.com/)
 
 
 - **User Login:**
