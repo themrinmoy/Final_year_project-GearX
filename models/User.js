@@ -197,8 +197,19 @@ userSchema.statics.verifyAuthToken = async function (token) {
 // };
 
 
-userSchema.statics.authenticate = async function (username, password) {
-    const user = await this.findOne({ username });
+// userSchema.statics.authenticate = async function (username, password) {
+userSchema.statics.authenticate = async function (usernameOrEmail, password) {
+
+    const isEmail = /\S+@\S+\.\S+/.test(usernameOrEmail);
+
+    // const user = await this.findOne({ username });
+    if (isEmail) {
+        // If input is an email address, find user by email
+        user = await this.findOne({ email: usernameOrEmail });
+    } else {
+        // Otherwise, find user by username
+        user = await this.findOne({ username: usernameOrEmail });
+    }
 
     if (!user) {
         throw new Error('Authentication failed. User not found.');
