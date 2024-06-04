@@ -1,6 +1,6 @@
 ### Bike Tour Rental Website
 
-This repository contains the code for a bike tour rental website where users can rent various biking products and purchase them if needed. Below is an overview of the project structure and setup.
+This repository contains the code for a bike tour rental website where users can rent and purchase various biking products if needed. Below is an overview of the project structure and setup.
 
 ### Live Demo
 
@@ -10,11 +10,11 @@ This repository contains the code for a bike tour rental website where users can
 
 
 - **User Login:**
-  - **Username:** user
+  - **Username/email:** user  or `user@mrinmoy.org`
   - **Password:** test
 
 - **Admin Login:**
-  - **Username:** test5
+  - **Username/email:** test  or `test@mrinmoy.org`
   - **Password:** test
 
 ### Getting Started
@@ -38,7 +38,7 @@ To run this project locally, follow these steps:
 
 4. **Start the Application**
    ```bash
-   npm start
+   npm start (before Run this command integrate with Ur MongoDB database Url)
    ```
 
 ### Project Structure
@@ -56,7 +56,7 @@ To run this project locally, follow these steps:
 │   ├── rent.js               # Rental routes (rental product listing, booking)
 │   └── user.js               # User profile routes
 ├── views/                    # EJS templates for rendering views
-│   ├── auth/                 # Authentication related views (login, register)
+│   ├── auth/                 # Authentication-related views (login, register)
 │   ├── admin/                # Admin views (dashboard, product management)
 │   ├── shop/                 # Shop views (product listing, details)
 │   ├── cart/                 # Cart views (cart display)
@@ -88,27 +88,17 @@ To run this project locally, follow these steps:
 
 - **Node.js** and **Express.js**: Server-side JavaScript runtime and web application framework.
 - **MongoDB**: NoSQL database for data storage.
+- **Stripe**: For payment Gateway.
+- **MailTrap**: I have used Mailtrap for sending authentication mail via `nodemailer`.
 - **Mongoose**: ODM (Object Data Modeling) library for MongoDB and Node.js.
 - **Passport.js**: Authentication middleware for Node.js.
 - **Multer**: Middleware for handling file uploads.
 - **EJS**: Embedded JavaScript templates for dynamic content rendering.
 - **JWT (JSON Web Tokens)**: Used for user authentication and authorization.
 
-### Live Demo
 
-Visit the live demo of the project: [Bike Tour Rental Website Demo](https://final-year-project-1tl6.onrender.com/)
 
-- **User Login:**
-  - **Username:** user
-  - **Password:** test
 
-- **Admin Login:**
-  - **Username:** test5
-  - **Password:** test
-
-### Contributing
-
-Feel free to contribute to this project by opening issues or pull requests. Make sure to follow the existing coding style and conventions.
 
 ### License
 
