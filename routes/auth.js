@@ -172,7 +172,7 @@ router.post('/signup', async (req, res, next) => {
             html: `<h1>Welcome to our shop!</h1>
                 <p>You successfully signed up!</p>
                 
-                <p>Click this <a href="https://final-year-project-1tl6.onrender.com/verify/${token}">link</a> to verify your email address.
+                <p>Click this <a href="https://gearx.mrinmoy.org/verify/${token}">link</a> to verify your email address.
                 This link will be valid for 24 hours.</p>`,
                 // <p>Click this <a href="http://localhost:3000/verify/${token}">link</a> to verify your email address.</p>`,
 
