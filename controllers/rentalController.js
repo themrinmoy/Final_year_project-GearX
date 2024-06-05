@@ -560,7 +560,8 @@ exports.postRentalCart = async (req, res, next) => {
 
         // 1. Validate User and Product
         if (!req.user) {
-            return res.status(401).json({ message: "Unauthorized: Please Log In" });
+            // return res.status(401).json({ message: "Unauthorized: Please Log In" });
+            res.redirect('/login');
         }
 
         const product = await Product.findById(productId);

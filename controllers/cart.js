@@ -15,7 +15,7 @@ const CartController = {
                 select: 'name price imageUrl', // Specify the fields you want to select
             });
             // cart = user.cart;
-            res.render('./user/cart', { cart: user.cart, pageTitle: 'Cart', path: '/cart'});
+            res.render('./user/cart', { cart: user.cart, pageTitle: 'Cart', path: '/cart' });
             // res.render('./user/cart', { cart: user.cart });
             // res.send(user.cart.items[0]);
             // console.log(cart.items[0]);
@@ -30,6 +30,13 @@ const CartController = {
     addToCart: (req, res) => {
         const productId = req.params.productId;
         const user = req.user; // Assuming you're using Passport for authentication
+        
+        // 1. Validate User and Product
+        if (!req.user) {
+            // return res.status(401).json({ message: "Unauthorized: Please Log In" });
+           return res.redirect('/login');
+
+        }
 
         Product.findById(productId)
             .then((product) => {
@@ -61,9 +68,9 @@ const CartController = {
     },
 
 
-    postCartDeleteProduct : (req, res, next) => {
+    postCartDeleteProduct: (req, res, next) => {
         console.log('postCartDeleteProduct()')
-    
+
         const prodId = req.body.productId;
         req.user
             .removeFromcart(prodId)
@@ -73,7 +80,7 @@ const CartController = {
             .catch(err => {
                 console.log(err);
             });
-    
+
     }
 
 
