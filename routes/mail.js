@@ -69,10 +69,10 @@ exports.signupSuccess = (email, user) => {
     </head>
     <body>
         <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 20px auto; border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f5f5f5;">
-            <h2 style="color: #3498db; text-align: center;">🎉 Welcome to Mrinmoy.org! 🚀</h2>
+            <h2 style="color: #3498db; text-align: center;">🎉 Welcome to GearX! 🚀</h2>
             <p style="font-size: 16px;">Dear ${user.name},</p>
-            <p style="font-size: 16px;">We are thrilled to welcome you to Mrinmoy.org! Your <strong>signup</strong> was <strong>successful</strong>, and you are now part of our community.</p>
-            <p style="font-size: 16px;">Thank you for choosing Mrinmoy.org. If you have any questions or need assistance, feel free to reach out to our support team.</p>
+            <p style="font-size: 16px;">We are thrilled to welcome you to GearX! Your <strong>signup</strong> was <strong>successful</strong>, and you are now part of our community.</p>
+            <p style="font-size: 16px;">Thank you for choosing GearX. If you have any questions or need assistance, feel free to reach out to our support team.</p>
             <p style="font-size: 16px;">Best regards,<br>The GearX Team</p>
         </div>
     </body>
@@ -80,16 +80,16 @@ exports.signupSuccess = (email, user) => {
     `;
 
     const emailTextContent_signup = `
-    Welcome to Mrinmoy.org!
+    Welcome to GearX!
     
     Dear ${user.name},
     
-    We are thrilled to welcome you to Mrinmoy.org! Your signup was successful, and you are now part of our community.
+    We are thrilled to welcome you to GearX! Your signup was successful, and you are now part of our community.
     
-    Thank you for choosing Mrinmoy.org. If you have any questions or need assistance, feel free to reach out to our support team.
+    Thank you for choosing GearX. If you have any questions or need assistance, feel free to reach out to our support team.
     
     Best regards,
-    The Mrinmoy.org Team
+    The GearX Team
     `;
 
     transport.sendMail({

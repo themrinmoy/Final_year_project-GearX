@@ -197,7 +197,6 @@ app.get('/auth/google', passport.authenticate('google', {
 //     failureRedirect: '/login',
 //     successRedirect: '/admin'
 // }));
-app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
 
 
 app.get('/google/callback',
