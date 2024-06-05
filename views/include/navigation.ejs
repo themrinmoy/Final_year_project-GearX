@@ -1,16 +1,14 @@
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #111827;">
     <div class="container">
         <a class="navbar-brand" href="/">
-            <!-- <img src="/img/logo.png" height="40px" alt="Logo" style="ivert-100%"> -->
             <img src="/img/logotest.png" height="40px" alt="Logo" style="filter: invert(100%)">
-
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
                     <a class="fw-bold nav-link <%= path === '/' ? 'active': '' %>" href="/">Home</a>
                 </li>
@@ -22,17 +20,13 @@
                         aria-expanded="false">
                         Products
                     </a>
-                    <ul class="dropdown-menu " aria-labelledby="productsDropdown">
-                        <li><a class="dropdown-item " href="/products">All Products</a></li>
-                        <!-- <li>
-                            <hr class="dropdown-divider  " >
-                        </li> -->
+                    <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+                        <li><a class="dropdown-item" href="/products">All Products</a></li>
                         <li><a class="dropdown-item" href="/products/category/bikes">Bikes</a></li>
                         <li><a class="dropdown-item" href="/products/category/helmets">Helmets</a></li>
                         <li><a class="dropdown-item" href="/products/category/jackets">Jackets</a></li>
                         <li><a class="dropdown-item" href="/products/category/gloves">Gloves</a></li>
                         <li><a class="dropdown-item" href="/products/category/boots">Boots</a></li>
-                        <!-- <li><a class="dropdown-item" href="/products/category/backpacks">Backpacks</a></li> -->
                     </ul>
                 </li>
                 <% if(isAuthenticated){ %>
@@ -57,43 +51,39 @@
                                     </li>
                                     <% } %>
             </ul>
-        </div>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link <%= path === '/favorites' ? 'active': '' %>" href="/favorites"><i
-                        class="fas fa-heart"></i></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link <%= path === '/cart' ? 'active': '' %>" href="/cart"><i
-                        class="fas fa-shopping-cart"></i></a>
-            </li>
-            <% if(isAuthenticated){ %>
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link btn btn-primary" href="/logout">Logout</a>
+                    <a class="nav-link <%= path === '/favorites' ? 'active': '' %>" href="/favorites"><i
+                            class="fas fa-heart"></i></a>
                 </li>
-                <% } else { %>
+                <li class="nav-item">
+                    <a class="nav-link <%= path === '/cart' ? 'active': '' %>" href="/cart"><i
+                            class="fas fa-shopping-cart"></i></a>
+                </li>
+                <% if(isAuthenticated){ %>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-primary" href="/login">Log In</a>
+                        <a class="nav-link btn btn-primary" href="/logout">Logout</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-primary" href="/signup">Sign Up</a>
-                    </li>
-                    <% } %>
-        </ul>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-primary" href="/login">Log In</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-primary" href="/signup">Sign Up</a>
+                        </li>
+                        <% } %>
+            </ul>
+        </div>
     </div>
 </nav>
-
 
 <style>
     .dropdown-menu {
         background-color: #111827;
-        /* background-color: initial; */
-        /* color: white; */
-        /* color: white; */
-        /* Set your desired background color here */
         box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
         z-index: 1;
     }
+
     .dropdown-item {
         color: white;
     }
@@ -101,27 +91,71 @@
     .dropdown-menu.show {
         display: block;
     }
+
+    .navbar-nav.ml-auto {
+        margin-left: auto;
+    }
+
+    .navbar-nav.mx-auto {
+        display: flex;
+        justify-content: center;
+        flex: 1;
+    }
+
+    @media (max-width: 991.98px) {
+        .navbar-collapse {
+            text-align: center;
+        }
+
+        .navbar-nav {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar {
+            padding: 0;
+        }
+
+        .dropdown-menu {
+            position: static;
+            float: none;
+        }
+
+        .dropdown-item {
+            color: white;
+            width: 100%;
+            text-align: center;
+        }
+    }
 </style>
 
+
+
 <script>
-    const navbarToggler = document.querySelector(".navbar-toggler");
-    const navbarCollapse = document.querySelector(".navbar-collapse");
-
-    navbarToggler.addEventListener('click', () => {
-        navbarCollapse.classList.toggle('show');
-    });
-
-
     document.addEventListener("DOMContentLoaded", function () {
         const dropdowns = document.querySelectorAll('.nav-item.dropdown');
 
         dropdowns.forEach(function (dropdown) {
             dropdown.addEventListener('mouseenter', function () {
-                this.querySelector('.dropdown-menu').classList.add('show');
+                if (window.innerWidth > 991.98) {
+                    this.querySelector('.dropdown-menu').classList.add('show');
+                }
             });
 
             dropdown.addEventListener('mouseleave', function () {
-                this.querySelector('.dropdown-menu').classList.remove('show');
+                if (window.innerWidth > 991.98) {
+                    this.querySelector('.dropdown-menu').classList.remove('show');
+                }
+            });
+
+            dropdown.querySelector('.dropdown-toggle').addEventListener('click', function (e) {
+                if (window.innerWidth <= 991.98) {
+                    e.preventDefault();
+                    const menu = dropdown.querySelector('.dropdown-menu');
+                    menu.classList.toggle('show');
+                }
             });
         });
     });
