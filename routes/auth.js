@@ -4,63 +4,50 @@ const router = express.Router();
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
 
+const mail = require('./mail');
+
 const User = require('../models/User');
-var GoogleStrategy = require('passport-google-oauth2').Strategy;
+// var GoogleStrategy = require('passport-google-oauth2').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 
-const nodemailer = require('nodemailer');
-
-
-var transport = nodemailer.createTransport({
-    host: "live.smtp.mailtrap.io",
-    port: 587,
-    auth: {
-        user: "api",
-        pass: process.env.MAILTRAP_API_KEY
-
-
-    },
-    debug: true, // show debug output
-});
-
-// const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-
-// const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 const callbackURL = process.env.NODE_ENV === 'production'
-    ? 'http://gearx.mrinmoy.org/google/callback'
+    ? 'https://gearx.mrinmoy.org/google/callback'
     : 'http://localhost:3000/google/callback';
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    // callbackURL: "http://localhost:3000/google/callback",
     callbackURL: callbackURL,
     passReqToCallback: true
-}, (request, accessToken, refreshToken, profile, done) => {
+}, async (request, accessToken, refreshToken, profile, done) => {
+    try {
+        const email = profile.emails[0].value;
 
-    // console.log('profile:', profile);
-    const email = profile.emails[0].value;
-    const username = email.substring(0, email.indexOf('@'));
+        // Find the user by Google ID or email
+        let user = await User.findOne({ $or: [{ googleId: profile.id }, { email: email }] });
 
-    // User.findOne({ googleId: profile.id })
-    User.findOne({ $or: [{ googleId: profile.id }, { email: email }] })
-
-        .then(user => {
-            if (user) return done(null, user);
+        if (!user) {
+            // Create new user if they don't exist
             user = new User({
                 googleId: profile.id,
-
                 username: email.substring(0, email.indexOf('@')),
                 name: profile.displayName,
                 email: profile.emails[0].value,
                 verified: true,
                 userType: 'buyer'
             });
-            user.save().then(user => done(null, user)).catch(err => done(err));
-        })
-        .catch(err => done(err));
+            await user.save();
+            mail.signupSuccess(email, user);
+        }
+
+        return done(null, user);
+    } catch (err) {
+        return done(err);
+    }
 }));
+
 
 
 router.get('/login', (req, res) => {
@@ -176,14 +163,6 @@ router.get('/signup', (req, res) => {
 router.post('/signup', async (req, res, next) => {
     try {
         const existingUser = await User.findOne({ $or: [{ username: req.body.username }, { email: req.body.email }] });
-
-        // if (existingUser) {
-        //     if (existingUser.username === req.body.username) {
-        //         return res.status(400).json({ error: 'Username already exists. Choose a different username.' });
-        //     } else {
-        //         return res.status(400).json({ error: 'Email already exists. Choose a different email address.' });
-        //     }
-        // }
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(req.body.email)) {
             return res.status(400).json({ error: 'Invalid email format.' });
@@ -203,20 +182,11 @@ router.post('/signup', async (req, res, next) => {
 
         const token = result.generateAuthToken();
         // Send verification email...
-        transport.sendMail({
-            from: 'noreply@mrinmoy.org',
-            to: req.body.email,
-            subject: 'Signup succeeded!',
-            html: `<h1>Welcome to our shop!</h1>
-                <p>You successfully signed up!</p>
-                
-                <p>Click this <a href="https://gearx.mrinmoy.org/verify/${token}">link</a> to verify your email address.
-                This link will be valid for 24 hours.</p>`,
-            // <p>Click this <a href="http://localhost:3000/verify/${token}">link</a> to verify your email address.</p>`,
-
-        });
+        mail.sendVerificationEmail(req.body.email, token);
+        // sendVerificationEmail(req.body.email, token);
         console.log('Email sent to:', req.body.email);
-        res.redirect('/login');
+        // res.redirect('/login');
+        res.status(201).json({ message: 'Registration successful! Please verify your email' });
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }

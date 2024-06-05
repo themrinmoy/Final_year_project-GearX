@@ -193,10 +193,24 @@ app.get('/auth/google', passport.authenticate('google', {
 }));
 
 
-app.get('/google/callback', passport.authenticate('google', {
-    failureRedirect: '/login',
-    successRedirect: '/admin'
-}));
+// app.get('/google/callback', passport.authenticate('google', {
+//     failureRedirect: '/login',
+//     successRedirect: '/admin'
+// }));
+app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
+
+
+app.get('/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    (req, res) => {
+        // Successful authentication, redirect based on user type
+        if (req.user.userType === 'admin') {
+            res.redirect('/admin');
+        } else {
+            res.redirect('/');
+        }
+    }
+);
 // http://localhost:3000/google/callback
 app.use(authRoutes);
 app.use('/admin', adminRoutes);
