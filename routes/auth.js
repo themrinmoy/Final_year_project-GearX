@@ -4,6 +4,9 @@ const router = express.Router();
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
 
+const jwt = require('jsonwebtoken');
+
+
 const mail = require('./mail');
 
 const User = require('../models/User');
@@ -42,12 +45,186 @@ passport.use(new GoogleStrategy({
             mail.signupSuccess(email, user);
         }
 
+        else if (!user.googleId) {
+            user.googleId = profile.id;
+            user.verified = true;
+            await user.save();
+        }
+
         return done(null, user);
     } catch (err) {
         return done(err);
     }
 }));
 
+router.post('/login', passport.authenticate('local'), (req, res) => {
+    const userType = req.user.userType;
+    console.log('User type:', userType);
+    if (!req.user.verified) {
+        // req.logout();
+        return res.status(401).json({ message: 'Email not verified. Please verify your email.' });
+    }
+
+    if (userType === 'admin') {
+        res.redirect('/admin');
+        console.log('Administrator login successful!');
+    } else if (userType === 'buyer') {
+        res.redirect('/');
+        console.log('Buyer login successful!');
+    } else {
+        res.status(500).json({ message: 'Unknown user type' });
+        console.log('Unknown user type');
+    }
+});
+
+
+router.post('/forget-password', async (req, res) => {
+    const { identifier } = req.body;
+
+
+    try {
+        // Find the user by email or username
+        let user;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (emailRegex.test(identifier)) {
+            console.log('emailRegex.test(identifier)', emailRegex.test(identifier));
+            console.log('identifier', identifier);
+            user = await User.findOne({ email: identifier });
+        } else {
+            user = await User.findOne({ username: identifier });
+        }
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Generate a reset token
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+
+        user.resetToken = token;
+        user.resetTokenExpiration = Date.now() + 3600000; // 24 hour
+
+        await user.save();
+        // Send email with the reset token
+        mail.passwordReset(user.email, token);
+
+        res.json({ message: 'Password reset email sent' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
+// router.get('/reset/:token', async (req, res) => {
+    // const
+    router.get('/reset-password/:token', async (req, res) => {
+    const token = req.params.token;
+    console.log(token, 'token');
+
+    try {
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
+        console.log(payload, 'payload');
+
+        const user = await
+            User.findById(payload.userId);
+        // console.log(user, 'user');
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        // res.json({ message: 'Token verified' });
+        // render the reset password form
+        res.render('./auth/resetPassword', { token, pageTitle: 'Reset-Password', path: '/resetPassword' });
+    } catch (err) {
+        res.status(400).send('Invalid or expired token');
+    }
+});
+
+// Endpoint to set a new password
+router.post('/reset-password/:token', async (req, res) => {
+    const token = req.params.token;
+    const newPassword = req.body.password;
+    console.log(newPassword, 'password')
+    // const { token, newPassword } = req.body;
+    console.log(token, 'token');
+    try {
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
+        console.log(payload, 'payload');
+
+        const user = await User.findById(payload.userId);
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        const hashedPassword = await bcrypt.hash(newPassword, 12);
+        if (user.resetTokenExpiration < Date.now()) {
+            return res.status(400).send('Token expired');
+        }
+
+
+        user.password = hashedPassword;
+        user.resetToken = undefined;
+        user.resetTokenExpiration = undefined;
+        await user.save().then(result => {
+            console.log('Password set successfully');
+        }).catch(error => {
+            console.error('Password setting failed:', error);
+        });
+    
+
+        // res.send('Password set successfully');
+        res.redirect('/login');
+
+    } catch (err) {
+        res.status(400).send('Invalid or expired token');
+    }
+});
+
+router.post('/reset-password', async (req, res) => {
+    const { token, newPassword } = req.body;
+    console.log(token, 'token');
+    try {
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
+        console.log(payload, 'payload');
+
+        const user = await User.findById(payload.userId);
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+        user.password = hashedPassword;
+        await user.save();
+
+        res.send('Password set successfully');
+    } catch (err) {
+        res.status(400).send('Invalid or expired token');
+    }
+});
+
+// router.get
+
+router.get('/forget-password', async (req, res) => {
+
+    // If user is already logged in, redirect to home page
+    if (req.isAuthenticated()) {
+        if (req.user.userType === 'admin') {
+            console.log('alredy logged in as admin');
+            res.redirect('/admin');
+        }
+        else if (req.user.userType === 'buyer') {
+            console.log('alredy logged in as buyer');
+            res.redirect('/');
+        }
+    }
+    else {
+        res.render('./auth/forgetPassword',
+            {
+                pageTitle: 'Forget-Password',
+                path: '/forgetPassword'
+            });
+    }
+});
 
 
 router.get('/login', (req, res) => {
@@ -73,71 +250,16 @@ router.get('/login', (req, res) => {
 }
 );
 
-router.post('/login', passport.authenticate('local'), (req, res) => {
-    const userType = req.user.userType;
-
-    if (!req.user.verified) {
-        // req.logout();
-        return res.status(401).json({ message: 'Email not verified. Please verify your email.' });
-    }
-
-    if (userType === 'admin') {
-        res.redirect('/admin');
-        console.log('Administrator login successful!');
-    } else if (userType === 'buyer') {
-        res.redirect('/');
-        console.log('Buyer login successful!');
-    } else {
-        res.status(500).json({ message: 'Unknown user type' });
-        console.log('Unknown user type');
-    }
-});
 
 
-// Registration route
-
-// router.post('/login', passport.authenticate('local'), (req, res) => {
-
-//     const userType = req.user.userType;
-
-//     if (userType === 'admin') {
-//         // res.json({ message: 'Administrator login successfull!' });
-//         res.redirect('/admin')
-//         console.log('Administrator login successfull!');
-//     }
-//     else if (userType === 'buyer') {
-//         res.redirect('/',)
-//         // res.json({ message: 'Buyer login successfull!' });
-
-//         console.log('Buyer login successfull!');
-//     }
-//     else {
-//         res.status(500).json({ message: 'Unknown user type' });
-//         console.log('Unknown user type');
-//     }
 
 
-//     // res.json({ message: 'Login successful!' }
-// });
-
-// router.get('/logout', (req, res) => {
-//     req.logout()
-//     .then(() => {
-//         res.json({ message: 'Logout successful!' });
-//     }).catch(err => {
-//         res.json({ error: err.message });
-//     });
-//     // res.json({ message: 'Logout successful!' });
-//     // console.log('Logout successful!');
-//     res.redirect('/login');
-// });
 
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
             return res.status(500).json({ message: 'Error destroying session' });
         }
-        // res.json({ message: 'Session destroyed' });
         console.log('Session destroyed');
 
 
@@ -193,61 +315,7 @@ router.post('/signup', async (req, res, next) => {
 });
 
 
-// router.post('/signup', (req, res, next) => {
-//     const username = req.body.username;
-//     const email = req.body.email;
-//     const password = req.body.password;
-//     const userType = req.body.userType;
 
-
-//     User.findOne({ $or: [{ username: username }, { email: email }] })
-//         .then(existingUser => {
-//             if (existingUser) {
-//                 if (existingUser.username === username) {
-//                     // Username is already taken, send an error response
-//                     return res.status(400).json({ error: 'Username already exists. Choose a different username.' });
-//                     // break;
-//                 } else {
-//                     // Email is already taken, send an error response
-//                     return res.status(400).json({ error: 'Email already exists. Choose a different email address.' });
-//                 }
-//             }
-
-//             // If both username and email are not taken, hash the password and create a new user
-//             return bcrypt.hash(password, 12);
-//         })
-//         .then(hashedPassword => {
-//             const user = new User({
-//                 username: username,
-//                 email: email,
-//                 password: hashedPassword,
-//                 userType: userType
-//             });
-//             return user.save();
-//         })
-//         .then(result => {
-//             // res.json({ message: 'Registration successful!' });
-//             const token = user.generateAuthToken();
-
-//             transport.sendMail({
-//                 from: 'norepley@mrinmoy.org',
-//                 to: email,
-//                 subject: 'Signup succeeded!',
-//                 html: `<h1>Welcome to our shop!</h1>
-//                 <p>You successfully signed up!</p>
-//                 <p>Click this <a href="http://localhost:3000/verify/${token}">link</a> to verify your email address.</p>`
-//             });
-//             res.redirect('/login');
-//             console.log('email sent');
-//             console.log(result);
-//         })
-//         .catch(err => {
-//             return res.status(500).json({ error: err.message });
-
-
-//             // console.log(err);
-//         });
-// })
 
 
 router.get('/verify/:token', async (req, res) => {
@@ -258,24 +326,18 @@ router.get('/verify/:token', async (req, res) => {
         const decodedToken = await User.verifyAuthToken(token);
         console.log('Token verification from:', decodedToken);
 
-        // if(decodedToken.message){
-        //     // console.log('Token verification from:', decodedToken.message);
-        //     // return res.status(404).json({ error: decodedToken.message, message: 'Invalid token' });
-        // }
+
 
         // Find the user associated with the token
         const user = await User.findById(decodedToken._id);
         console.log('Token verification from:', user);
-        // console.log('Token verification from:', decodedToken);
-        // console.log('Token verification successful:', user);
-        // console.log('Token verification successful:');
+
 
 
         if (!user) {
 
             return res.status(404).json({ error, message: 'User not found' });
-            // return res.status(404).json({'Token verification from:', decodedToken.message });
-            // return res.status(404).json({'Token verification from:', decodedToken.message });
+
         }
 
         // console.log(user.verified, 'user.verified');
@@ -302,79 +364,5 @@ router.get('/verify/:token', async (req, res) => {
 
 
 
-// router.post('/signup', (req, res) => {
-//     // Create a new user
-//     User.register(new
-//         User({
-//             username: req.body.username,
-//             email: req.body.email,
-//             userType: req.body.userType
-
-//         }),
-//         req.body.password, (err, user) => {
-//             if (err) {
-//                 return res.json({ error: err.message });
-//             }
-//             passport.authenticate('local')(req, res, () => {
-//                 res.json({ message: 'Registration successful!' });
-//             });
-//         });
-// }
-// );
-// router.get('/login', (req, res, next) => {
-//     res.render('login');
-//     // res.send('login');
-// });
-
-// router.get('/signup', (req, res, next) => {
-//     res.render('signup');
-//     // res.send('login');
-// });
-
-// router.post('/signup', (req, res, next) => {
-
-//     const username = req.body.username;
-//     const email = req.body.email;
-//     const password = req.body.password;
-
-//     const user = new User({
-//         username: username,
-//         email: email,
-//         password: password
-//     });
-
-//     user.save();
-
-//     res.send('signup');
-//     // res.render('login');
-
-
-// });
-
-
-
-
-
-
-
-
-// // Registration route
-// router.post('/register', (req, res) => {
-//   // Create a new user
-//   User.register(new User({ username: req.body.username, userType: req.body.userType }), req.body.password, (err, user) => {
-//     if (err) {
-//       return res.json({ error: err.message });
-//     }
-//     passport.authenticate('local')(req, res, () => {
-//       res.json({ message: 'Registration successful!' });
-//     });
-//   });
-// });
-
-// // Login route
-// router.post('/login', passport.authenticate('local'), (req, res) => {
-//   res.json({ message: 'Login successful!' });
-// });
-
 module.exports = router;
-// module.exports = router;
+
