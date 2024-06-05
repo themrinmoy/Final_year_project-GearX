@@ -14,7 +14,7 @@ This repository contains the code for a bike tour rental website where users can
   - **Password:** test
 
 - **Admin Login:**
-  - **Username/email:** test  or `test@mrinmoy.org`
+  - **Username/email:** admin  or `admin@mrinmoy.org`
   - **Password:** test
 
 ### Getting Started
