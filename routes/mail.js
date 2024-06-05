@@ -28,7 +28,7 @@ exports.sendVerificationEmail = (email, token) => {
                 <p style="font-size: 16px; text-align: center;">You've successfully signed up!</p>
                 <p style="font-size: 16px;">To start exploring, please verify your email address by clicking the link below:</p>
                 <p style="font-size: 16px; text-align: center;"><a href="https://gearx.mrinmoy.org/verify/${token}" style="color: #3498db;">Verify Email Address</a></p>
-                <p style="font-size: 16px; text-align: center;"><a href="${process.env.DOMAIN}/verify/${token}" style="color: #3498db;">Verify Email Address</a></p>
+                <p style="font-size: 16px; text-align: center;"><a href="${domain}/verify/${token}" style="color: #3498db;">Verify Email Address</a></p>
                 <p style="font-size: 14px; color: #777;">This link will be valid for 24 hours.</p>
                 <p style="font-size: 16px;">If you didn't sign up for GearX, you can ignore this email.</p>
                 <p style="font-size: 16px;">Best regards,<br>The GearX Team</p>

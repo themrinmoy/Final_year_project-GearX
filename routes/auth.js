@@ -118,14 +118,14 @@ router.post('/forget-password', async (req, res) => {
 
 
 // router.get('/reset/:token', async (req, res) => {
-    // const
-    router.get('/reset-password/:token', async (req, res) => {
+// const
+router.get('/reset-password/:token', async (req, res) => {
     const token = req.params.token;
-    console.log(token, 'token');
+    // console.log(token, 'token');
 
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET);
-        console.log(payload, 'payload');
+        // console.log(payload, 'payload');
 
         const user = await
             User.findById(payload.userId);
@@ -133,8 +133,12 @@ router.post('/forget-password', async (req, res) => {
         if (!user) {
             return res.status(404).send('User not found');
         }
-        // res.json({ message: 'Token verified' });
-        // render the reset password form
+
+       
+        if (typeof user.resetTokenExpiration === 'undefined' || user.resetTokenExpiration < Date.now()) {
+            console.log('Token expired');
+            return res.json({ message: 'Token expired' });
+        }
         res.render('./auth/resetPassword', { token, pageTitle: 'Reset-Password', path: '/resetPassword' });
     } catch (err) {
         res.status(400).send('Invalid or expired token');
@@ -145,12 +149,9 @@ router.post('/forget-password', async (req, res) => {
 router.post('/reset-password/:token', async (req, res) => {
     const token = req.params.token;
     const newPassword = req.body.password;
-    console.log(newPassword, 'password')
-    // const { token, newPassword } = req.body;
-    console.log(token, 'token');
+
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET);
-        console.log(payload, 'payload');
 
         const user = await User.findById(payload.userId);
         if (!user) {
@@ -170,7 +171,7 @@ router.post('/reset-password/:token', async (req, res) => {
         }).catch(error => {
             console.error('Password setting failed:', error);
         });
-    
+
 
         // res.send('Password set successfully');
         res.redirect('/login');
@@ -182,10 +183,10 @@ router.post('/reset-password/:token', async (req, res) => {
 
 router.post('/reset-password', async (req, res) => {
     const { token, newPassword } = req.body;
-    console.log(token, 'token');
+
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET);
-        console.log(payload, 'payload');
+
 
         const user = await User.findById(payload.userId);
         if (!user) {
