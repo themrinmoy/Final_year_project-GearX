@@ -17,6 +17,9 @@ const errorController = require('./controllers/error');
 
 
 
+
+
+
 const compression = require('compression');
 
 
@@ -139,6 +142,9 @@ passport.use(new LocalStrategy((username, password, done) => {
             });
 }));
 
+
+
+
 // passport.serializeUser(User.serializeUser());
 passport.serializeUser((user, done) => {
     done(null, { id: user.id, userType: user.userType });
@@ -182,8 +188,16 @@ const rentalRoutes = require('./routes/rent');
 
 const userRoutes = require('./routes/user');
 
+app.get('/auth/google', passport.authenticate('google', {
+    scope: ['email', 'profile']
+}));
 
 
+app.get('/google/callback', passport.authenticate('google', {
+    failureRedirect: '/login',
+    successRedirect: '/admin'
+}));
+// http://localhost:3000/google/callback
 app.use(authRoutes);
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);

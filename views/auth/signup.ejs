@@ -10,83 +10,114 @@
             <link rel="stylesheet" href="../css/login.css">
             <section class="vh-100">
                 <div class="container mt-5">
-                  <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col-lg-12 col-xl-11">
-                      <div class="card text-black" style="border-radius: 25px;">
-                        <div class="card-body p-md-5">
-                          <div class="row justify-content-center">
-                            <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-              
-                              <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
-                              <form action="/signup" method="post">
-                                <!-- Username input -->
-                                <div class="d-flex flex-row align-items-center mb-4">
-                                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                    <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                                        <input type="text" id="username" name="username" class="form-control" />
-                                        <label class="form-label" for="username">Username</label>
-                                    </div>
-                                </div>
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col-lg-12 col-xl-11">
+                            <div class="card text-black" style="border-radius: 25px;">
+                                <div class="card-body p-md-5">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+
+                                            <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                                            <form action="/signup" method="post">
+
+
+                                                <div class="text-center mb-3">
+                                                    <p>Sign up with:</p>
+                                                    <!-- <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+                                      <i class="fab fa-facebook-f"></i>
+                                    </button> -->
+                                    <a href="/auth/google">
+                                        <button type="button" data-mdb-button-init data-mdb-ripple-init
+                                            class="btn btn-link btn-floating mx-1">
+                                            <!-- <i class="fab fa-google"></i> -->
+                                            <i class="fa-brands fa-google"></i>
+                                        </button>
+                                    </a>
+                                                    <!-- <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+                                      <i class="fab fa-twitter"></i>
+                                    </button>
                             
-                                <!-- Email input -->
-                                <div class="d-flex flex-row align-items-center mb-4">
-                                    <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                                    <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                                        <input type="email" id="email" name="email" class="form-control" />
-                                        <label class="form-label" for="email">Email</label>
-                                    </div>
-                                </div>
-                            
-                                <!-- Password input -->
-                                <div class="d-flex flex-row align-items-center mb-4">
-                                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-                                    <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                                        <input type="password" id="password" name="password" class="form-control" />
-                                        <label class="form-label" for="password">Password</label>
-                                    </div>
-                                </div>
-                            
-                                <!-- Repeat Password input (if necessary) -->
-                                <!-- <div class="d-flex flex-row align-items-center mb-4">
+                                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
+                                      <i class="fab fa-github"></i>
+                                    </button> -->
+                                                </div>
+
+                                                <p class="text-center fw-bold">Or:</p>
+                                                <!-- Username input -->
+                                                <div class="d-flex flex-row align-items-center mb-4">
+                                                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                                                    <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                                                        <input type="text" id="username" name="username"
+                                                            class="form-control" />
+                                                        <label class="form-label" for="username">Username</label>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Email input -->
+                                                <div class="d-flex flex-row align-items-center mb-4">
+                                                    <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                                    <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                                                        <input type="email" id="email" name="email"
+                                                            class="form-control" />
+                                                        <label class="form-label" for="email">Email</label>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Password input -->
+                                                <div class="d-flex flex-row align-items-center mb-4">
+                                                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                                                    <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                                                        <input type="password" id="password" name="password"
+                                                            class="form-control" />
+                                                        <label class="form-label" for="password">Password</label>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Repeat Password input (if necessary) -->
+                                                <!-- <div class="d-flex flex-row align-items-center mb-4">
                                     <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                                     <div data-mdb-input-init class="form-outline flex-fill mb-0">
                                         <input type="password" id="repeat-password" name="repeat-password" class="form-control" />
                                         <label class="form-label" for="repeat-password">Repeat your password</label>
                                     </div>
                                 </div> -->
-                            
-                                <!-- Checkbox for Terms of Service (optional) -->
-                                <div class="form-check d-flex justify-content-center mb-5">
-                                    <input class="form-check-input me-2" type="checkbox" value="" id="terms-checkbox" />
-                                    <label class="form-check-label" for="terms-checkbox">
-                                        I agree to all statements in <a href="#!">Terms of Service</a>
-                                    </label>
+
+                                                <!-- Checkbox for Terms of Service (optional) -->
+                                                <div class="form-check d-flex justify-content-center mb-5">
+                                                    <input class="form-check-input me-2" type="checkbox" value=""
+                                                        id="terms-checkbox" />
+                                                    <label class="form-check-label" for="terms-checkbox">
+                                                        I agree to all statements in <a href="#!">Terms of Service</a>
+                                                    </label>
+                                                </div>
+
+                                                <!-- Signup button -->
+                                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                                    <button type="submit" class="btn btn-primary btn-lg">Sign
+                                                        Up</button>
+                                                </div>
+
+                                                <!-- Login link -->
+                                                <p class="text-center mb-0">Already have an account? <a
+                                                        href="/login">Log in</a></p>
+                                            </form>
+
+
+                                        </div>
+                                        <div
+                                            class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+
+                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                                                class="img-fluid" alt="Sample image">
+
+                                        </div>
+                                    </div>
                                 </div>
-                            
-                                <!-- Signup button -->
-                                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                    <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
-                                </div>
-                            
-                                <!-- Login link -->
-                                <p class="text-center mb-0">Already have an account? <a href="/login">Log in</a></p>
-                            </form>
-                            
-              
                             </div>
-                            <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-              
-                              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                                class="img-fluid" alt="Sample image">
-              
-                            </div>
-                          </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
                 </div>
-              </section>
+            </section>
 
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
@@ -150,6 +181,39 @@
 
                 .input-field.invalid .error-message {
                     display: block;
+                }
+
+                .google-button {
+                    background: white;
+                    border: none;
+                    border-radius: 50%;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    height: 60px;
+                    width: 60px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                    text-decoration: none; /* Ensure the link is styled as a button */
+
+                }
+
+                .google-button:hover {
+                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+                    transform: scale(1.05);
+                }
+
+                .google-icon {
+                    background: linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    font-size: 24px;
+                    transition: transform 0.3s ease;
+                }
+
+                .google-button:hover .google-icon {
+                    transform: rotate(20deg);
                 }
             </style>
             <%- include('../include/footer.ejs') %>

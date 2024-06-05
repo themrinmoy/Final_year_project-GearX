@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
     name: { type: String },
     email: { type: String },
     password: { type: String },
+    googleId: { type: String, unique: true },
     resetToken: {
         type: String,
         require: false
@@ -45,6 +46,8 @@ const userSchema = new mongoose.Schema({
     rentals: [{
         rentalId: { type: mongoose.Schema.Types.ObjectId, ref: 'Rental' },
     }],
+    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
+
     // rentals: [{
     //     rentalId: { type: mongoose.Schema.Types.ObjectId, ref: 'Rental' },
     // }],

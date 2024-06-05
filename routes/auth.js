@@ -5,6 +5,7 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 
 const User = require('../models/User');
+var GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 
 const nodemailer = require('nodemailer');
@@ -22,7 +23,44 @@ var transport = nodemailer.createTransport({
     debug: true, // show debug output
 });
 
+// const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
+// const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+
+const callbackURL = process.env.NODE_ENV === 'production'
+    ? 'http://gearx.mrinmoy.org/google/callback'
+    : 'http://localhost:3000/google/callback';
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    // callbackURL: "http://localhost:3000/google/callback",
+    callbackURL: callbackURL,
+    passReqToCallback: true
+}, (request, accessToken, refreshToken, profile, done) => {
+
+    // console.log('profile:', profile);
+    const email = profile.emails[0].value;
+    const username = email.substring(0, email.indexOf('@'));
+
+    // User.findOne({ googleId: profile.id })
+    User.findOne({ $or: [{ googleId: profile.id }, { email: email }] })
+
+        .then(user => {
+            if (user) return done(null, user);
+            user = new User({
+                googleId: profile.id,
+
+                username: email.substring(0, email.indexOf('@')),
+                name: profile.displayName,
+                email: profile.emails[0].value,
+                verified: true,
+                userType: 'buyer'
+            });
+            user.save().then(user => done(null, user)).catch(err => done(err));
+        })
+        .catch(err => done(err));
+}));
 
 
 router.get('/login', (req, res) => {
@@ -43,7 +81,7 @@ router.get('/login', (req, res) => {
         // res.redirect('/');
     }
     else {
-        res.render('./auth/login' , { pageTitle: 'Login', path: '/login' });
+        res.render('./auth/login', { pageTitle: 'Login', path: '/login' });
     }
 }
 );
@@ -174,7 +212,7 @@ router.post('/signup', async (req, res, next) => {
                 
                 <p>Click this <a href="https://gearx.mrinmoy.org/verify/${token}">link</a> to verify your email address.
                 This link will be valid for 24 hours.</p>`,
-                // <p>Click this <a href="http://localhost:3000/verify/${token}">link</a> to verify your email address.</p>`,
+            // <p>Click this <a href="http://localhost:3000/verify/${token}">link</a> to verify your email address.</p>`,
 
         });
         console.log('Email sent to:', req.body.email);
@@ -271,14 +309,14 @@ router.get('/verify/:token', async (req, res) => {
         }
 
         // console.log(user.verified, 'user.verified');
-        if(user.verified){
+        if (user.verified) {
             return res.status(400).json({ message: 'Email already verified' });
         }
         if (!user.verified) {
             user.verified = true;
             // return res.status(400).json({ message: 'Email already verified' });
             await user.save();
-            
+
             return res.status(200).json({ message: 'Email verification successful' });
             // res.status(200).json({ message: 'Email verification successful' });
             // res.redirect('/login');
