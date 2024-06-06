@@ -1,32 +1,32 @@
-// controllers/userController.js
-// Import your User model and other necessary dependencies
+const User = require('../models/User');
 
-// Example user-related controller functions:
-exports.getAllUsers = (req, res) => {
-    // Logic to get all users
-};
 
-exports.getUserById = (req, res) => {
-    // Logic to get user by ID
-};
 
-exports.createUser = (req, res) => {
-    // Logic to create a new user
-};
+exports.userProfile = async (req, res) => {
 
-exports.updateUser = (req, res) => {
-    // Logic to update user by ID
-};
+    try{
+    const userData = req.session.passport.user;
 
-exports.deleteUser = (req, res) => {
-    // Logic to delete user by ID
-};
+    const user = await User.findById(userData.id);
 
-// Add other user-related controller functions as needed
+    let username = req.user ? req.user.username : null;
+    let profilePic = req.user ? req.user.profilePic : null;
 
-// Path: routes/userRoutes.js
-router.get('/', userController.getAllUsers);
-router.get('/:userId', userController.getUserById);
-router.post('/', userController.createUser);
-router.put('/:userId', userController.updateUser);
-router.delete('/:userId', userController.deleteUser);
+    res.render('user/profile', 
+    { 
+        user, 
+        pageTitle: 'Profile', 
+        path: '/profile',
+        username: username, 
+        profilePic: profilePic
+    }
+    );
+    }
+    catch(err){
+        console.log(err);
+    }
+
+
+}
+
+

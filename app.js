@@ -182,7 +182,7 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use('/rent', rentalRoutes);
 app.use('/cart', cartRoutes);
-app.use(userRoutes);
+app.use('/user', userRoutes);
 // app.use(rentalRoutes);
 app.get('/auth/google', passport.authenticate('google', {
     scope: ['email', 'profile']

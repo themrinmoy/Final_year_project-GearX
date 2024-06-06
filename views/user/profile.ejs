@@ -1,0 +1,123 @@
+<%- include('../include/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../include/navigation.ejs') %>
+
+        <main>
+            <!-- make a user profile page  -->
+
+            <div class="profile-container">
+                <div class="profile-header">
+                    <img src="<%= user.profilePic %>" alt="Profile Picture" class="profile-pic">
+                    <h1 class="username"><%= user.username %></h1>
+                    <p class="email"><%=
+                        user.email %></p>
+                </div>
+
+                <div class="profile-info">
+                    <h2>Personal Information</h2>
+                    <p><strong>Name:</strong> <%= user.name %></p>
+                    <p><strong>Email:</strong> <%= user.email %></p>
+                    <p><strong>Verified:</strong> <%= user.verified ? 'Yes' : 'No' %></p>
+                    <p><strong>User Type:</strong> <%= user.userType %></p>
+
+                </div>
+
+
+        </main>
+
+        <style>
+            .profile-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 20px;
+            }
+
+            .profile-header {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .profile-pic {
+                width: 200px;
+                height: 200px;
+                border-radius: 50%;
+                margin-bottom: 10px;
+            }
+
+            .username {
+                font-size: 24px;
+                margin: 0;
+            }
+
+            .email {
+                margin: 0;
+            }
+
+            .profile-info {
+                margin-top: 20px;
+                width: 50%;
+                border: 1px solid #ccc;
+                padding: 10px;
+            }
+
+            .profile-info h2 {
+                margin: 0;
+            }
+
+            .profile-info p {
+                margin: 5px 0;
+            }
+
+            .rental-cart,
+            .wishlist,
+            .rentals {
+                margin-top: 20px;
+                width: 50%;
+                border: 1px solid #ccc;
+                padding: 10px;
+            }
+
+            .rental-cart h2,
+            .wishlist h2,
+            .rentals h2 {
+                margin: 0;
+            }
+
+            .rental-cart ul,
+            .wishlist ul,
+            .rentals ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            .rental-cart li,
+            .wishlist li,
+            .rentals li {
+                border-bottom: 1px solid #ccc;
+                padding: 10px 0;
+            }
+
+            .rental-cart li:last-child,
+            .wishlist li:last-child,
+            .rentals li:last-child {
+                border-bottom: none;
+            }
+
+            .rental-cart p,
+            .wishlist p,
+            .rentals p {
+                margin: 0;
+            }
+
+            .rental-cart a {
+                display: block;
+                text-align: center;
+                margin-top: 10px;
+            }
+        </style>
+
+        <%- include('../include/footer.ejs') %>

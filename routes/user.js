@@ -4,18 +4,36 @@ const router = express.Router();
 
 const rentalController = require('../controllers/rentalController');
 
+const userController = require('../controllers/userController');
+
 // GET /users
-router.get('/', (req, res) => {
-    // Logic to fetch all users from the database
-    // Send the users as a response
-});
+router.get('/profile', userController.userProfile);
 
 // GET /users/:id
-router.get('/:id', (req, res) => {
-    const userId = req.params.id;
-    // Logic to fetch a specific user by ID from the database
-    // Send the user as a response
+router.get('/favorites', (req, res, next) => {
+    let username = req.user ? req.user.username : null;
+    let profilePic = req.user ? req.user.profilePic : null;
+
+    res.render('user/favorites', {
+        pageTitle: 'Favorites', path: '/favorites',
+        username: username, profilePic: profilePic
+
+    });
 });
+
+
+router.get('/orders', (req, res, next) => {
+
+    let username = req.user ? req.user.username : null;
+    let profilePic = req.user ? req.user.profilePic : null;
+
+    res.render('user/order', {
+        pageTitle: 'Order', path: '/order',
+        username: username, profilePic: profilePic
+    });
+});
+
+router.get('/rentals', rentalController.getRentedItemsByUser);
 
 // POST /users
 router.post('/', (req, res) => {
