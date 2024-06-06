@@ -11,6 +11,8 @@ const userSchema = new mongoose.Schema({
     email: { type: String },
     password: { type: String},
     googleId: { type: String, unique: true },
+    // profilePic: { type: String },
+    profilePic: { type: String, default: '/img/user.png' },
     resetToken: {
         type: String,
         require: false

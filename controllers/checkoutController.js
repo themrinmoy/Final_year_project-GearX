@@ -79,6 +79,8 @@ exports.getCheckout = async (req, res, next) => {
     });
     req.session.expectedSessionId = sessionId;
     await req.session.save();
+    let profilePic = req.user ? req.user.profilePic : null;
+    let username = req.user ? req.user.username : null;
 
     res.render('./user/shopCheckout', {
       items: cartItems,
@@ -88,6 +90,8 @@ exports.getCheckout = async (req, res, next) => {
       // session,
       sessionId: session.id,
       path: '/checkout',
+      username: username,
+      profilePic: profilePic
     });
     // res.json({ user, items: user.cart.items, totalPrice });
   } catch (error) {

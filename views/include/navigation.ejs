@@ -61,8 +61,23 @@
                             class="fas fa-shopping-cart"></i></a>
                 </li>
                 <% if(isAuthenticated){ %>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-primary" href="/logout">Logout</a>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            aria-expanded="false">
+                            <img src="<%= profilePic %>" class="profile-picture" alt="user">
+
+                            <%= username %>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+                            <li><a class="dropdown-item" href="/user/rentals">Rentals</a></li>
+                            <li><a class="dropdown-item" href="/user/orders">Orders</a></li>
+                            <li><a class="dropdown-item" href="/user/favorites">Favorites</a></li>
+                            <li> <a class="nav-link btn btn-primary" href="/logout">Logout</a></li>
+
+                        </ul>
+
                     </li>
                     <% } else { %>
                         <li class="nav-item">
@@ -78,6 +93,18 @@
 </nav>
 
 <style>
+    .profile-picture {
+        width: 30px;
+        /* Adjust as needed */
+        height: 30px;
+        /* Adjust as needed */
+        border-radius: 50%;
+        /* Ensures a circular profile picture */
+        margin-right: 8px;
+        /* Adjust as needed */
+    }
+
+
     .dropdown-menu {
         background-color: #111827;
         box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);

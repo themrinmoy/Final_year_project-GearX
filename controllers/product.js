@@ -36,13 +36,16 @@ exports.productsByCategory = (req, res, next) => {
       // Render an EJS view with the product data
       // res.json(productsWithImages);
       // res.json(products);
+      let username = req.user ? req.user.username : null;
+      let profilePic = req.user ? req.user.profilePic : null;
 
       // res.render('product/all-products', { category, products: productsWithImages, pageTitle: 'All Products', categoryTitle: category});
       res.render('./product/all-Products.ejs', {
         category, products: productsWithImages,
         pageTitle: 'All Products',
         path: '/products',
-        categoryTitle: category
+        categoryTitle: category,
+        username: username, profilePic: profilePic
       });
 
     })
@@ -63,12 +66,15 @@ exports.productDetails = (req, res) => {
         return res.status(404).render('error', { message: 'Product not found' });
         // You may want to create an 'error.ejs' view to handle error messages
       }
+      let username = req.user ? req.user.username : null;
+      let profilePic = req.user ? req.user.profilePic : null;
 
       // Render an EJS view with the product data
       res.render('product/product-details', {
         product,
         path: '/products',
-        pageTitle: product.name
+        pageTitle: product.name,
+        username: username, profilePic: profilePic
       });
     })
     .catch((error) => {

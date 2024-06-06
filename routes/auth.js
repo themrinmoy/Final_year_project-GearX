@@ -38,6 +38,7 @@ passport.use(new GoogleStrategy({
                 username: email.substring(0, email.indexOf('@')),
                 name: profile.displayName,
                 email: profile.emails[0].value,
+                profilePic: profile.photos[0].value,
                 verified: true,
                 userType: 'buyer'
             });
@@ -48,6 +49,7 @@ passport.use(new GoogleStrategy({
         else if (!user.googleId) {
             user.googleId = profile.id;
             user.verified = true;
+            user.profilePic = profile.photos[0].value;
             await user.save();
         }
 

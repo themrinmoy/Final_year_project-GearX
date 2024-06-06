@@ -43,11 +43,17 @@ const fs = require('fs'); // Add this line to include the fs module
 //     }
 //   };
 exports.getAllProducts = (req, res) => {
+
+    let username = req.user ? req.user.username : null;
+    let profilePic = req.user ? req.user.profilePic : null;
     Product.find()
         .then((products) => {
-            res.render('./admin/admin-products', { products,
+            res.render('./admin/admin-products', {
+                products,
                 path: '/admin/products',
-                 pageTitle: 'Admin - Products' });
+                pageTitle: 'Admin - Products',
+                username: username, profilePic: profilePic
+            });
         })
         .catch((error) => {
             console.error(error);
@@ -62,49 +68,22 @@ exports.getAllProducts = (req, res) => {
 // };
 
 exports.showAddProductPage = (req, res) => {
-    
-    res.render('./admin/update-product', { pageTitle: 'Add Product', editing: false, errorMessage: null, product: null, path: '/admin/add-product' });
+
+    let username = req.user ? req.user.username : null;
+    let profilePic = req.user ? req.user.profilePic : null;
+
+    res.render('./admin/update-product',
+        {
+            pageTitle: 'Add Product', editing: false,
+            errorMessage: null,
+            product: null,
+            path: '/admin/add-product',
+            username: username, profilePic: profilePic
+        });
 };
 
 
 
-// const upload = multer({ storage: fileStorage, fileFilter: fileFilter }).single('imageUrl');
-
-// Controller functions for administrator functionalities
-// (Rest of your code remains unchanged)
-
-// Controller functions for administrator functionalities
-
-// oldPostAddProduct only for sellable products
-// exports.postAddProduct = (req, res) => {
-//     const image = req.file;
-
-//     if (!image) {
-//         // Handle the case where no file was uploaded (optional)
-//         return res.status(400).send('Please upload an image.');
-//     }
-
-//     // Create a new Product instance 
-//     const product = new Product({
-//         name: req.body.name,
-//         description: req.body.description,
-//         price: req.body.price,
-//         category: req.body.category,
-//         type: req.body.type,
-//         imageUrl: image.path
-//         // Assuming 'imageUrl' is a property in your Product model
-//     });
-
-//     product.save() // Save the product to your database
-//         .then(result => {
-//             res.redirect('/admin/products'); // Or any success response you prefer
-//         })
-//         .catch(err => {
-//             // Handle database save errors
-//             console.error(err);
-//             res.status(500).send('Error saving product.');
-//         });
-// };
 
 
 exports.postAddProduct = (req, res) => {
@@ -203,7 +182,18 @@ exports.getUpdateProduct = (req, res) => {
                 return res.status(404).json({ message: 'Product not found' });
             }
             // Assuming you have the 'product' object available
-            res.render('admin/update-product', { product: product, errorMessage: null, editing: true, pageTitle: 'Update Product', path: '/admin/products'});
+
+            let username = req.user ? req.user.username : null;
+            let profilePic = req.user ? req.user.profilePic : null;
+
+            res.render('admin/update-product',
+                {
+                    product: product,
+                    errorMessage: null,
+                    editing: true, pageTitle: 'Update Product',
+                    path: '/admin/products',
+                    username: username, profilePic: profilePic
+                });
 
             // res.render('./admin/update-product', { product, pageTitle: 'Update Product', editing: true, errorMessage: null });
         })

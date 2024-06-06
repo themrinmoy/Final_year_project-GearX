@@ -14,30 +14,17 @@ const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9b
 
 // Get all rentals
 exports.getAllRentals = (req, res, next) => {
-    // console.log('get all rentals');
-    // const { type } = req.params;
-    // const  type  = "rentable";
-    // Fetch all products from the database
+
     Product.find({ type: "rentable" }).then((products) => {
-        // Modify the response to include image path or URL
-        // const productsWithImages = products.map((product) => ({
-        //   _id: product._id,
-        //   name: product.name,
-        //   description: product.description,
-        //   price: product.price,
-        //   type: product.type,
-        //   imageUrl: product.imageUrl, 
-        // }));
 
-        // res.status(200).json(productsWithImages);
-
-        // Render an EJS view with the product data
-        // res.json(productsWithImages);
+        let username = req.user ? req.user.username : null;
+        let profilePic = req.user ? req.user.profilePic : null;
 
         res.render('./rent/all.ejs', {
             products, pageTitle: 'For Rent',
             path: '/rent',
-            categoryTitle: "Ready for Rent"
+            categoryTitle: "Ready for Rent",
+            username: username, profilePic: profilePic
         });
         // res.render('rent/allcopy.ejs', { products, pageTitle: ' for Rent', categoryTitle: "Ready for Rent" });
         // res.render('rent/rent-all.ejs', { products, pageTitle: ' for Rent', categoryTitle: "Ready for Rent" });
@@ -197,10 +184,15 @@ exports.getRentalCart = async (req, res, next) => {
         console.log(fStartDate); // Output: "2024-03-05"
         console.log(fEndDate); // Output: "2024-03-10"
         // Render the View or return JSON as needed
+        let username = req.user ? req.user.username : null;
+        let profilePic = req.user ? req.user.profilePic : null;
+
+
         res.render('./rent/rent-cart', {
             items: cartItems,
             path: '/rent/cart',
-            fStartDate, fEndDate, durationInDays, totalCost, pageTitle: 'Rental Cart'
+            fStartDate, fEndDate, durationInDays, totalCost, pageTitle: 'Rental Cart',
+            username: username, profilePic: profilePic
         });
         // res.status(200).json({ items: cartItems, user, totalCost });
 
@@ -241,7 +233,9 @@ exports.getRentChekout = async (req, res, next) => {
         // 4. Optionally Fetch Additional Rental Details
         if (cartItems.length > 0) {
             const rentalPromises = cartItems.map(item =>
-                Rental.findOne({ productId: item.productId, userId }) // Adapt as needed
+                Rental.findOne({ productId: item.productId, userId
+
+                 }) // Adapt as needed
             );
             const rentals = await Promise.all(rentalPromises);
 
@@ -348,6 +342,8 @@ exports.getRentChekout = async (req, res, next) => {
         await req.session.save();
 
         // req.session.stripeSessionId = sessionId;
+        let username = req.user ? req.user.username : null;
+        let profilePic = req.user ? req.user.profilePic : null;
 
         res.render('./user/rentCheckout', {
             items: cartItems,
@@ -357,7 +353,8 @@ exports.getRentChekout = async (req, res, next) => {
             totalCost,
             pageTitle: 'checkout',
             sessionId: session.id,
-            path: '/rent/checkout'
+            path: '/rent/checkout',
+            username: username , profilePic: profilePic
         });
         // res.status(200).json({ items: cartItems, user, totalCost });
 
@@ -395,31 +392,6 @@ async function calculateTotalRentalCost(cartItems, durationInDays) {
     return totalCost;
 }
 
-// exports.getRentCheckoutSuccess = async (req, res, next) => {
-//     try {
-//         const sessionId = req.query.session_id;
-
-//         try {
-//             const session = await stripe.checkout.sessions.retrieve(sessionId);
-
-//             if (session.payment_status === 'paid') {
-//                 // ... (rest of your payment processing logic)
-//             } else {
-//                 res.status(400).send('Payment unsuccessful or order mismatch.');
-//             }
-//         } catch (error) {
-//             // Handle Stripe API errors
-//             if (error.type === 'StripeInvalidRequestError') {
-//                 console.error('Error fetching session:', error);
-//                 res.redirect('/rent/cart?error=session-expired'); // Redirect to cart with error indicator
-//             } else {
-//                 next(error); // Pass other errors to your general error handler
-//             }
-//         }
-//     } catch (error) {
-//         next(error);
-//     }
-// };
 
 
 
@@ -428,7 +400,7 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
         const sessionId = req.query.session_id;
 
         // const sessionId = req.query.session_id;
-        console.log(sessionId , 'session id');
+        console.log(sessionId, 'session id');
 
         const expectedSessionId = req.session.expectedSessionId;
         if (sessionId !== expectedSessionId) {
@@ -438,7 +410,7 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
             return res.status(400).send('Invalid session ID');
         }
 
-        if(sessionId === expectedSessionId) {
+        if (sessionId === expectedSessionId) {
             console.log('session id is valid');
         }
 
@@ -454,7 +426,7 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
         // console.log(req.user.rentalCart.items, 'items');
         const totalRentalCost = await calculateTotalRentalCost(req.user.rentalCart.items, durationInDays);
 
-      
+
 
         // const totalRentalCost = 0
         console.log(durationInDays, 'days');
@@ -529,7 +501,11 @@ exports.getAllRentedItems = async (req, res, next) => {
     try {
         const rentals = await Rental.find();
 
-        res.render('user/rentals', { rentals, pageTitle: 'Rentals', title: 'All Rentals', path: '/rentals' });
+        let username = req.user ? req.user.username : null;
+        let profilePic = req.user ? req.user.profilePic : null;
+        res.render('user/rentals', { rentals, pageTitle: 'Rentals',
+             title: 'All Rentals', path: '/rentals',
+            username: username, profilePic: profilePic});
         // res.status(200).json(rentals);
     } catch (error) {
         console.error('Error fetching rentals:', error);
@@ -542,7 +518,13 @@ exports.getRentedItemsByUser = async (req, res, next) => {
         const userId = req.user._id;
         const rentals = await Rental.find({ userId });
 
-        res.render('user/rentals', { rentals, pageTitle: 'Rentals', title: 'Your Rentals', path: '/user/rentals' });
+        let username = req.user ? req.user.username : null;
+        let profilePic = req.user ? req.user.profilePic : null;
+
+        res.render('user/rentals', {
+            rentals, pageTitle: 'Rentals', title: 'Your Rentals', path: '/user/rentals',
+            username: username, profilePic: profilePic
+        });
         // res.status(200).json(rentals);
     } catch (error) {
         console.error('Error fetching rentals:', error);

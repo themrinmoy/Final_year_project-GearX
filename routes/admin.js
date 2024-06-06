@@ -15,13 +15,19 @@ const { getRentCheckoutSuccess } = require('../controllers/rentalController');
 
 //:/admin
 // router.get('/', checkUserType('admin'), (req, res) => {
-router.get('/',checkUserType('admin'), (req, res) => {
+router.get('/', checkUserType('admin'), (req, res) => {
     console.log('admin page');
-    res.render('./admin/admin.ejs', { user: req.user, pageTitle: 'Admin', path: '/admin' });
+    let username = req.user ? req.user.username : null;
+    let profilePic = req.user ? req.user.profilePic : null;
+    res.render('./admin/admin.ejs', {
+        user: req.user, pageTitle: 'Admin',
+        path: '/admin',
+        username: username, profilePic: profilePic
+    });
     // res.send('admin');
 });
 
-router.get('/add-product',checkUserType('admin'), adminController.showAddProductPage);
+router.get('/add-product', checkUserType('admin'), adminController.showAddProductPage);
 // router.post('/add-product', checkUserType('admin'), adminController.addProduct);
 router.post('/add-product', checkUserType('admin'), adminController.postAddProduct);
 
@@ -33,7 +39,7 @@ router.get('/products', checkUserType('admin'), adminController.getAllProducts);
 router.get('/update-product/:productId', checkUserType('admin'), adminController.getUpdateProduct);
 
 // Handle 'Update Product' form submission 
-router.post('/update-product/:productId',checkUserType('admin'),  adminController.postUpdateProduct);
+router.post('/update-product/:productId', checkUserType('admin'), adminController.postUpdateProduct);
 
 router.delete('/delete-product/:productId', checkUserType('admin'), adminController.removeProduct);
 router.post('/delete-product/:productId', checkUserType('admin'), adminController.removeProduct);

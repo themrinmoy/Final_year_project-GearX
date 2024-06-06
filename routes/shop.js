@@ -7,7 +7,9 @@ const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9b
 
 
 router.get('/', (req, res, next) => {
-    res.render('shop/index', { pageTitle: 'Home', path: '/' });
+    let username = req.user ? req.user.username : null;
+    let profilePic = req.user ? req.user.profilePic : null;
+    res.render('shop/index', { pageTitle: 'Home', path: '/', username: username, profilePic: profilePic });
 });
 
 
@@ -18,16 +20,51 @@ router.get('/products/:productId', productController.productDetails);
 
 router.get('/products/category/:category', productController.productsByCategory);
 
+router.get('/user/orders', (req, res, next) => {
+
+    let username = req.user ? req.user.username : null;
+    let profilePic = req.user ? req.user.profilePic : null;
+
+    res.render('user/order', {
+        pageTitle: 'Order', path: '/order',
+        username: username, profilePic: profilePic
+    });
+});
 router.get('/order', (req, res, next) => {
-    res.render('user/order', { pageTitle: 'Order', path: '/order' });
+
+    let username = req.user ? req.user.username : null;
+    let profilePic = req.user ? req.user.profilePic : null;
+
+    res.render('user/order', {
+        pageTitle: 'Order', path: '/order',
+        username: username, profilePic: profilePic
+    });
 });
 router.get('/about', (req, res, next) => {
     res.render('shop/about', { pageTitle: 'About', path: '/about' });
 });
 router.get('/contact', (req, res, next) => {
     res.render('shop/contact', { pageTitle: 'Contact', path: '/contact' });
-}); router.get('/favorites', (req, res, next) => {
-    res.render('user/favorites', { pageTitle: 'Favorites', path: '/favorites' });
+});
+router.get('/favorites', (req, res, next) => {
+    let username = req.user ? req.user.username : null;
+    let profilePic = req.user ? req.user.profilePic : null;
+
+    res.render('user/favorites', {
+        pageTitle: 'Favorites', path: '/favorites',
+        username: username, profilePic: profilePic
+
+    });
+}); 
+router.get('/user/favorites', (req, res, next) => {
+    let username = req.user ? req.user.username : null;
+    let profilePic = req.user ? req.user.profilePic : null;
+
+    res.render('user/favorites', {
+        pageTitle: 'Favorites', path: '/favorites',
+        username: username, profilePic: profilePic
+
+    });
 });
 
 
