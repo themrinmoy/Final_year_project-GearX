@@ -11,7 +11,7 @@ const transport = nodemailer.createTransport({
     debug: true // show debug output
 });
 
-const domain = process.env.DOMAIN || 'http://localhost:3000';
+const domain = `https://${process.env.DOMAIN}` || 'http://localhost:3000';
 
 
 
