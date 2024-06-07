@@ -27,7 +27,6 @@ exports.sendVerificationEmail = (email, token) => {
                 <h1 style="color: #3498db; text-align: center;">Welcome to GearX!</h1>
                 <p style="font-size: 16px; text-align: center;">You've successfully signed up!</p>
                 <p style="font-size: 16px;">To start exploring, please verify your email address by clicking the link below:</p>
-                <p style="font-size: 16px; text-align: center;"><a href="https://gearx.mrinmoy.org/verify/${token}" style="color: #3498db;">Verify Email Address</a></p>
                 <p style="font-size: 16px; text-align: center;"><a href="${domain}/verify/${token}" style="color: #3498db;">Verify Email Address</a></p>
                 <p style="font-size: 14px; color: #777;">This link will be valid for 24 hours.</p>
                 <p style="font-size: 16px;">If you didn't sign up for GearX, you can ignore this email.</p>
@@ -50,7 +49,7 @@ exports.passwordReset = (email, token) => {
         to: email,
         subject: 'Password reset',
         html: `<h1>Reset your password</h1>
-            <p>Click this <a href="https://gearx.mrinmoy.org/reset-password/${token}">link</a> to reset your password.
+            <p>Click this <a href="${domain}/reset-password/${token}">link</a> to reset your password.
             This link will be valid for 24 hours.</p>`,
     }, (err, info) => {
         if (err) {

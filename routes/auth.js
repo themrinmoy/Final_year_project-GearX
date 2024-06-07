@@ -16,8 +16,9 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 
 const callbackURL = process.env.NODE_ENV === 'production'
-    ? 'https://gearx.mrinmoy.org/google/callback'
+    ? `https://${process.env.DOMAIN}/google/callback`
     : 'http://localhost:3000/google/callback';
+
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
