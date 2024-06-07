@@ -1,14 +1,14 @@
 const Rental = require('../models/Rental');
 const Product = require('../models/Product');
 const User = require('../models/User');
-// const Session = require('../models/session'); // Adjust the path based on your file structure
+
 
 const MongoStore = require('connect-mongo');
 const session = require('express-session');
 const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9bR31hvgJnb7OGnBw8n1AjFnlgOI9NHYnRtKPUO9CSQPI27q55b6L001og14MAB')
 
 
-// Create a new rental
+
 
 
 
@@ -26,9 +26,7 @@ exports.getAllRentals = (req, res, next) => {
             categoryTitle: "Ready for Rent",
             username: username, profilePic: profilePic
         });
-        // res.render('rent/allcopy.ejs', { products, pageTitle: ' for Rent', categoryTitle: "Ready for Rent" });
-        // res.render('rent/rent-all.ejs', { products, pageTitle: ' for Rent', categoryTitle: "Ready for Rent" });
-        // console.log(products);
+
     })
         .catch((error) => {
             console.error('Error fetching products:', error);
@@ -38,58 +36,6 @@ exports.getAllRentals = (req, res, next) => {
 };
 
 
-// exports.getRentalCart = async (req, res, next) => {
-//     try {
-//         const userId = req.user._id;
-
-//         // 1. Fetch User with Cart Data
-//         const user = await User.findById(userId).populate({
-//             path: 'rentalCart.items.productId',
-//             model: 'Product'
-//         });
-
-//         // 2. Handle Possible Scenarios
-//         if (!user) {
-//             return res.status(404).json({ message: "User not found" });
-//         }
-
-//         // 3. Data for the View
-//         const cartItems = user.rentalCart.items;
-
-//         // 4. Optionally Fetch Additional Rental Details
-//         if (cartItems.length > 0) {
-//             const rentalPromises = cartItems.map(item =>
-//                 Rental.findOne({ productId: item.productId, userId }) // Adapt as needed
-//             );
-//             const rentals = await Promise.all(rentalPromises);
-
-//             // Augment cartItems with rental details, if available
-//         }
-
-//         // 5. Render the View
-//         function calculateRentalCost(rentalStartDate, rentalEndDate, productPrice) {
-//             const durationInMilliseconds = rentalEndDate - rentalStartDate;
-//             const durationInDays = durationInMilliseconds / (1000 * 60 * 60 * 24); // Convert milliseconds to days
-
-//             // Customize your pricing strategy here
-//             const dailyRentalRate = productPrice * 0.1; // Adjust the multiplier as needed
-//             const totalCost = dailyRentalRate * durationInDays;
-
-//             return totalCost;
-//         } 
-//         let totalCost = calculateRentalCost(user.rentalCart.StartDate, user.rentalCart.EndDate, cartItems.price);
-//         console.log(totalCost)
-
-//         console.log(user.rentalCart.StartDate);
-//         console.log(user.rentalCart.EndDate);
-//         // res.render('./rent/rent-cart', { items: cartItems, user, pageTitle: 'Rental Cart' });
-//         res.status(200).json(cartItems);
-//         // res.status(200).json(user);
-
-//     } catch (error) {
-//         next(error);
-//     }
-// };
 
 const calculateRentalCost = (rentalStartDate, rentalEndDate, rentPerday, quantity) => {
     const startDate = new Date(rentalStartDate);
@@ -233,9 +179,10 @@ exports.getRentChekout = async (req, res, next) => {
         // 4. Optionally Fetch Additional Rental Details
         if (cartItems.length > 0) {
             const rentalPromises = cartItems.map(item =>
-                Rental.findOne({ productId: item.productId, userId
+                Rental.findOne({
+                    productId: item.productId, userId
 
-                 }) // Adapt as needed
+                }) // Adapt as needed
             );
             const rentals = await Promise.all(rentalPromises);
 
@@ -354,7 +301,7 @@ exports.getRentChekout = async (req, res, next) => {
             pageTitle: 'checkout',
             sessionId: session.id,
             path: '/rent/checkout',
-            username: username , profilePic: profilePic
+            username: username, profilePic: profilePic
         });
         // res.status(200).json({ items: cartItems, user, totalCost });
 
@@ -449,13 +396,10 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
 
         // Clear the rental cart in the user model after successful payment
         req.user.rentalCart.items = [];
+        // clear the session id
         req.session.expectedSessionId = null;
         req.user.save();
-        // clear the session id
 
-        // Assuming you have a success view to render, you can render it like this:
-        // res.redirect('/rent/rentals');
-        // res.redirect('/rent/user/rentals');
         res.redirect('/user/rentals');
         // res.render('rent/rentalSuccessView.ejs', {title: 'Rent Checkout Success', rental: newRental, totalCost: totalRentalCost, durationInDays: durationInDays});
         // res.json({ message: 'Payment successful' });
@@ -478,21 +422,14 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
 exports.getRentCheckoutCancel = async (req, res, next) => {
 
     try {
-        // Perform actions after a payment is canceled, such as updating the database, sending notification emails, etc.
-
-        // Assuming you have a cancel view to render, you can render it like this:
-        // res.render('rent/rentalCancelView.ejs', { title: 'Rent Checkout Canceled' });
+        
         res.json({ message: 'Payment canceled' });
     } catch (error) {
         // Handle any errors that may occur during database updates or email sending
         console.error('Error processing canceled payment:', error);
 
         res.status(500).json({ error: 'Internal Server Error' });
-        // Render an error view or redirect to an error page
-        // res.render('errorView', {
-        //     title: 'Error',
-        //     errorMessage: 'An error occurred while processing the payment. Please contact support.',
-        // });
+
     }
 };
 
@@ -503,9 +440,11 @@ exports.getAllRentedItems = async (req, res, next) => {
 
         let username = req.user ? req.user.username : null;
         let profilePic = req.user ? req.user.profilePic : null;
-        res.render('user/rentals', { rentals, pageTitle: 'Rentals',
-             title: 'All Rentals', path: '/rentals',
-            username: username, profilePic: profilePic});
+        res.render('user/rentals', {
+            rentals, pageTitle: 'Rentals',
+            title: 'All Rentals', path: '/rentals',
+            username: username, profilePic: profilePic
+        });
         // res.status(200).json(rentals);
     } catch (error) {
         console.error('Error fetching rentals:', error);
@@ -536,9 +475,9 @@ exports.getRentedItemsByUser = async (req, res, next) => {
 exports.postRentalCart = async (req, res, next) => {
     try {
         const productId = req.params.productId;
-        const rentalStartDate = req.body.rentalStartDate; // Assuming start date comes from the frontend
-        const rentalEndDate = req.body.rentalEndDate;     // Assuming end date comes from the frontend
-        const quantity = req.body.quantity || 1;          // Assuming a default quantity of 1 if not provided
+        const rentalStartDate = req.body.rentalStartDate;
+        const rentalEndDate = req.body.rentalEndDate;
+        const quantity = req.body.quantity || 1;          // Default to 1 if quantity is not provided
 
         // 1. Validate User and Product
         if (!req.user) {

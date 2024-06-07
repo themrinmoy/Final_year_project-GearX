@@ -8,40 +8,7 @@ const router = express.Router();
 // const multer = require('multer');
 const fs = require('fs'); // Add this line to include the fs module
 
-// Multer configuration
-// const fileStorage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'images')
-//     },
-//     filename: (req, file, cb) => {
-//         // cb(null, file.filename + '-' + file.originalname)
-//         // cb(null, new Date().toISOString() + '-' + file.originalname)
-//         cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname)
 
-
-//     }
-// })
-
-// const fileFilter = (req, file, cb) => {
-//     if (
-//         file.mimetype === 'image/png' ||
-//         file.mimetype === 'image/jpg' ||
-//         file.mimetype === 'image/webp' ||
-//         file.mimetype === 'image/jpeg'
-//     ) {
-//         cb(null, true);
-//     } else {
-//         cb(null, true);
-//     }
-// };
-// const fileFilter = (req, file, cb) => {
-//     // Allow only images
-//     if (file.mimetype.startsWith('image/')) {
-//       cb(null, true); // Accept the file
-//     } else {
-//       cb(null, false); // Reject the file 
-//     }
-//   };
 exports.getAllProducts = (req, res) => {
 
     let username = req.user ? req.user.username : null;
@@ -60,12 +27,7 @@ exports.getAllProducts = (req, res) => {
             res.status(500).json({ message: 'Internal Server Error' });
         });
 };
-// exports.showAddProductPage = (req, res) => {
-//     res.render('./admin/update-product', { pageTitle: 'Add Product', editing: false, errorMessage: null });
-//     // Assuming you have the 'product' object available
-//     // res.render('admin/update-product', { product: product, errorMessage: null, editing: true });
 
-// };
 
 exports.showAddProductPage = (req, res) => {
 
@@ -127,49 +89,6 @@ exports.postAddProduct = (req, res) => {
             res.status(500).send('Error saving product.');
         });
 };
-// exports.postAddProduct = (req, res) => {
-//     const image = req.file;
-
-//     if (!image) {
-//         // Handle the case where no file was uploaded (optional)
-//         return res.status(400).send('Please upload an image.');
-//     }
-
-//     // Create a new Product instance 
-//     const productData = {
-//         name: req.body.name,
-//         description: req.body.description,
-//         price: req.body.price,
-//         category: req.body.category,
-//         type: req.body.type,
-//         imageUrl: image.path,
-//         isAvailable: true, // You can set availability based on your business logic
-//     };
-
-//     if (req.body.type === 'rentable') {
-//         productData.rentalInfo = {
-//             rentalPricePerDay: req.body.rentalPricePerDay,
-//             rentalDeposit: req.body.rentalDeposit,
-//             rentalPeriod: req.body.rentalPeriod,
-//             // Add more rental-specific fields as needed
-//         };
-//     }
-//     else {
-//         delete productData.rentalInfo; // Remove if type is 'sellable'
-//     }
-
-//     const product = new Product(productData);
-
-//     product.save() // Save the product to your database
-//         .then(result => {
-//             res.redirect('/admin/products'); // Or any success response you prefer
-//         })
-//         .catch(err => {
-//             // Handle database save errors
-//             console.error(err);
-//             res.status(500).send('Error saving product.');
-//         });
-// };
 
 
 
@@ -203,60 +122,8 @@ exports.getUpdateProduct = (req, res) => {
         });
 };
 
-// exports.postUpdateProduct = (req, res) => {
-//     Product.findByIdAndUpdate(req.params.productId, req.body, { new: true })
-//         .then((updatedProduct) => {
-//             console.log('Product updated successfully', updatedProduct);
-//             res.redirect('/admin/products');
-//         })
-//         .catch((error) => {
-//             console.error(error);
-//             res.status(500).render('./admin/update-product', {
-//                 pageTitle: 'Update Product',
-//                 editing: true,
-//                 product: req.body,
-//                 errorMessage: 'Failed to update product'
-//             });
-//         });
-// };
-// exports.postUpdateProduct = (req, res) => {
-//     Product.findByIdAndUpdate(req.params.productId, req.body, { new: true })
-//         .then((updatedProduct) => {
-//             if (req.file) { // New image uploaded
-//                 // Delete the old image
-//                 updatedProduct.imageUrl = req.file.path;
 
-//                 fs.unlink(updatedProduct.imageUrl, (err) => {
-//                     if (err) {
-//                         console.error('Failed to delete old image:', err);
-//                     } else {
-//                         console.log('Old image deleted successfully');
-//                     }
-//                 });
 
-//                 return updatedProduct.save(); // Save the updated product again
-//             } else {
-//                 return updatedProduct; // No new image, just return
-//             }
-//         })
-//         .then((result) => { // May receive updated product again
-//             console.log('Product updated successfully', result);
-//             res.redirect('/admin/products');
-//         })
-//         .catch((error) => {
-//             console.error(error);
-//             res.status(500).render('./admin/update-product', {
-//                 pageTitle: 'Update Product',
-//                 editing: true,
-//                 product: req.body,
-//                 errorMessage: 'Failed to update product'
-//             });
-//         });
-// }; 
-// for old product model
-
-// const Product = require('./product');  // Adjust the path to your product schema file
-// const fs = require('fs');
 
 exports.postUpdateProduct = async (req, res) => {
     try {

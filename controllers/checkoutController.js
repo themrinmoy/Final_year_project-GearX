@@ -61,8 +61,7 @@ exports.getCheckout = async (req, res, next) => {
             // images: [item.productId.imageUrl],
           },
           unit_amount: item.productId.price * 100,
-          // unit_amount: item.productId.rentalInfo.rentalPricePerDay * durationInDays * 100,
-          // unit_amount: item.productId.rentalInfo.rentalPricePerDay * 100,
+
         },
         quantity: item.quantity,
       })),

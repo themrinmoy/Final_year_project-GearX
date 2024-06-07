@@ -13,19 +13,18 @@ const CartController = {
                 path: 'cart.items.productId',
                 model: 'Product',
                 select: 'name price imageUrl', // Specify the fields you want to select
-               
-        
+
+
             });
             let username = req.user ? req.user.username : null;
             let profilePic = req.user ? req.user.profilePic : null;
 
             // cart = user.cart;
-            res.render('./user/cart', { cart: user.cart, pageTitle: 'Cart', path: '/cart',
-                username: username , profilePic: profilePic});
-            // res.render('./user/cart', { cart: user.cart });
-            // res.send(user.cart.items[0]);
-            // console.log(cart.items[0]);
-            // console.log(user.cart.items);
+            res.render('./user/cart', {
+                cart: user.cart, pageTitle: 'Cart', path: '/cart',
+                username: username, profilePic: profilePic
+            });
+
         } catch (error) {
             console.error('Error displaying cart:', error);
             res.status(500).json({ error: 'Internal Server Error' });
@@ -36,11 +35,11 @@ const CartController = {
     addToCart: (req, res) => {
         const productId = req.params.productId;
         const user = req.user; // Assuming you're using Passport for authentication
-        
+
         // 1. Validate User and Product
         if (!req.user) {
             // return res.status(401).json({ message: "Unauthorized: Please Log In" });
-           return res.redirect('/login');
+            return res.redirect('/login');
 
         }
 

@@ -233,9 +233,12 @@ const connectWithRetry = () => {
 };
 
 // Start the server function
+const PORT = process.env.PORT || 3000;
+
+
 const startServer = () => {
-    app.listen(process.env.PORT || 3000, () => {
-        console.log('Server running on port 3000');
+    app.listen( PORT || 3000, () => {
+        console.log(`Server running on port ${PORT}`);
     });
 };
 
