@@ -8,8 +8,8 @@
         <%- include('../include/navigation.ejs') %>
 
             <link rel="stylesheet" href="../css/login.css">
-            <section class="vh-100">
-                <div class="container mt-5">
+            <section >
+                <div class="container mt-5 mb-5">
                     <div class="row d-flex justify-content-center align-items-center h-100">
                         <div class="col-lg-12 col-xl-11">
                             <div class="card text-black" style="border-radius: 25px;">
@@ -17,33 +17,21 @@
                                     <div class="row justify-content-center">
                                         <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                                            <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                                            <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up with</p>
                                             <form action="/signup" method="post">
 
 
                                                 <div class="text-center mb-3">
-                                                    <p>Sign up with:</p>
-                                                    <!-- <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-                                      <i class="fab fa-facebook-f"></i>
-                                    </button> -->
-                                    <a href="/auth/google">
-                                        <img src="/img/Glogo.svg" style="width: 64px;" alt="">
-
-                                        <!-- <button type="button" data-mdb-button-init data-mdb-ripple-init
-                                            class="btn btn-link btn-floating mx-1">
-                                            <i class="fab fa-google"></i>
-                                            <i class="fa-brands fa-google"></i>
-                                        </button> -->
-                                    </a>
-                                                    <!-- <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-                                      <i class="fab fa-twitter"></i>
-                                    </button>
-                            
-                                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
-                                      <i class="fab fa-github"></i>
-                                    </button> -->
+                                                    <div class="d-flex justify-content-center">
+                                                        <a href="/auth/google" class="google-button">
+                                                            <img src="img/googleIcon.svg"
+                                                                alt="Google Logo" >
+                                                            Continue with Google
+                                                        </a>
+                                                    </div>
                                                 </div>
-
+                    
+                                             
                                                 <p class="text-center fw-bold">Or:</p>
                                                 <!-- Username input -->
                                                 <div class="d-flex flex-row align-items-center mb-4">
@@ -164,6 +152,36 @@
                 }
             </script>
             <style>
+
+                .google-button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    /* width: 250px; */
+                    width: 350px;
+                    width: 380px;
+                    height: 50px;
+                    background-color: white;
+                    color: #5F6368;
+                    border: 1px solid #dadce0;
+                    border: 1px solid #e5e7eb;
+                    border-radius: .5rem;
+                    font-size: 15px;
+                    font-family: Arial, sans-serif;
+                    cursor: pointer;
+                 
+                    transition: background-color 0.3s ease;
+                    text-decoration: none;
+                }
+
+                .google-button:hover {
+                    background-color: #f4f4f4;
+                    background-color: #2222220d;
+                }
+
+                .google-button img {
+                    margin-right: 10px;
+                }
                 .warning-container {
                     background-color: #ffc107;
                     color: #333;
@@ -185,37 +203,5 @@
                     display: block;
                 }
 
-                .google-button {
-                    background: white;
-                    border: none;
-                    border-radius: 50%;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                    height: 60px;
-                    width: 60px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    transition: all 0.3s ease;
-                    cursor: pointer;
-                    text-decoration: none; /* Ensure the link is styled as a button */
-
-                }
-
-                .google-button:hover {
-                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-                    transform: scale(1.05);
-                }
-
-                .google-icon {
-                    background: linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853);
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                    font-size: 24px;
-                    transition: transform 0.3s ease;
-                }
-
-                .google-button:hover .google-icon {
-                    transform: rotate(20deg);
-                }
             </style>
             <%- include('../include/footer.ejs') %>

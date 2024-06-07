@@ -3,7 +3,7 @@ main {
     font-family: 'Roboto', sans-serif;
 
     /* background: linear-gradient(to right, #e0f2fe, #e0f2fe); */
-    background: linear-gradient(to right, #fefbe0, #e0f2fe);
+    /* background: linear-gradient(to right, #fefbe0, #e0f2fe); */
     /* background: linear-gradient(to right, #fefbe0, #75bff0); */
     /* animation: backgroundAnimation 10s ease infinite; */
     /* background-size: 400% 400%; */
@@ -12,8 +12,17 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 88vh;
+    /* min-height: 86vh; */
+    /* min-height: calc(100vh - 20vh); */
     /* background-color: #f0f0f0; */
+}
+form{
+    /* background-color: #fff; */
+    /* padding: 50px; */
+    /* border-radius: 15px; */
+    /* overflow: hidden; */
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); */
+
 }
 
 /* @keyframes backgroundAnimation {
