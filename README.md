@@ -3,8 +3,9 @@
 This repository contains the code for a bike tour rental website where users can rent and purchase various biking products if needed. Below is an overview of the project structure and setup.
 
 ### Live Demo
+## Visit the live demo of the project[Oracle Server]: [Bike Tour Rental Website Demo](https://gearx.mrinmoy.org/)
 
-## Visit the live demo of the project[railway.app]: [Bike Tour Rental Website Demo](https://gearx.mrinmoy.org/)
+## Visit the live demo of the project[railway.app]: [Bike Tour Rental Website Demo](https://gearx2.mrinmoy.org/)
 
  ## Visit the live demo2 of the project[onrender]: [Bike Tour Rental Website Demo2](https://final-year-project-gearx.onrender.com/)
 

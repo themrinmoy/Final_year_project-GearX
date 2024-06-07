@@ -206,7 +206,7 @@ app.get('/google/callback',
         }
     }
 );
-console.log("Routes testing");
+
 app.use( errorController.get404);
 
 
@@ -214,7 +214,7 @@ app.use((req, res, next) => {
     console.log(`404 handler called for path: ${req.originalUrl}`);
     errorController.get404(req, res, next);
 });
-console.log("Routes testing2");
+
 
 
 
@@ -234,6 +234,9 @@ const connectWithRetry = () => {
 
 // Start the server function
 const PORT = process.env.PORT || 3000;
+
+// console.log for domain
+console.log("Domain: ", process.env.DOMAIN);
 
 
 const startServer = () => {
