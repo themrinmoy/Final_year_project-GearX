@@ -50,7 +50,10 @@ passport.use(new GoogleStrategy({
         else if (!user.googleId) {
             user.googleId = profile.id;
             user.verified = true;
-            user.profilePic = profile.photos[0].value;
+            if(!user.profilePic || user.profilePic === '/img/user.png'){
+                user.profilePic = profile.photos[0].value;
+            }
+            // user.profilePic = profile.photos[0].value;
             await user.save();
         }
 
@@ -413,14 +416,16 @@ router.get('/verify/:token', async (req, res) => {
 
         // console.log(user.verified, 'user.verified');
         if (user.verified) {
-            return res.status(400).json({ message: 'Email already verified' });
+            // return res.status(400).json({ message: 'Email already verified' });
+            return res.redirect('/login?warning=Email already verified');
         }
         if (!user.verified) {
             user.verified = true;
             // return res.status(400).json({ message: 'Email already verified' });
             await user.save();
 
-            return res.status(200).json({ message: 'Email verification successful' });
+            return res.redirect('/login?warning=Email verification successful');
+            // return res.status(200).json({ message: 'Email verification successful' });
             // res.status(200).json({ message: 'Email verification successful' });
             // res.redirect('/login');
         }
