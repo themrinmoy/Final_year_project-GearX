@@ -17,20 +17,19 @@ exports.getAllRentals = (req, res, next) => {
 
     Product.find({ type: "rentable" }).then((products) => {
 
-        let username = req.user ? req.user.username : null;
-        let profilePic = req.user ? req.user.profilePic : null;
+
 
         res.render('./rent/all.ejs', {
             products, pageTitle: 'For Rent',
             path: '/rent',
             categoryTitle: "Ready for Rent",
-            username: username, profilePic: profilePic
+
         });
 
     })
         .catch((error) => {
             console.error('Error fetching products:', error);
-            res.status(500).render('error', { message: 'Internal Server Error' });
+            res.redirect(`/products?warning=${error.message}`);
             // You may want to create an 'error.ejs' view to handle error messages
         });
 };
@@ -67,7 +66,7 @@ exports.getRentalCart = async (req, res, next) => {
 
         // 2. Handle Possible Scenarios
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            return res.redirect(`/login?warning=User not found`);
         }
 
         // 3. Data for the View
@@ -130,15 +129,14 @@ exports.getRentalCart = async (req, res, next) => {
         console.log(fStartDate); // Output: "2024-03-05"
         console.log(fEndDate); // Output: "2024-03-10"
         // Render the View or return JSON as needed
-        let username = req.user ? req.user.username : null;
-        let profilePic = req.user ? req.user.profilePic : null;
+
 
 
         res.render('./rent/rent-cart', {
             items: cartItems,
             path: '/rent/cart',
             fStartDate, fEndDate, durationInDays, totalCost, pageTitle: 'Rental Cart',
-            username: username, profilePic: profilePic
+
         });
         // res.status(200).json({ items: cartItems, user, totalCost });
 
@@ -170,7 +168,7 @@ exports.getRentChekout = async (req, res, next) => {
 
         // 2. Handle Possible Scenarios
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            return res.redirect(`/login?warning=User not found`);
         }
 
         // 3. Data for the View
@@ -289,8 +287,7 @@ exports.getRentChekout = async (req, res, next) => {
         await req.session.save();
 
         // req.session.stripeSessionId = sessionId;
-        let username = req.user ? req.user.username : null;
-        let profilePic = req.user ? req.user.profilePic : null;
+
 
         res.render('./user/rentCheckout', {
             items: cartItems,
@@ -301,7 +298,7 @@ exports.getRentChekout = async (req, res, next) => {
             pageTitle: 'checkout',
             sessionId: session.id,
             path: '/rent/checkout',
-            username: username, profilePic: profilePic
+
         });
         // res.status(200).json({ items: cartItems, user, totalCost });
 
@@ -407,7 +404,7 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
         // Handle any errors that may occur during database updates or email sending
         console.error('Error processing successful payment:', error);
 
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.redirect('/rent/checkout?warning=An error occurred while processing the payment. Please contact support.');
         // Render an error view or redirect to an error page
         // res.render('errorView', {
         //     title: 'Error',
@@ -422,13 +419,13 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
 exports.getRentCheckoutCancel = async (req, res, next) => {
 
     try {
-        
-        res.json({ message: 'Payment canceled' });
+
+        res.redirect('/rent/checkout?warning=Payment canceled. Please try again.');
     } catch (error) {
         // Handle any errors that may occur during database updates or email sending
         console.error('Error processing canceled payment:', error);
 
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.redirect('/rent/checkout?warning=Payment canceled. Please try again.');
 
     }
 };
@@ -438,17 +435,16 @@ exports.getAllRentedItems = async (req, res, next) => {
     try {
         const rentals = await Rental.find();
 
-        let username = req.user ? req.user.username : null;
-        let profilePic = req.user ? req.user.profilePic : null;
+
         res.render('user/rentals', {
             rentals, pageTitle: 'Rentals',
             title: 'All Rentals', path: '/rentals',
-            username: username, profilePic: profilePic
+
         });
         // res.status(200).json(rentals);
     } catch (error) {
         console.error('Error fetching rentals:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.redirect(`/rentals?warning=${error.message}`);
     }
 }
 
@@ -457,17 +453,16 @@ exports.getRentedItemsByUser = async (req, res, next) => {
         const userId = req.user._id;
         const rentals = await Rental.find({ userId });
 
-        let username = req.user ? req.user.username : null;
-        let profilePic = req.user ? req.user.profilePic : null;
+
 
         res.render('user/rentals', {
             rentals, pageTitle: 'Rentals', title: 'Your Rentals', path: '/user/rentals',
-            username: username, profilePic: profilePic
+
         });
         // res.status(200).json(rentals);
     } catch (error) {
         console.error('Error fetching rentals:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.redirect(`/user/rentals?warning=${error.message}`);
     }
 }
 
@@ -487,7 +482,8 @@ exports.postRentalCart = async (req, res, next) => {
 
         const product = await Product.findById(productId);
         if (!product) {
-            return res.status(400).json({ message: "Invalid Product ID" });
+            // return res.status(404).json({ message: "Product not found" });
+            res.redirect('/rent?warning=Product not found');
         }
 
         // 2. Retrieve User (might be adapted depending on your authentication system)
@@ -548,7 +544,7 @@ exports.createRental = async (req, res) => {
         res.status(201).json(savedRental);
     } catch (error) {
         console.error('Error creating rental:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.redirect(`/rent/checkout?warning=${error.message}`);
     }
 };
 
@@ -560,7 +556,7 @@ exports.getRentalById = async (req, res) => {
         res.status(200).json(rental);
     } catch (error) {
         console.error('Error fetching rental:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.redirect(`/rentals?warning=${error.message}`);
     }
 };
 
@@ -582,7 +578,7 @@ exports.updateRental = async (req, res) => {
         res.status(200).json(updatedRental);
     } catch (error) {
         console.error('Error updating rental:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.redirect(`/rentals?warning=${error.message}`);
     }
 };
 

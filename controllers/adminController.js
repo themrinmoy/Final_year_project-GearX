@@ -14,14 +14,11 @@ const fs = require('fs'); // Add this line to include the fs module
 
 exports.getAdminPage = (req, res) => {
     console.log('admin page');
-    let username = req.user ? req.user.username : null;
-    let profilePic = req.user ? req.user.profilePic : null;
-    const warningMessage = req.query.warning || '';
+   
 
     res.render('./admin/admin.ejs', {
         user: req.user, pageTitle: 'Admin',
-        path: '/admin',
-         username,  profilePic, warningMessage
+        path: '/admin'
     });
     // res.send('admin');
 }
@@ -29,30 +26,26 @@ exports.getAdminPage = (req, res) => {
 
 exports.getAllProducts = (req, res) => {
 
-    let username = req.user ? req.user.username : null;
-    let profilePic = req.user ? req.user.profilePic : null;
-    const warningMessage = req.query.warning || '';
+   
     Product.find()
         .then((products) => {
             res.render('./admin/admin-products', {
                 products,
                 path: '/admin/products',
                 pageTitle: 'Admin - Products',
-                username, profilePic, warningMessage
+                
             });
         })
         .catch((error) => {
             console.error(error);
-            res.status(500).json({ message: 'Internal Server Error' });
+            res.redirect(`/admin?warning=Error fetching products,${error.message}`)
         });
 };
 
 
 exports.showAddProductPage = (req, res) => {
 
-    let username = req.user ? req.user.username : null;
-    let profilePic = req.user ? req.user.profilePic : null;
-    const warningMessage = req.query.warning || '';
+   
 
 
     res.render('./admin/update-product',
@@ -61,8 +54,6 @@ exports.showAddProductPage = (req, res) => {
             errorMessage: null,
             product: null,
             path: '/admin/add-product',
-            username, profilePic,
-            warningMessage
         });
 };
 
@@ -75,7 +66,7 @@ exports.postAddProduct = (req, res) => {
 
     if (!image) {
         // Handle the case where no file was uploaded (optional)
-        return res.status(400).send('Please upload an image.');
+        return res.redirect('/admin/add-product?warning=No image uploaded.');
     }
 
     // Create a new Product instance 
@@ -103,12 +94,13 @@ exports.postAddProduct = (req, res) => {
 
     product.save() // Save the product to your database
         .then(result => {
-            res.redirect('/admin/products'); // Or any success response you prefer
+            console.log('Product added successfully', result);
+            res.redirect('/admin/products?warning=Product added successfully.');
         })
         .catch(err => {
             // Handle database save errors
             console.error(err);
-            res.status(500).send('Error saving product.');
+            res.redirect('/admin/add-product?warning=Error adding product,${err.message}');
         });
 };
 
@@ -120,13 +112,9 @@ exports.getUpdateProduct = (req, res) => {
     Product.findById(req.params.productId)
         .then((product) => {
             if (!product) {
-                return res.status(404).json({ message: 'Product not found' });
+                return res.redirect('/admin/products?warning=Product not found.');
             }
-            // Assuming you have the 'product' object available
 
-            let username = req.user ? req.user.username : null;
-            let profilePic = req.user ? req.user.profilePic : null;
-            const warningMessage = req.query.warning || '';
 
             res.render('admin/update-product',
                 {
@@ -134,14 +122,14 @@ exports.getUpdateProduct = (req, res) => {
                     errorMessage: null,
                     editing: true, pageTitle: 'Update Product',
                     path: '/admin/products',
-                    username, profilePic, warningMessage
+                    
                 });
 
             // res.render('./admin/update-product', { product, pageTitle: 'Update Product', editing: true, errorMessage: null });
         })
         .catch((error) => {
             console.error(error);
-            res.status(500).json({ message: 'Internal Server Error' });
+            res.redirect(`/admin/products?warning=Error updating product,${error.message}`)
         });
 };
 
@@ -157,7 +145,7 @@ exports.postUpdateProduct = async (req, res) => {
         // 1. Find the product you want to update
         const product = await Product.findById(productId);
         if (!product) {
-            return res.status(404).send('Product not found');
+            res.redirect('/admin/products?warning=Product not found.');
         }
 
         // 2. Gather updated data, including potential new image
@@ -181,6 +169,7 @@ exports.postUpdateProduct = async (req, res) => {
             fs.unlink(oldImagePath, (err) => {
                 if (err) {
                     console.error('Error deleting old image:', err);
+                    
                     // You might still update the product but notify the user about the image issue
                 } else {
                     console.log('Old image deleted successfully');
@@ -202,11 +191,11 @@ exports.postUpdateProduct = async (req, res) => {
         // 4. Update the product
         await Product.findByIdAndUpdate(productId, updatedProductData);
 
-        res.redirect('/admin/products'); // Or any relevant success response 
+        res.redirect('/admin/products?warning=Product updated successfully.');
 
     } catch (err) {
         console.error(err);
-        res.status(500).send('Error updating product.');
+        res.redirect(`/admin/products?warning=Error updating product,${err.message}`);
     }
 };
 
@@ -230,10 +219,10 @@ exports.removeProduct = (req, res) => {
                 });
             }
 
-            res.redirect('/admin/products');
+            res.redirect('/admin/products?warning=Product removed successfully.');
         })
         .catch((error) => {
             console.error(error);
-            res.status(500).json({ message: 'Internal Server Error' });
+            res.redirect(`/admin/products?warning=Error removing product,${error.message}`)
         });
 };

@@ -1,10 +1,12 @@
 const express = require('express');
+const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const MongoStore = require('connect-mongo');
+
 
 
 const LocalStrategy = require('passport-local').Strategy;
@@ -20,8 +22,8 @@ const errorController = require('./controllers/error');
 
 
 const MONGODB_URI = `${process.env.MONGODB_URI}`
-const app = express();
 
+const globalVariables = require('./middleware/globalVariables');
 
 
 
@@ -48,7 +50,15 @@ app.use(session({
 
 
 
+app.use((req, res, next) => {
+    res.locals.pageTitle = 'home';
+    next();
+});
+app.use((req, res, next) => {
+    res.locals.warningMessage = '';
 
+    next();
+});
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -107,7 +117,7 @@ passport.use(new LocalStrategy((username, password, done) => {
 }));
 
 
-
+app.use(globalVariables);
 
 // passport.serializeUser(User.serializeUser());
 passport.serializeUser((user, done) => {
@@ -131,16 +141,8 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use((req, res, next) => {
-    res.locals.pageTitle = 'home';
-    next();
-});
-app.use((req, res, next) => {
-    res.locals.warningMessage = '';
-    // res.locals.successMessage = '';
-    // res.locals.infoMessage = '';
-    next();
-});
+
+
 
 
 

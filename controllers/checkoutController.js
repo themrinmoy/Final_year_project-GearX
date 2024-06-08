@@ -26,7 +26,7 @@ exports.getCheckout = async (req, res, next) => {
     });
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.redirect('/login?warning=Unauthorized: Please Log In');
     }
 
     // Calculate total price of cart items
@@ -118,10 +118,10 @@ exports.getShopCheckoutSuccess = async (req, res, next) => {
     console.log(sessionId);
     const expectedSessionId = req.session.expectedSessionId;
     if (sessionId !== expectedSessionId) {
-      return res.status(400).send('Invalid session ID');
+      return res.redirect('/shop/checkout?warning=Invalid session ID');
     }
     if (!sessionId) {
-      return res.status(400).send('Invalid session ID');
+      return res.redirect('/shop/checkout?warning=Invalid session ID');
     }
 
     if (sessionId === expectedSessionId) {
@@ -170,11 +170,20 @@ exports.getShopCheckoutSuccess = async (req, res, next) => {
     req.session.expectedSessionId = null;
     req.user.save();
 
-    res.json({ message: 'Order placed successfully', order });
+    // res.render('./user/shopCheckoutSuccess', {
+    //   pageTitle: 'Shop Checkout Success',
+    //   path: '/checkout/success',
+    //   products: products,
+    //   // totalPrice: totalPrice,
+    //   // shippingAddress: shippingAddress,
+    //   // paymentStatus: 'Paid',
+    //   // status: 'Pending'
+    // });
+    res.redirect('/cart?warning=Order submitted successfully');
 
 
   } catch (error) {
-    next(error); // Pass error to the error-handling middleware
+    res.redirect(`/shop/checkout?warning=${error.message}`);
   }
 
 };

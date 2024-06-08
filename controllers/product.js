@@ -36,8 +36,7 @@ exports.productsByCategory = (req, res, next) => {
       // Render an EJS view with the product data
       // res.json(productsWithImages);
       // res.json(products);
-      let username = req.user ? req.user.username : null;
-      let profilePic = req.user ? req.user.profilePic : null;
+
 
       // res.render('product/all-products', { category, products: productsWithImages, pageTitle: 'All Products', categoryTitle: category});
       res.render('./product/all-Products.ejs', {
@@ -45,13 +44,12 @@ exports.productsByCategory = (req, res, next) => {
         pageTitle: 'All Products',
         path: '/products',
         categoryTitle: category,
-        username: username, profilePic: profilePic
       });
 
     })
     .catch((error) => {
       console.error('Error fetching products:', error);
-      res.status(500).render('error', { message: 'Internal Server Error' });
+      res.redirect(`/products?warning=${error.message}`);
       // You may want to create an 'error.ejs' view to handle error messages
     });
 };
@@ -63,23 +61,21 @@ exports.productDetails = (req, res) => {
   Product.findById(productId)
     .then((product) => {
       if (!product) {
-        return res.status(404).render('error', { message: 'Product not found' });
-        // You may want to create an 'error.ejs' view to handle error messages
+
+        return res.redirect('/products?warning=Product not found');
       }
-      let username = req.user ? req.user.username : null;
-      let profilePic = req.user ? req.user.profilePic : null;
+
 
       // Render an EJS view with the product data
       res.render('product/product-details', {
         product,
         path: '/products',
-        pageTitle: product.name,
-        username: username, profilePic: profilePic
+
       });
     })
     .catch((error) => {
       console.error('Error fetching product:', error);
-      res.status(500).render('error', { message: 'Internal Server Error' });
+      res.redirect(`/products?warning=${error.message}`);
       // You may want to create an 'error.ejs' view to handle error messages
     });
 };

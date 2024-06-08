@@ -10,6 +10,8 @@ const User = require('../models/User');
 // var GoogleStrategy = require('passport-google-oauth2').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
+const mailService = require('../services/mailService');
+
 
 
 const callbackURL = process.env.NODE_ENV === 'production'
@@ -41,7 +43,7 @@ passport.use(new GoogleStrategy({
                 userType: 'buyer'
             });
             await user.save();
-            mail.signupSuccess(email, user);
+            mailService.signupSuccess( user);
         }
 
         else if (!user.googleId) {
@@ -49,6 +51,9 @@ passport.use(new GoogleStrategy({
             user.verified = true;
             if (!user.profilePic || user.profilePic === '/img/user.png') {
                 user.profilePic = profile.photos[0].value;
+            }
+            if (!user.name) {
+                user.name = profile.displayName;
             }
             // user.profilePic = profile.photos[0].value;
             await user.save();

@@ -8,7 +8,7 @@ const mailService = require('../services/mailService');
 
 exports.getLogin = (req, res) => {
     if (req.isAuthenticated()) {
-        
+
         if (req.user.userType === 'admin') {
             console.log('alredy logged in as admin');
             res.redirect('/admin?warning=You are already logged in as admin!');
@@ -24,7 +24,7 @@ exports.getLogin = (req, res) => {
         // const warningMessage = req.query.message || '';
         //  warningMessage =  'hello world';
 
-        res.render('./auth/login', { pageTitle: 'Logins', path: '/login', warningMessage});
+        res.render('./auth/login', { pageTitle: 'Logins', path: '/login', warningMessage });
     }
 }
 
@@ -35,10 +35,15 @@ exports.postLogin = (req, res, next) => {
         if (err) {
             return next(err);
         }
+        // console.log(user.password, 'user.password')
         if (!user) {
             // Authentication failed, redirect with error message
             return res.redirect(`/login?warning=${info.message}`);
         }
+        // if(!user.password){
+            
+        //     return res.redirect(`/login?warning=Please reset your password`);
+        // }
 
         req.login(user, (err) => {
             if (err) {
@@ -83,15 +88,28 @@ exports.getSingup = (req, res) => {
 // POST Signup
 exports.postSignup = async (req, res, next) => {
     try {
+        console.log(req.body, 'req.body');
         const existingUser = await User.findOne({ $or: [{ username: req.body.username }, { email: req.body.email }] });
+
+        // Validate email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(req.body.email)) {
             // return res.status(400).json({ error: 'Invalid email format.' });
             return res.redirect('/signup?warning=Invalid email format.');
         }
 
+        // Extract email and username from request body
+        let username = req.body.username;
+        let email = req.body.email;
+
+        // If username is undefined or empty, derive it from the email
+        if (username === undefined) {
+            username = email.split('@')[0];
+        }
+
+        // Check if the username or email already exists
         if (existingUser) {
-            if (existingUser.username === req.body.username) {
+            if (existingUser.username === req.body.username && req.body.username !== undefined) {
                 // return res.status(400).json({ error: 'Username already taken.' });
                 return res.redirect('/signup?warning=Username already taken.');
             } else if (existingUser.email === req.body.email) {
@@ -103,9 +121,11 @@ exports.postSignup = async (req, res, next) => {
         // If both username and email are not taken, hash the password and create a new user
         const hashedPassword = await bcrypt.hash(req.body.password, 12);
 
+        // Create a new user with the derived or provided username
         const user = new User({
-            username: req.body.username,
+            username: username,
             email: req.body.email,
+            name: req.body.name,
             password: hashedPassword,
             userType: req.body.userType
         });
@@ -115,12 +135,12 @@ exports.postSignup = async (req, res, next) => {
         const token = result.generateAuthToken();
         // Send verification email...
         mailService.sendVerificationEmail(req.body.email, token);
-        // sendVerificationEmail(req.body.email, token);
+
         console.log('Email sent to:', req.body.email);
         res.redirect('/login?warning=Signup successful. Please verify your email.');
     } catch (err) {
         // return res.status(500).json({ error: err.message });
-        return res.redirect('/signup?warning=Signup failed. Please try again.');
+        return res.redirect(`/signup?warning=${err.message}`);
     }
 }
 
@@ -145,7 +165,7 @@ exports.getLogout = (req, res) => {
 }
 
 // token verification
-exports.verifyEmail =  async (req, res) => {
+exports.verifyEmail = async (req, res) => {
     const token = req.params.token;
 
     try {
@@ -262,9 +282,9 @@ exports.postForgetPassword = async (req, res) => {
 
         await user.save();
         // Send email with the reset token
-        mailService.passwordReset(user.email, token);
+        mailService.passwordReset(user, token);
 
-        res.redirect('/login?warning=Password reset link sent to your email');
+        res.redirect('/login?warning=Please check your email to reset password');
     } catch (err) {
         console.error(err);
         res.redirect('/forget-password?warning=Password reset failed');
@@ -285,13 +305,13 @@ exports.getResetPassword = async (req, res) => {
             User.findById(payload.userId);
         // console.log(user, 'user');
         if (!user) {
-            return res.status(404).send('User not found');
+            return res.redirect('/login?warning=User not found');
         }
 
 
         if (typeof user.resetTokenExpiration === 'undefined' || user.resetTokenExpiration < Date.now()) {
             console.log('Token expired');
-            return res.json({ message: 'Token expired' });
+            return res.redirect('/login?warning=Token expired or invalid');
         }
         res.render('./auth/resetPassword', { token, pageTitle: 'Reset-Password', path: '/resetPassword', warningMessage });
     } catch (err) {

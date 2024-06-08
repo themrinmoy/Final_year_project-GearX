@@ -122,12 +122,18 @@ userSchema.statics.authenticate = async function (usernameOrEmail, password) {
         throw new Error(' User not found.');
     }
 
+    if(user.password == null){
+        throw new Error('User signed up with Google. Please sign in with Google Or reset password.');
+    }
+
+
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
         throw new Error(' Incorrect password.');
     }
-     if (!user.verified) {
+
+    if (!user.verified) {
         throw new Error('Email not verified. Please verify your email');
     }
     return user;

@@ -16,18 +16,15 @@ const CartController = {
 
 
             });
-            let username = req.user ? req.user.username : null;
-            let profilePic = req.user ? req.user.profilePic : null;
 
             // cart = user.cart;
             res.render('./user/cart', {
-                cart: user.cart, pageTitle: 'Cart', path: '/cart',
-                username: username, profilePic: profilePic
+                cart: user.cart, pageTitle: 'Cart', path: '/cart'
             });
 
         } catch (error) {
             console.error('Error displaying cart:', error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            res.redirect(`/cart?warning=${error.message}`)
         }
     },
 
@@ -39,14 +36,15 @@ const CartController = {
         // 1. Validate User and Product
         if (!req.user) {
             // return res.status(401).json({ message: "Unauthorized: Please Log In" });
-            return res.redirect('/login');
+            return res.redirect(`/login?warning=Unauthorized: Please Log In`);
 
         }
 
         Product.findById(productId)
             .then((product) => {
                 if (!product) {
-                    return res.status(404).json({ message: 'Product not found' });
+                    // return res.status(404).json({ message: "Product not found" });
+                    return res.redirect('/shop?warning=Product not found');
                 }
 
                 const existingCartItem = user.cart.items.find(item => item.productId.equals(product._id));
@@ -64,11 +62,11 @@ const CartController = {
             .then(() => {
                 // res.json({ message: 'Item added to cart successfully' });
                 console.log('Item added to cart successfully');
-                res.redirect('/cart');
+               res.redirect('/cart?warning=Item added to cart successfully')
             })
             .catch((error) => {
                 console.error('Error adding item to cart:', error);
-                res.status(500).json({ error: 'Internal Server Error' });
+                res.redirect(`/cart?warning=${error.message}`)
             });
     },
 
@@ -80,7 +78,8 @@ const CartController = {
         req.user
             .removeFromcart(prodId)
             .then(result => {
-                res.redirect('/cart')
+                console.log('Product removed from cart');
+                res.redirect('/cart?warning=Product removed from cart');
             })
             .catch(err => {
                 console.log(err);

@@ -49,7 +49,7 @@ exports.sendVerificationEmail = (email, token) => {
 
 
 // password reset email
-exports.passwordReset = (email, token) => {
+exports.passwordReset = (user, token) => {
     const emailContent_passwordReset = `
     <html>
     <head>
@@ -103,7 +103,7 @@ exports.passwordReset = (email, token) => {
         <div class="container">
             <div class="header">Reset Your Password</div>
             <div class="content">
-                <p>Hello,</p>
+                <p>Hello ${user.name},</p>
                 <p>We received a request to reset your password. Click the button below to reset it:</p>
                 <a href="${domain}/reset-password/${token}" class="button">Reset Password</a>
                 <p>This link will be valid for 24 hours. If you did not request a password reset, please ignore this email.</p>
@@ -120,7 +120,7 @@ exports.passwordReset = (email, token) => {
     const emailTextContent_passwordReset = `
     Reset Your Password
 
-    Hello,
+    Hello ${user.name},
 
     We received a request to reset your password. Click the link below to reset it:
 
@@ -136,7 +136,7 @@ exports.passwordReset = (email, token) => {
 
     transport.sendMail({
         from: 'noreply@mrinmoy.org',
-        to: email,
+        to: user.email,
         subject: 'Password Reset Request',
         html: emailContent_passwordReset,
         text: emailTextContent_passwordReset,
@@ -144,13 +144,13 @@ exports.passwordReset = (email, token) => {
         if (err) {
             console.error('Error sending password reset email:', err);
         } else {
-            console.log('Password reset email sent to:', email);
+            console.log('Password reset email sent to:', user.email);
         }
     });
 }
 
 // successfully account created email
-exports.signupSuccess = (email, user) => {
+exports.signupSuccess = ( user) => {
     const emailContent_signup = `
     <html>
     <head>
@@ -185,7 +185,7 @@ exports.signupSuccess = (email, user) => {
 
     transport.sendMail({
         from: 'noreply@mrinmoy.org',
-        to: email,
+        to: user.email,
         subject: 'Welcome to GearX - Signup Successful!',
         html: emailContent_signup, // Use the HTML email content
         text: emailTextContent_signup, // Use the text email content
@@ -193,7 +193,7 @@ exports.signupSuccess = (email, user) => {
         if (err) {
             console.error('Error sending account creation success email:', err);
         } else {
-            console.log('Signup Successful! email sent to:', email);
+            console.log('Signup Successful! email sent to:', user.email);
         }
     });
 }
