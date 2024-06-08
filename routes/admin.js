@@ -15,19 +15,7 @@ const { getRentCheckoutSuccess } = require('../controllers/rentalController');
 
 //:/admin
 // router.get('/', checkUserType('admin'), (req, res) => {
-router.get('/', checkUserType('admin'), (req, res) => {
-    console.log('admin page');
-    let username = req.user ? req.user.username : null;
-    let profilePic = req.user ? req.user.profilePic : null;
-    const warningMessage = req.query.warning || '';
-
-    res.render('./admin/admin.ejs', {
-        user: req.user, pageTitle: 'Admin',
-        path: '/admin',
-         username,  profilePic, warningMessage
-    });
-    // res.send('admin');
-});
+router.get('/', checkUserType('admin'), adminController.getAdminPage);
 
 router.get('/add-product', checkUserType('admin'), adminController.showAddProductPage);
 // router.post('/add-product', checkUserType('admin'), adminController.addProduct);

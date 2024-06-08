@@ -135,6 +135,12 @@ app.use((req, res, next) => {
     res.locals.pageTitle = 'home';
     next();
 });
+app.use((req, res, next) => {
+    res.locals.warningMessage = '';
+    // res.locals.successMessage = '';
+    // res.locals.infoMessage = '';
+    next();
+});
 
 
 

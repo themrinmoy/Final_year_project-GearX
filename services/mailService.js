@@ -1,4 +1,6 @@
-// routes/mail.js
+// Used for sending emails to users
+// Uses nodemailer to send emails
+// services/mailService.js
 const nodemailer = require('nodemailer');
 
 const transport = nodemailer.createTransport({
