@@ -60,31 +60,32 @@ passport.use(new GoogleStrategy({
     }
 }));
 
-// router.post('/login', passport.authenticate('local'), (req, res) => {
-//     const userType = req.user.userType;
-//     console.log('User type:', userType);
-//     if (!req.user.verified) {
-//         // req.logout();
-//         // return res.status(401).json({ message: 'Email not verified. Please verify your email.' });
-//         // return res.redirect('/login?warning=E-mail not verified. Please verify your email.');
-//         return res.redirect('logout?warning=E-mail not verified. Please verify your email.');
+// get login
+router.get('/login', (req, res) => {
+    if (req.isAuthenticated()) {
+        // res.json({ message: 'You are authenticated!' });
+        if (req.user.userType === 'admin') {
+            console.log('alredy logged in as admin');
+            res.redirect('/admin?warning=You are already logged in as admin!');
 
-//     }
+            // res.json({ message: 'Administrator login successfull!' });
+        }
+        else if (req.user.userType === 'buyer') {
+            console.log('alredy logged in as buyer');
+            res.redirect('/?warning=You are already logged in!');
+        }
 
-//     if (userType === 'admin') {
-//         res.redirect('/admin');
-//         console.log('Administrator login successful!');
-//     } else if (userType === 'buyer') {
-//         res.redirect('/');
-//         console.log('Buyer login successful!');
-//     } else {
-//         res.status(500).json({ message: 'Unknown user type' });
-//         console.log('Unknown user type');
-//     }
+        // res.redirect('/', message = 'You are authenticated!');
+        // res.redirect('/');
+    }
+    else {
+        const warningMessage = req.query.warning || '';
 
-
-// });
-
+        res.render('./auth/login', { pageTitle: 'Logins', path: '/login', warningMessage });
+    }
+}
+);
+// post login
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
         if (err) {
@@ -93,6 +94,10 @@ router.post('/login', (req, res, next) => {
         if (!user) {
             // Authentication failed, redirect with error message
             return res.redirect(`/login?warning=${info.message}`);
+
+            const warningMessage = req.query.warning || '';
+
+            // return res.render('./auth/login', { pageTitle: 'Logins', path: '/login', warningMessage: info.message });
 
         }
 
@@ -109,8 +114,9 @@ router.post('/login', (req, res, next) => {
                 // Buyer login successful, redirect to home page
                 return res.redirect('/');
             } else {
+                return res.redirect('/login?warning=Unknown user type');
                 // Unknown user type, return internal server error
-                return res.status(500).json({ message: 'Unknown user type' });
+                // return res.status(500).json({ message: 'Unknown user type' });
             }
         });
     })(req, res, next);
@@ -118,9 +124,33 @@ router.post('/login', (req, res, next) => {
 
 
 
+// get forget-password
+router.get('/forget-password', async (req, res) => {
+
+    // If user is already logged in, redirect to home page
+    if (req.isAuthenticated()) {
+        if (req.user.userType === 'admin') {
+            console.log('alredy logged in as admin');
+            res.redirect('/admin?warning=You are already logged in as admin!');
+        }
+        else if (req.user.userType === 'buyer') {
+            console.log('alredy logged in as buyer');
+            res.redirect('/?warning=You are already logged in!');
+        }
+    }
+    else {
+
+        const warningMessage = req.query.warning || '';
+        res.render('./auth/forgetPassword',
+            {
+                pageTitle: 'Forget-Password',
+                path: '/forgetPassword', warningMessage
+            });
+    }
+});
 
 
-
+// post forget-password
 router.post('/forget-password', async (req, res) => {
     const { identifier } = req.body;
 
@@ -139,7 +169,15 @@ router.post('/forget-password', async (req, res) => {
         }
 
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            // return res.status(404).json({ message: 'User not found' });
+            // return res.redirect('/forget-password?warning=User not found');
+
+            const warningMessage = req.query.warning || 'User not found';
+            return res.render('./auth/forgetPassword',
+                {
+                    pageTitle: 'Forget-Password',
+                    path: '/forgetPassword', warningMessage
+                });
         }
 
         // Generate a reset token
@@ -249,65 +287,19 @@ router.post('/reset-password', async (req, res) => {
 });
 
 // test worning message
-router.get('/loginworning', (req, res) => {
-
-    res.redirect('/login?warning=E-mail not verified. Please verify your email.');
-}
-);
+router.get('/warning', (req, res) => {
+    const warningMessage = req.query.warning || '';
+    res.render('./auth/warning', { pageTitle: 'Warning', path: '/warning', warningMessage });
+});
 
 
 
 // router.get
 
-router.get('/forget-password', async (req, res) => {
-    const warningMessage = req.query.warning || '';
-
-    // If user is already logged in, redirect to home page
-    if (req.isAuthenticated()) {
-        if (req.user.userType === 'admin') {
-            console.log('alredy logged in as admin');
-            res.redirect('/admin?warning=You are already logged in as admin!');
-        }
-        else if (req.user.userType === 'buyer') {
-            console.log('alredy logged in as buyer');
-            res.redirect('/?warning=You are already logged in!');
-        }
-    }
-    else {
-
-        res.render('./auth/forgetPassword',
-            {
-                pageTitle: 'Forget-Password',
-                path: '/forgetPassword', warningMessage
-            });
-    }
-});
 
 
-router.get('/login', (req, res) => {
-    if (req.isAuthenticated()) {
-        // res.json({ message: 'You are authenticated!' });
-        if (req.user.userType === 'admin') {
-            console.log('alredy logged in as admin');
-            res.redirect('/admin');
 
-            // res.json({ message: 'Administrator login successfull!' });
-        }
-        else if (req.user.userType === 'buyer') {
-            console.log('alredy logged in as buyer');
-            res.redirect('/');
-        }
 
-        // res.redirect('/', message = 'You are authenticated!');
-        // res.redirect('/');
-    }
-    else {
-        const warningMessage = req.query.warning || '';
-
-        res.render('./auth/login', { pageTitle: 'Logins', path: '/login', warningMessage });
-    }
-}
-);
 
 
 
@@ -341,7 +333,15 @@ router.get('/signup', (req, res) => {
     const warningMessage = req.query.warning || '';
 
     if (req.isAuthenticated()) {
-        res.json({ message: 'You are authenticated!' });
+        // res.json({ message: 'You are authenticated!' });
+        if (req.user.userType === 'admin') {
+            console.log('alredy logged in as admin');
+            res.redirect('/admin?warning=You are already logged in as admin!');
+        }
+        else if (req.user.userType === 'buyer') {
+            console.log('alredy logged in as buyer');
+            res.redirect('/?warning=You are already logged in!');
+        }
     }
     else {
         res.render('./auth/signup', { pageTitle: 'Signup', path: '/signup', warningMessage });
@@ -353,7 +353,8 @@ router.post('/signup', async (req, res, next) => {
         const existingUser = await User.findOne({ $or: [{ username: req.body.username }, { email: req.body.email }] });
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(req.body.email)) {
-            return res.status(400).json({ error: 'Invalid email format.' });
+            // return res.status(400).json({ error: 'Invalid email format.' });
+            return res.redirect('/signup?warning=Invalid email format.');
         }
 
         // If both username and email are not taken, hash the password and create a new user
@@ -375,7 +376,8 @@ router.post('/signup', async (req, res, next) => {
         console.log('Email sent to:', req.body.email);
         res.redirect('/login?warning=Signup successful. Please verify your email.');
     } catch (err) {
-        return res.status(500).json({ error: err.message });
+        // return res.status(500).json({ error: err.message });
+        return res.redirect('/signup?warning=Signup failed. Please try again.');
     }
 });
 
@@ -401,7 +403,11 @@ router.get('/verify/:token', async (req, res) => {
 
         if (!user) {
 
-            return res.status(404).json({ error, message: 'User not found' });
+            // return res.status(404).json({ error, message: 'User not found' });
+            // return res.redirect('/login?warning=User not found');
+            const warningMessage = req.query.warning || '';
+
+            return res.render('./auth/login', { pageTitle: 'Logins', path: '/login', warningMessage: info.message });
 
         }
 
@@ -423,7 +429,9 @@ router.get('/verify/:token', async (req, res) => {
     } catch (error) {
         console.error(error);
         console.error(error.message);
-        res.status(500).json({ error: 'Internal Server Error', error: error.message });
+        // res.status(500).json({ error: 'Internal Server Error', error: error.message });
+        res.redirect(`/login?warning=${error.message}`);
+
     }
 });
 

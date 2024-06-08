@@ -1,5 +1,5 @@
 // In warningPopup.js
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Function to display a popup message
     function displayPopup(message) {
         const popupContainer = document.getElementById('popup-container');
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Optionally, you can add a timeout to hide the popup after a certain duration
         setTimeout(() => {
             warningContainer.style.display = 'none';
-        }, 5000); // Hide the popup after 5 seconds (5000 milliseconds)
+        }, 7000); // Hide the popup after 5 seconds (5000 milliseconds)
     }
 
     // Display the warning message if it exists

@@ -34,7 +34,7 @@ const checkUserType = (requiredUserType) => {
             // alert('User does not have the required userType, redirecting to login page');
         //    res.redirect('/shop');
 
-           return res.redirect(`/`);
+           return res.redirect(`/?warning=${encodeURIComponent('Unauthorized access! Please log in as an admin.')}`);
 
         }
          else {
@@ -45,7 +45,7 @@ const checkUserType = (requiredUserType) => {
             // // redirect to login page
             // return res.redirect('/login');
             // const warningMessage = 'User does not have the required userType. Please log in.';
-            const warningMessage = 'Unauthorized access!';
+            const warningMessage = 'Unauthorized access!'
             console.log(warningMessage);
 
             // Redirect to login page with the warning message as a query parameter

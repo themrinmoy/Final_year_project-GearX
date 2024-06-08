@@ -18,6 +18,14 @@
                                         <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
                                             <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up with</p>
+
+                                            <div id="popup-container" class="popup-container">
+                                                <div class="warning-container" style="display: none;">
+                                                    <strong>Warning:</strong>
+                                                    <%= warningMessage %>
+                                                </div>
+                                            </div>
+
                                             <form action="/signup" method="post">
 
 
@@ -138,19 +146,16 @@
                     });
                 });
                 // Parse the query parameter from the URL
-                const params = new URLSearchParams(window.location.search);
-                const warningMessage = params.get('warning');
 
-                // Display the warning message if it exists
-                if (warningMessage) {
-                    // Get the warning container element
-                    const warningContainer = document.getElementById('warning-container');
-
-                    // Set the warning message and make the container visible
-                    warningContainer.innerHTML = `<strong>Warning:</strong> ${warningMessage}`;
-                    warningContainer.style.display = 'block';
-                }
             </script>
+            <script>
+                // Set a global JavaScript variable
+                const warningMessage = '<%= warningMessage %>';
+            </script>
+
+            <script src="js/warningPopup.js"></script>
+
+            
             <style>
 
                 .google-button {

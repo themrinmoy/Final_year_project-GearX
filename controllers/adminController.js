@@ -13,13 +13,14 @@ exports.getAllProducts = (req, res) => {
 
     let username = req.user ? req.user.username : null;
     let profilePic = req.user ? req.user.profilePic : null;
+    const warningMessage = req.query.warning || '';
     Product.find()
         .then((products) => {
             res.render('./admin/admin-products', {
                 products,
                 path: '/admin/products',
                 pageTitle: 'Admin - Products',
-                username: username, profilePic: profilePic
+                username, profilePic, warningMessage
             });
         })
         .catch((error) => {
@@ -33,6 +34,8 @@ exports.showAddProductPage = (req, res) => {
 
     let username = req.user ? req.user.username : null;
     let profilePic = req.user ? req.user.profilePic : null;
+    const warningMessage = req.query.warning || '';
+
 
     res.render('./admin/update-product',
         {
@@ -40,7 +43,8 @@ exports.showAddProductPage = (req, res) => {
             errorMessage: null,
             product: null,
             path: '/admin/add-product',
-            username: username, profilePic: profilePic
+            username, profilePic,
+            warningMessage
         });
 };
 
@@ -104,6 +108,7 @@ exports.getUpdateProduct = (req, res) => {
 
             let username = req.user ? req.user.username : null;
             let profilePic = req.user ? req.user.profilePic : null;
+            const warningMessage = req.query.warning || '';
 
             res.render('admin/update-product',
                 {
@@ -111,7 +116,7 @@ exports.getUpdateProduct = (req, res) => {
                     errorMessage: null,
                     editing: true, pageTitle: 'Update Product',
                     path: '/admin/products',
-                    username: username, profilePic: profilePic
+                    username, profilePic, warningMessage
                 });
 
             // res.render('./admin/update-product', { product, pageTitle: 'Update Product', editing: true, errorMessage: null });

@@ -20,8 +20,26 @@ body {
     /* Subtle off-white background */
 }
 
-
-
+/* popup settings */
+.popup-container {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    top: 10rem;
+    left: 50%;
+    transform: translateX(-60%);
+    
+}
+.warning-container {
+    background-color: #ffc107;
+    color: #333;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ffc107;
+    border-radius: 5px;
+}
 
 /* Banner Styles */
 .banner-section {

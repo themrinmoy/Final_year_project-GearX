@@ -3,17 +3,22 @@
         </head>
 
         <body>
-            
-        <%- include('../include/navigation.ejs',{isAuthenticated} ) %>
+
+            <%- include('../include/navigation.ejs',{isAuthenticated} ) %>
 
                 <%- // include('css/login.css') %>
                     <link rel="stylesheet" href="../css/admin.css">
                     <header style="text-align: center;">
                         <h2 class="mt-5 fw-bold">Admin Dashboard</h2>
                     </header>
-                
-                    <main class="main-content container ">
 
+                    <main class="main-content container ">
+                        <div id="popup-container" class="popup-container">
+                            <div class="warning-container" style="display: none;">
+                                <strong>Warning:</strong>
+                                <%= warningMessage %>
+                            </div>
+                        </div>
                         <div class="dashboard-admin_cards">
 
                             <div class="row">
@@ -26,12 +31,12 @@
                                 </div>
                                 <div class="admin_card">
                                     <img src="../img/update-product.png" alt="Edit Icon">
-    
+
                                     <!-- <i class="fas fa-edit"></i> -->
                                     <h3>Edit Products</h3>
                                     <p>Modify details of existing products.</p>
                                     <a href="/admin/products">Enter</a>
-    
+
                                 </div>
                                 <div class="admin_card">
                                     <img src="../img/products.png" alt="View Products Icon">
@@ -39,7 +44,7 @@
                                     <h3>View Products</h3>
                                     <p>See a list of all your products.</p>
                                     <a href="/admin/products">Enter</a>
-    
+
                                 </div>
                                 <div class="admin_card">
                                     <img width="128" src="../img/customer-2.png" alt="Users Icon">
@@ -47,7 +52,7 @@
                                     <h3>Manage Users</h3>
                                     <p>Manage your customer accounts.</p>
                                     <a href="/admin/users">Enter</a>
-    
+
                                 </div>
                             </div>
                             <div class="row">
@@ -57,35 +62,43 @@
                                     <h3>Orders</h3>
                                     <p>View and manage orders.</p>
                                     <a href="/admin/all-rentals">Enter</a>
-    
+
                                 </div>
-                              
-                                  <div class="admin_card">
+
+                                <div class="admin_card">
                                     <img src="../img/rent.png" alt="Settings Icon">
                                     <h3>Rentals</h3>
                                     <p>View and Manage All Rentals.</p>
                                     <a href="/admin/all-rentals">Enter</a>
-    
+
                                 </div>
                                 <div class="admin_card">
                                     <img src="../img/graph.png" alt="Settings Icon">
                                     <!-- <i class="fas fa-shopping-cart"></i> -->
 
                                     <h3>Graph</h3>
-                                    <p>View  Shop  Graph Details.</p>
+                                    <p>View Shop Graph Details.</p>
                                     <a href="/admin/all-rentals">Enter</a>
-    
+
                                 </div>
                                 <div class="admin_card">
                                     <img src="../img/settings.png" alt="Settings Icon">
                                     <!-- <i class="fas fa-cog"></i> -->
                                     <h3>Settings</h3>
-                                    <p>Change your store   settings.</p>
+                                    <p>Change your store settings.</p>
                                     <a href="/admin/settings">Enter</a>
-    
-                                </div> 
+
+                                </div>
                             </div>
-                           
+
                         </div>
                     </main>
+
+
+                    <script>
+                        // Set a global JavaScript variable
+                        const warningMessage = '<%= warningMessage %>';
+                    </script>
+                    <script src="js/warningPopup.js"></script>
+
                     <%- include('../include/footer.ejs') %>
