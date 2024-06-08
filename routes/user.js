@@ -16,7 +16,7 @@ router.get('/favorites', (req, res, next) => {
 
     res.render('user/favorites', {
         pageTitle: 'Favorites', path: '/favorites',
-        username: username, profilePic: profilePic
+         username,  profilePic
 
     });
 });
@@ -29,7 +29,7 @@ router.get('/orders', (req, res, next) => {
 
     res.render('user/order', {
         pageTitle: 'Order', path: '/order',
-        username: username, profilePic: profilePic
+         username,  profilePic
     });
 });
 

@@ -80,6 +80,8 @@ router.post('/remove-from-cart', async (req, res) => {
 
 
 router.post('/create-payment-intent', async (req, res) => {
+          const warningMessage = req.query.warning || '';
+
     try {
       const { items } = req.body;
   
@@ -95,7 +97,8 @@ router.post('/create-payment-intent', async (req, res) => {
       res.status(200).json({ clientSecret: paymentIntent.client_secret });
     } catch (error) {
       console.error('Error creating PaymentIntent:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      res.redirect('/rent/checkout?warning=' + encodeURIComponent('Error creating PaymentIntent'));
+      
     }
   });
   

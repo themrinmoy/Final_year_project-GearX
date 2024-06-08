@@ -9,7 +9,9 @@ const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9b
 router.get('/', (req, res, next) => {
     let username = req.user ? req.user.username : null;
     let profilePic = req.user ? req.user.profilePic : null;
-    res.render('shop/index', { pageTitle: 'Home', path: '/', username: username, profilePic: profilePic });
+    const warningMessage = req.query.warning || '';
+
+    res.render('shop/index', { pageTitle: 'Home', path: '/', username, profilePic, warningMessage });
 });
 
 
@@ -25,10 +27,11 @@ router.get('/order', (req, res, next) => {
 
     let username = req.user ? req.user.username : null;
     let profilePic = req.user ? req.user.profilePic : null;
+    const warningMessage = req.query.warning || '';
 
     res.render('user/order', {
         pageTitle: 'Order', path: '/order',
-        username: username, profilePic: profilePic
+         username,  profilePic, warningMessage
     });
 });
 router.get('/about', (req, res, next) => {
@@ -41,10 +44,10 @@ router.get('/favorites', (req, res, next) => {
 
     res.render('user/favorites', {
         pageTitle: 'Favorites', path: '/favorites',
-        username: username, profilePic: profilePic
+         username,  profilePic
 
     });
-}); 
+});
 
 
 

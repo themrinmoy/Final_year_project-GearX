@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     username: { type: String },
     name: { type: String },
     email: { type: String },
-    password: { type: String},
+    password: { type: String },
     googleId: { type: String, unique: true },
     // profilePic: { type: String },
     profilePic: { type: String, default: '/img/user.png' },
@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
             default: Date.now,
             required: false
         },
-    
+
     },
     usedTokens: [{ type: String }],
     rentals: [{
@@ -109,6 +109,7 @@ userSchema.statics.authenticate = async function (usernameOrEmail, password) {
     const isEmail = /\S+@\S+\.\S+/.test(usernameOrEmail);
 
     // const user = await this.findOne({ username });
+    let user;
     if (isEmail) {
         // If input is an email address, find user by email
         user = await this.findOne({ email: usernameOrEmail });
@@ -118,13 +119,16 @@ userSchema.statics.authenticate = async function (usernameOrEmail, password) {
     }
 
     if (!user) {
-        throw new Error('Authentication failed. User not found.');
+        throw new Error(' User not found.');
     }
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
-        throw new Error('Authentication failed. Incorrect password.');
+        throw new Error(' Incorrect password.');
+    }
+     if (!user.verified) {
+        throw new Error('Email not verified. Please verify your email');
     }
     return user;
 }

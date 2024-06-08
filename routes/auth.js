@@ -60,25 +60,65 @@ passport.use(new GoogleStrategy({
     }
 }));
 
-router.post('/login', passport.authenticate('local'), (req, res) => {
-    const userType = req.user.userType;
-    console.log('User type:', userType);
-    if (!req.user.verified) {
-        // req.logout();
-        return res.status(401).json({ message: 'Email not verified. Please verify your email.' });
-    }
+// router.post('/login', passport.authenticate('local'), (req, res) => {
+//     const userType = req.user.userType;
+//     console.log('User type:', userType);
+//     if (!req.user.verified) {
+//         // req.logout();
+//         // return res.status(401).json({ message: 'Email not verified. Please verify your email.' });
+//         // return res.redirect('/login?warning=E-mail not verified. Please verify your email.');
+//         return res.redirect('logout?warning=E-mail not verified. Please verify your email.');
 
-    if (userType === 'admin') {
-        res.redirect('/admin');
-        console.log('Administrator login successful!');
-    } else if (userType === 'buyer') {
-        res.redirect('/');
-        console.log('Buyer login successful!');
-    } else {
-        res.status(500).json({ message: 'Unknown user type' });
-        console.log('Unknown user type');
-    }
+//     }
+
+//     if (userType === 'admin') {
+//         res.redirect('/admin');
+//         console.log('Administrator login successful!');
+//     } else if (userType === 'buyer') {
+//         res.redirect('/');
+//         console.log('Buyer login successful!');
+//     } else {
+//         res.status(500).json({ message: 'Unknown user type' });
+//         console.log('Unknown user type');
+//     }
+
+
+// });
+
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            // Authentication failed, redirect with error message
+            return res.redirect(`/login?warning=${info.message}`);
+
+        }
+
+        req.login(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+            // console.log(user, 'user')
+            const userType = user.userType;
+            if (userType === 'admin') {
+                // Admin login successful, redirect to admin dashboard
+                return res.redirect('/admin');
+            } else if (userType === 'buyer') {
+                // Buyer login successful, redirect to home page
+                return res.redirect('/');
+            } else {
+                // Unknown user type, return internal server error
+                return res.status(500).json({ message: 'Unknown user type' });
+            }
+        });
+    })(req, res, next);
 });
+
+
+
+
 
 
 router.post('/forget-password', async (req, res) => {
@@ -125,6 +165,7 @@ router.post('/forget-password', async (req, res) => {
 router.get('/reset-password/:token', async (req, res) => {
     const token = req.params.token;
     // console.log(token, 'token');
+    const warningMessage = req.query.warning || '';
 
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET);
@@ -137,14 +178,14 @@ router.get('/reset-password/:token', async (req, res) => {
             return res.status(404).send('User not found');
         }
 
-       
+
         if (typeof user.resetTokenExpiration === 'undefined' || user.resetTokenExpiration < Date.now()) {
             console.log('Token expired');
             return res.json({ message: 'Token expired' });
         }
-        res.render('./auth/resetPassword', { token, pageTitle: 'Reset-Password', path: '/resetPassword' });
+        res.render('./auth/resetPassword', { token, pageTitle: 'Reset-Password', path: '/resetPassword', warningMessage });
     } catch (err) {
-        res.status(400).send('Invalid or expired token');
+        res.redirect('/login?warning=Invalid or expired token');
     }
 });
 
@@ -200,32 +241,44 @@ router.post('/reset-password', async (req, res) => {
         user.password = hashedPassword;
         await user.save();
 
-        res.send('Password set successfully');
+        res.redirect(`/login?warning=Password reset successful`);
+
     } catch (err) {
         res.status(400).send('Invalid or expired token');
     }
 });
 
+// test worning message
+router.get('/loginworning', (req, res) => {
+
+    res.redirect('/login?warning=E-mail not verified. Please verify your email.');
+}
+);
+
+
+
 // router.get
 
 router.get('/forget-password', async (req, res) => {
+    const warningMessage = req.query.warning || '';
 
     // If user is already logged in, redirect to home page
     if (req.isAuthenticated()) {
         if (req.user.userType === 'admin') {
             console.log('alredy logged in as admin');
-            res.redirect('/admin');
+            res.redirect('/admin?warning=You are already logged in as admin!');
         }
         else if (req.user.userType === 'buyer') {
             console.log('alredy logged in as buyer');
-            res.redirect('/');
+            res.redirect('/?warning=You are already logged in!');
         }
     }
     else {
+
         res.render('./auth/forgetPassword',
             {
                 pageTitle: 'Forget-Password',
-                path: '/forgetPassword'
+                path: '/forgetPassword', warningMessage
             });
     }
 });
@@ -249,7 +302,9 @@ router.get('/login', (req, res) => {
         // res.redirect('/');
     }
     else {
-        res.render('./auth/login', { pageTitle: 'Login', path: '/login' });
+        const warningMessage = req.query.warning || '';
+
+        res.render('./auth/login', { pageTitle: 'Logins', path: '/login', warningMessage });
     }
 }
 );
@@ -260,29 +315,36 @@ router.get('/login', (req, res) => {
 
 
 router.get('/logout', (req, res) => {
+    // Check if the user is authenticated
+    if (!req.isAuthenticated()) {
+        // If the user is not authenticated, simply redirect to the login page without displaying a message
+        return res.redirect('/login');
+    }
+
+    // If the user is authenticated, destroy the session
     req.session.destroy((err) => {
         if (err) {
             return res.status(500).json({ message: 'Error destroying session' });
         }
         console.log('Session destroyed');
 
-
-
-        res.redirect('/');
-
+        // Redirect to the login page with the logout message
+        res.redirect('/login?warning=Logout successful!');
     });
 });
 
 
 
 
+
 router.get('/signup', (req, res) => {
+    const warningMessage = req.query.warning || '';
 
     if (req.isAuthenticated()) {
         res.json({ message: 'You are authenticated!' });
     }
     else {
-        res.render('./auth/signup', { pageTitle: 'Signup', path: '/signup' });
+        res.render('./auth/signup', { pageTitle: 'Signup', path: '/signup', warningMessage });
     }
 }
 );
@@ -311,8 +373,7 @@ router.post('/signup', async (req, res, next) => {
         mail.sendVerificationEmail(req.body.email, token);
         // sendVerificationEmail(req.body.email, token);
         console.log('Email sent to:', req.body.email);
-        // res.redirect('/login');
-        res.status(201).json({ message: 'Registration successful! Please verify your email' });
+        res.redirect('/login?warning=Signup successful. Please verify your email.');
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }

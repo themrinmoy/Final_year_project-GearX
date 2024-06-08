@@ -6,8 +6,6 @@
     <body>
         <%- include('../include/navigation.ejs') %>
             <main>
-
-
                 <section class="container mt-5 mb-5">
                     <div class="row d-flex justify-content-center align-items-center h-100">
                         <div class="col-md-9 col-lg-6 col-xl-5">
@@ -15,6 +13,17 @@
                                 class="img-fluid" alt="Sample image">
                         </div>
                         <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                            <!-- Your form code goes here -->
+
+                            <!-- Popup container for warnings -->
+                            <div id="popup-container" class="popup-container">
+                                <div class="warning-container" style="display: none;">
+                                    <strong>Warning:</strong>
+                                    <%= warningMessage %>
+                                </div>
+                            </div>
+
+                            
 
                             <form id="signup-form" action="/login" method="post">
 
@@ -60,63 +69,53 @@
                     </div>
                 </section>
             </main>
-            <script>
-                // Parse the query parameter from the URL
-                const params = new URLSearchParams(window.location.search);
-                const warningMessage = params.get('warning');
-
-                // Display the warning message if it exists
-                if (warningMessage) {
-                    // Get the warning container element
-                    const warningContainer = document.getElementById('warning-container');
-
-                    // Set the warning message and make the container visible
-                    warningContainer.innerHTML = `<strong>Warning:</strong> ${warningMessage}`;
-                    warningContainer.style.display = 'block';
-                }
-            </script>
-
-            <style>
-                .google-button {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    /* width: 250px; */
-                    width: 350px;
-                    width: 380px;
-                    height: 50px;
-                    background-color: white;
-                    color: #5F6368;
-                    border: 1px solid #dadce0;
-                    border: 1px solid #e5e7eb;
-                    border-radius: .5rem;
-                    font-size: 15px;
-                    font-family: Arial, sans-serif;
-                    cursor: pointer;
-
-                    transition: background-color 0.3s ease;
-                    text-decoration: none;
-                }
-
-                .google-button:hover {
-                    background-color: #f4f4f4;
-                    background-color: #2222220d;
-                }
-
-                .google-button img {
-                    margin-right: 10px;
-                }
-
-                .warning-container {
-                    background-color: #ffc107;
-                    color: #333;
-                    padding: 10px;
-                    margin-bottom: 10px;
-                    border: 1px solid #ffc107;
-                    border-radius: 5px;
-                    display: none;
-                    /* Initially hide the container */
-                }
-            </style>
 
             <%- include('../include/footer.ejs') %>
+
+                <!-- JavaScript -->
+                <!-- In your EJS template -->
+                <script>
+                    // Set a global JavaScript variable
+                    const warningMessage = '<%= warningMessage %>';
+                </script>
+
+                <script src="js/warningPopup.js"></script>
+                <!-- <script src="js/script.js"></script> -->
+
+
+
+                <style>
+                    .google-button {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 380px;
+                        height: 50px;
+                        background-color: white;
+                        color: #5F6368;
+                        border: 1px solid #e5e7eb;
+                        border-radius: .5rem;
+                        font-size: 15px;
+                        font-family: Arial, sans-serif;
+                        cursor: pointer;
+                        transition: background-color 0.3s ease;
+                        text-decoration: none;
+                    }
+
+                    .google-button:hover {
+                        background-color: #2222220d;
+                    }
+
+                    .google-button img {
+                        margin-right: 10px;
+                    }
+
+                    .warning-container {
+                        background-color: #ffc107;
+                        color: #333;
+                        padding: 10px;
+                        margin-bottom: 10px;
+                        border: 1px solid #ffc107;
+                        border-radius: 5px;
+                    }
+                </style>
