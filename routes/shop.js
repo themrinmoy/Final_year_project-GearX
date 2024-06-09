@@ -7,11 +7,9 @@ const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9b
 
 
 router.get('/', (req, res, next) => {
-    let username = req.user ? req.user.username : null;
-    let profilePic = req.user ? req.user.profilePic : null;
-    const warningMessage = req.query.warning || '';
+    
 
-    res.render('shop/index', { pageTitle: 'Home', path: '/', username, profilePic, warningMessage });
+    res.render('shop/index', { pageTitle: 'Home', path: '/' });
 });
 
 
@@ -25,13 +23,11 @@ router.get('/products/category/:category', productController.productsByCategory)
 
 router.get('/order', (req, res, next) => {
 
-    let username = req.user ? req.user.username : null;
-    let profilePic = req.user ? req.user.profilePic : null;
-    const warningMessage = req.query.warning || '';
+    
 
     res.render('user/order', {
         pageTitle: 'Order', path: '/order',
-         username,  profilePic, warningMessage
+         
     });
 });
 router.get('/about', (req, res, next) => {
@@ -39,12 +35,10 @@ router.get('/about', (req, res, next) => {
 });
 
 router.get('/favorites', (req, res, next) => {
-    let username = req.user ? req.user.username : null;
-    let profilePic = req.user ? req.user.profilePic : null;
+    
 
     res.render('user/favorites', {
-        pageTitle: 'Favorites', path: '/favorites',
-         username,  profilePic
+        pageTitle: 'Favorites', path: '/favorites'
 
     });
 });
