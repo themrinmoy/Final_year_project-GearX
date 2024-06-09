@@ -16,12 +16,7 @@
                             <!-- Your form code goes here -->
 
                             <!-- Popup container for warnings -->
-                            <div id="popup-container" class="popup-container">
-                                <div class="warning-container" style="display: none;">
-                                    <strong>Warning:</strong>
-                                    <%= warningMessage %>
-                                </div>
-                            </div>
+
                             <br>
                             <br>
                             <br>
@@ -76,15 +71,7 @@
 
             <%- include('../include/footer.ejs') %>
 
-                <!-- JavaScript -->
-                <!-- In your EJS template -->
-                <script>
-                    // Set a global JavaScript variable
-                    const warningMessage = '<%= warningMessage %>';
-                </script>
 
-                <script src="js/warningPopup.js"></script>
-                <!-- <script src="js/script.js"></script> -->
 
 
 

@@ -92,6 +92,13 @@
     </div>
 </nav>
 
+<div id="popup-container" class="popup-container">
+    <div class="warning-container" style="display: none;">
+        <strong>Warning:</strong>
+        <%= warningMessage %>
+    </div>
+</div>
+
 <style>
     .profile-picture {
         width: 30px;
@@ -187,3 +194,11 @@
         });
     });
 </script>
+
+<script>
+    // Set a global JavaScript variable
+    const warningMessage = '<%= warningMessage %>';
+    console.log(warningMessage);
+</script>
+
+<script src="js/warningPopup.js"></script>

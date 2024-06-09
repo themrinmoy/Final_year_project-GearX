@@ -13,12 +13,7 @@
                     </header>
 
                     <main class="main-content container ">
-                        <div id="popup-container" class="popup-container">
-                            <div class="warning-container" style="display: none;">
-                                <strong>Warning:</strong>
-                                <%= warningMessage %>
-                            </div>
-                        </div>
+
                         <div class="dashboard-admin_cards">
 
                             <div class="row">
@@ -95,10 +90,6 @@
                     </main>
 
 
-                    <script>
-                        // Set a global JavaScript variable
-                        const warningMessage = '<%= warningMessage %>';
-                    </script>
-                    <script src="js/warningPopup.js"></script>
+            
 
                     <%- include('../include/footer.ejs') %>

@@ -12,22 +12,16 @@
 
           <%if(categoryTitle){%>
             <h2>
-              All types of <%= categoryTitle %>
+              All types(sellable) of <%= categoryTitle %>
             </h2>
 
             <%} else{%>
               <h2>
-                All Products
+                All Products(sellable)
               </h2>
               <%}%>
 
 
-                <div id="popup-container" class="popup-container">
-                  <div class="warning-container" style="display: none;">
-                    <strong>Warning:</strong>
-                    <%= warningMessage %>
-                  </div>
-                </div>
 
 
 
@@ -97,10 +91,5 @@
 
       </main>
 
-      <script>
-        // Set a global JavaScript variable
-        const warningMessage = '<%= warningMessage %>';
-      </script>
 
-      <script src="js/warningPopup.js"></script>
       <%- include('../include/footer.ejs') %>

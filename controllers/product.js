@@ -11,13 +11,13 @@ exports.productsByCategory = (req, res, next) => {
 
   if (category) {
     // If a category is specified, filter products by category
-    productsPromise = Product.find({ category });
+    productsPromise = Product.find({ category, type: 'sellable'});
   } else {
     // If no category is specified, retrieve all products
-    productsPromise = Product.find();
+    // productsPromise = Product.find();
     // You can also add pagination to limit the number of products returned
     // productsPromise = Product.find().limit(10).skip(0); // Limit to 10 products and skip the first 0 products
-    // productsPromise = Product.find({ type: 'sellable' });
+    productsPromise = Product.find({ type: 'sellable' });
 
   }
   productsPromise
@@ -39,7 +39,7 @@ exports.productsByCategory = (req, res, next) => {
 
 
       // res.render('product/all-products', { category, products: productsWithImages, pageTitle: 'All Products', categoryTitle: category});
-      res.render('./product/all-Products.ejs', {
+      res.render('product/all-Products.ejs', {
         category, products: productsWithImages,
         pageTitle: 'All Products',
         path: '/products',
