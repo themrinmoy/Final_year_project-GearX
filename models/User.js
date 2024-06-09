@@ -48,8 +48,13 @@ const userSchema = new mongoose.Schema({
     },
     usedTokens: [{ type: String }],
     rentals: [{
-        rentalId: { type: mongoose.Schema.Types.ObjectId, ref: 'Rental' },
+        rentalId: { type: mongoose.Schema.Types.ObjectId, ref: 'Rental' }, default: []
     }],
+    orders: [{
+        orderId: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' }, default: []
+
+    }],
+
     wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
 
     // rentals: [{
@@ -59,7 +64,7 @@ const userSchema = new mongoose.Schema({
 
 
 
-userSchema.methods.calculateCartTotal = async function() {
+userSchema.methods.calculateCartTotal = async function () {
     let total = 0;
     for (const item of this.cart.items) {
         const product = await mongoose.model('Product').findById(item.productId);
@@ -143,7 +148,7 @@ userSchema.statics.authenticate = async function (usernameOrEmail, password) {
         throw new Error(' User not found.');
     }
 
-    if(user.password == null){
+    if (user.password == null) {
         throw new Error('User signed up with Google. Please sign in with Google Or reset password.');
     }
 

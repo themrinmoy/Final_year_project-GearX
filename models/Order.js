@@ -22,6 +22,7 @@ const orderSchema = new Schema({
             product: {
                 type: Schema.Types.ObjectId,
                 ref: 'Product',
+                default: '60f3b3b3b3b3b3b3b3b3b3',
 
                 // required: true
             },

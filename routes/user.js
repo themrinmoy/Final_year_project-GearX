@@ -31,7 +31,7 @@ router.get('/orders', async (req, res) => {
 
             // console.log(orders);
         // show me the products in the order
-        console.log(orders[1].products[0]);
+        // console.log(orders[1].products[0]);
         res.render('user/order', {
         // res.render('user/orderStatic', {
             pageTitle: 'Orders',

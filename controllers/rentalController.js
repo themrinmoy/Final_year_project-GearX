@@ -366,6 +366,7 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
             productId: req.user.rentalCart.items.map(item => item.productId),
             rentalStartDate,
             rentalEndDate,
+            returnDate: rentalEndDate + 1,
             rentalCost: totalRentalCost,
             paymentStatus: 'paid', // Assuming payment is successful
         });
@@ -379,6 +380,11 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
         req.user.rentalCart.items = [];
         // clear the session id
         req.session.expectedSessionId = null;
+
+        if (!req.user.rentals) {
+            req.user.rentals = [];
+          }
+          req.user.rentals.push(newRental._id); 
         req.user.save();
 
         res.redirect('/user/rentals');

@@ -109,12 +109,12 @@ exports.postOrder = async (req, res, next) => {
 
 exports.getShopCheckoutSuccess = async (req, res, next) => {
   try {
-    const sessionId = req.query.session_id;
+    const sessionId = req.query.session_id || "No session ID provided";
     // const { userId, products, totalPrice, shippingAddress } = req.body; // Assuming you receive this data from the payment success webhook or frontend
     // console.log(req.user);
 
     console.log(sessionId);
-    const expectedSessionId = req.session.expectedSessionId;
+    const expectedSessionId = req.session.expectedSessionId || "No expected session ID provided";
     if (sessionId !== expectedSessionId) {
       return res.redirect('/shop/checkout?warning=Invalid session ID');
     }
@@ -144,8 +144,8 @@ exports.getShopCheckoutSuccess = async (req, res, next) => {
       products: products,
       totalPrice: cartTotal,
       shippingAddress: req.user.address || 'No address provided',
-      paymentStatus: 'Pending', // Set payment status as paid
-      status: 'Paid' // Set initial status as pending
+      paymentStatus: 'Paid', // Set payment status as paid
+      status: 'Processing' // Set initial status as pending
       // status: 'Pendin' // Set initial status as pending
     });
 
@@ -159,8 +159,13 @@ exports.getShopCheckoutSuccess = async (req, res, next) => {
 
     req.user.cart.items = [];
     req.session.expectedSessionId = null;
-
+    if (!req.user.orders) {
+      req.user.orders = [];
+    }
+    req.user.orders.push(order._id); 
+    
     await req.user.save();
+    console.log('Order submitted successfully');
 
 
     res.redirect('/order?warning=Order submitted successfully');
