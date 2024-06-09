@@ -9,12 +9,6 @@
 
             <!-- <main> -->
 
-            <div id="popup-container" class="popup-container">
-                <div class="warning-container" style="display: none;">
-                    <strong>Warning:</strong>
-                    <%= warningMessage %>
-                </div>
-            </div>
 
             <section class="banner-section">
                 <div class="banner-container">
@@ -197,11 +191,7 @@
             </main>
             <%- include('../include/footer.ejs') %>
 
-                <script>
-                    // Set a global JavaScript variable
-                    const warningMessage = '<%= warningMessage %>';
-                </script>
-                <script src="js/warningPopup.js"></script>
+
 
 
                 <script src="js/script.js"></script>

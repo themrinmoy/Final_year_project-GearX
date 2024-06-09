@@ -29,7 +29,7 @@ router.get('/orders', async (req, res) => {
             // .exec( );
 
 
-            console.log(orders);
+            // console.log(orders);
         // show me the products in the order
         console.log(orders[1].products[0]);
         res.render('user/order', {
@@ -44,7 +44,7 @@ router.get('/orders', async (req, res) => {
     }
 });
 
-router.get('/rentals', rentalController.getRentedItemsByUser);
+router.get('/rentals',  rentalController.getRentedItemsByUser);
 
 // POST /users
 router.post('/', (req, res) => {

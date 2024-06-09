@@ -108,10 +108,10 @@ exports.getRentalCart = async (req, res, next) => {
         // Format start and end dates
         const fStartDate = formatDate(startDate);
         const fEndDate = formatDate(endDate);
-        console.log('durationInDays:', durationInDays);
+        // console.log('durationInDays:', durationInDays);
 
-        console.log(fStartDate); // Output: "2024-03-05"
-        console.log(fEndDate); // Output: "2024-03-10"
+        // console.log(fStartDate); // Output: "2024-03-05"
+        // console.log(fEndDate); // Output: "2024-03-10"
         // Render the View or return JSON as needed
 
 
@@ -328,7 +328,7 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
         const sessionId = req.query.session_id;
 
         // const sessionId = req.query.session_id;
-        console.log(sessionId, 'session id');
+        // console.log(sessionId, 'session id');
 
         const expectedSessionId = req.session.expectedSessionId;
         if (sessionId !== expectedSessionId) {
@@ -432,23 +432,23 @@ exports.getAllRentedItems = async (req, res, next) => {
     }
 }
 
-exports.getRentedItemsByUser = async (req, res, next) => {
+exports.getRentedItemsByUser = async (req, res) => {
     try {
-        const userId = req.user._id;
-        const rentals = await Rental.find({ userId });
+        const rentals = await Rental.find({ userId: req.user._id })
+            .populate('productId')
+            .exec();
 
-
-
+            // console.log(rentals[0].productId, 'rentals');
         res.render('user/rentals', {
-            rentals, pageTitle: 'Rentals', title: 'Your Rentals', path: '/user/rentals',
+            rentals, pageTitle: 'Rentals',
+            title: 'My Rentals', path: '/rentals',
 
         });
-        // res.status(200).json(rentals);
-    } catch (error) {
-        console.error('Error fetching rentals:', error);
-        res.redirect(`/user/rentals?warning=${error.message}`);
+    } catch (err) {
+        console.error(err);
+        res.redirect(`/rentals?warning=${err.message}`);
     }
-}
+};
 
 
 exports.postRentalCart = async (req, res, next) => {
@@ -496,8 +496,8 @@ exports.postRentalCart = async (req, res, next) => {
         // 4. Response
         // res.status(200).json({ message: "Product added to rental cart!" });
         res.redirect('/rent/cart');
-        console.log(user);
-        console.log(product);
+        // console.log(user);
+        // console.log(product);
 
     } catch (error) {
         next(error); // Pass error to your error handling middleware

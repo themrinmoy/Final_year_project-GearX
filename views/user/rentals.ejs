@@ -1,40 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+
     <%- include('../include/head.ejs') %>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .status {
-            font-weight: bold;
-        }
-        .active {
-            color: green;
-        }
-        .completed {
-            color: blue;
-        }
-        .overdue {
-            color: red;
-        }
-        .pending {
-            color: orange;
-        }
-        .paid {
-            color: green;
-        }
-    </style>
+
 </head>
 <body>
     <%- include('../include/navigation.ejs') %>
@@ -43,47 +9,205 @@
         <h1 style="text-align: center; padding-top: 10px;">My Rentals</h1>
 
         <div class="container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rental ID</th>
-                        <th>Rental Date</th>
-                        <th>Product</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Return Date</th>
-                        <th>Status</th>
-                        <th>Rental Cost</th>
-                        <th>Payment Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>rental123</td>
-                        <td>01/01/2023</td>
-                        <td>Product A</td>
-                        <td>01/05/2023</td>
-                        <td>01/10/2023</td>
-                        <td>01/10/2023</td>
-                        <td class="status completed">Completed</td>
-                        <td>$50.00</td>
-                        <td class="status paid">Paid</td>
-                    </tr>
-                    <tr>
-                        <td>rental124</td>
-                        <td>02/01/2023</td>
-                        <td>Product B</td>
-                        <td>02/05/2023</td>
-                        <td>02/10/2023</td>
-                        <td>02/10/2023</td>
-                        <td class="status active">Active</td>
-                        <td>$60.00</td>
-                        <td class="status pending">Pending</td>
-                    </tr>
-                </tbody>
-            </table>
+            <% if (rentals.length > 0) { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Products</th>
+                            <th>Rental Start Date</th>
+                            <th>Rental End Date</th>
+                            <th>Return Date</th>
+                            <th>Status</th>
+                            <th>Rental Cost</th>
+                            <th>Payment Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% rentals.forEach(rental => { %>
+                            <tr>
+                                <td>
+                                    <u_list>
+                                        <% rental.productId.forEach(p => { %>
+                                            <li>
+                                                <img src="/<%= p.imageUrl || '/img/helmet.png' %>" alt="<%= p.name %>" class="product-img">
+                                                <%= p.name %>
+                                            </li>
+                                        <% }) %>
+                                    </u_list>
+                                </td>
+                                <td><%= new Date(rental.rentalStartDate).toLocaleDateString() %></td>
+                                <td><%= new Date(rental.rentalEndDate).toLocaleDateString() %></td>
+                                <td><%= rental.returnDate ? new Date(rental.returnDate).toLocaleDateString() : 'N/A' %></td>
+                                <td class="status <%= rental.status.toLowerCase() %>"><%= rental.status %></td>
+                                <td><%= rental.rentalCost.toFixed(2) %></td>
+                                <td class="status <%= rental.paymentStatus.toLowerCase() %>"><%= rental.paymentStatus %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <p style="text-align: center; padding-top: 20px;">You have no rentals yet. Here are some Demo Product:</p>
+                <div class="dummy-products">
+                    <div class="container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Products</th>
+                                    <th>Rental Start Date</th>
+                                    <th>Rental End Date</th>
+                                    <th>Return Date</th>
+                                    <th>Status</th>
+                                    <th>Rental Cost</th>
+                                    <th>Payment Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <u_list>
+                                            <li>
+                                                <img src="/img/helmet.png" alt="Product A" class="product-img">
+                                                Product A
+                                            </li>
+                                            <li>
+                                                <img src="/img/helmet.png" alt="Product B" class="product-img">
+                                                Product B
+                                            </li>
+                                        </u_list>
+                                    </td>
+                                    <td>01/01/2023</td>
+                                    <td>01/10/2023</td>
+                                    <td>N/A</td>
+                                    <td class="status active">Active</td>
+                                    <td>150.00</td>
+                                    <td class="status pending">Pending</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <u_list>
+                                            <li>
+                                                <img src="/img/helmet.png" alt="Product C" class="product-img">
+                                                Product C
+                                            </li>
+                                        </u_list>
+                                    </td>
+                                    <td>02/01/2023</td>
+                                    <td>02/10/2023</td>
+                                    <td>02/11/2023</td>
+                                    <td class="status completed">Completed</td>
+                                    <td>100.00</td>
+                                    <td class="status paid">Paid</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <% } %>
         </div>
     </main>
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .containerr {
+            width: 90%;
+            margin: auto;
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .status {
+            font-weight: bold;
+        }
+        .active {
+            color: orange;
+        }
+        .completed {
+            color: green;
+        }
+        .overdue {
+            color: red;
+        }
+        .product-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        u_list {
+            padding-left: 0;
+            list-style-type: none;
+            margin: 0;
+        }
+        u_list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .dummy-products .product-img {
+            width: 70px;
+            height: 70px;
+        }
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            tr {
+                margin: 0 0 1rem 0;
+            }
+            tr:nth-child(odd) {
+                background: #f2f2f2;
+            }
+            td {
+                border: none;
+                border-bottom: 1px solid #ddd;
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+            }
+            td:before {
+                position: absolute;
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+            td:nth-of-type(1):before { content: "Products"; }
+            td:nth-of-type(2):before { content: "Rental Start Date"; }
+            td:nth-of-type(3):before { content: "Rental End Date"; }
+            td:nth-of-type(4):before { content: "Return Date"; }
+            td:nth-of-type(5):before { content: "Status"; }
+            td:nth-of-type(6):before { content: "Rental Cost"; }
+            td:nth-of-type(7):before { content: "Payment Status"; }
+        }
+    </style>
 
     <%- include('../include/footer.ejs') %>
 </body>
