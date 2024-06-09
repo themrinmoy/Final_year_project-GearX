@@ -15,11 +15,13 @@ const CartController = {
                 select: 'name price imageUrl', // Specify the fields you want to select
 
 
+
             });
 
-            // cart = user.cart;
-            res.render('./user/cart', {
-                cart: user.cart, pageTitle: 'Cart', path: '/cart'
+            const cartTotal = await user.calculateCartTotal();
+
+            res.render('user/cart', {
+                cart: user.cart, pageTitle: 'Cart', path: '/cart', cartTotal
             });
 
         } catch (error) {

@@ -1,0 +1,93 @@
+
+    <%- include('../include/head.ejs') %>
+
+</head>
+<body>
+    <%- include('../include/navigation.ejs') %>
+
+    <main>
+        <h1 style="text-align: center; padding-top: 10px;">My Orders</h1>
+
+        <div class="container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Order Date</th>
+                        <th>Products</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                        <th>Payment Status</th>
+                        <th>Order Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>order123</td>
+                        <td>01/01/2023</td>
+                        <td>
+                            <ul>
+                                <li>Product A</li>
+                                <li>Product B</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>2</li>
+                                <li>1</li>
+                            </ul>
+                        </td>
+                        <td>100.00</td>
+                        <td class="status paid">Paid</td>
+                        <td class="status delivered">Delivered</td>
+                    </tr>
+                    <tr>
+                        <td>order124</td>
+                        <td>02/01/2023</td>
+                        <td>
+                            <ul>
+                                <li>Product C</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>3</li>
+                            </ul>
+                        </td>
+                        <td>75.00</td>
+                        <td class="status pending">Pending</td>
+                        <td class="status processing">Processing</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <%- include('../include/footer.ejs') %>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .status {
+            font-weight: bold;
+        }
+        .pending {
+            color: orange;
+        }
+        .paid, .delivered {
+            color: green;
+        }
+        .processing, .shipped {
+            color: blue;
+        }
+    </style>

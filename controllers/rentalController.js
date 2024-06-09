@@ -36,23 +36,7 @@ exports.getAllRentals = (req, res, next) => {
 
 
 
-const calculateRentalCost = (rentalStartDate, rentalEndDate, rentPerday, quantity) => {
-    const startDate = new Date(rentalStartDate);
-    const endDate = new Date(rentalEndDate);
 
-    // Calculate the duration in milliseconds
-    const durationInMilliseconds = endDate - startDate;
-
-    // Convert the duration to days
-    const durationInDays = (durationInMilliseconds / (1000 * 60 * 60 * 24)) + 1;
-
-    console.log("Duration in days:", durationInDays);
-
-    // Calculate the total cost
-    const totalCost = rentPerday * (durationInDays + 1) * quantity;
-
-    return totalCost;
-};
 
 exports.getRentalCart = async (req, res, next) => {
     try {

@@ -6,6 +6,7 @@ const orderSchema = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
         ref: 'User',
+        default: '60f3b3b3b3b3b3b3b3b3b3b3',
         required: true
     },
     //user email
@@ -13,14 +14,15 @@ const orderSchema = new Schema({
     userEmail: {
         type: String,
         // required: true
+        default: 'N/A'
     },
-    productId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true }],
 
     products: [
         {
             product: {
                 type: Schema.Types.ObjectId,
-                ref: 'Product', 
+                ref: 'Product',
+
                 // required: true
             },
             quantity: {
@@ -43,15 +45,17 @@ const orderSchema = new Schema({
     totalPrice: {
         type: Number,
         // required: true,
-        min: 0
+        min: 0,
+        default: 0
     },
     shippingAddress: {
         type: String,
+        default: 'N/A'
         // required: true
     },
     orderDate: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     }
 });
 

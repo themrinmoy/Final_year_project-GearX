@@ -1,6 +1,7 @@
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const User = require('../models/User');
+const mongoose = require('mongoose');
 const session = require('express-session');
 const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9bR31hvgJnb7OGnBw8n1AjFnlgOI9NHYnRtKPUO9CSQPI27q55b6L001og14MAB')
 
@@ -51,7 +52,7 @@ exports.getCheckout = async (req, res, next) => {
 
           product_data: {
             name: item.productId.name,
-            description: item.productId.description,
+            description: item.productId.description || 'No description provided',
 
             // images: [constructImageUrl(item.productId.imageUrl)], // Construct the image URL
 
@@ -78,19 +79,16 @@ exports.getCheckout = async (req, res, next) => {
     });
     req.session.expectedSessionId = sessionId;
     await req.session.save();
-    let profilePic = req.user ? req.user.profilePic : null;
-    let username = req.user ? req.user.username : null;
 
-    res.render('./user/shopCheckout', {
+
+    res.render('user/shopCheckout', {
       items: cartItems,
       user: user,
       totalPrice: totalPrice,
       pageTitle: 'Shop Checkout',
       // session,
       sessionId: session.id,
-      path: '/checkout',
-      username: username,
-      profilePic: profilePic
+      path: '/checkout'
     });
     // res.json({ user, items: user.cart.items, totalPrice });
   } catch (error) {
@@ -113,7 +111,7 @@ exports.getShopCheckoutSuccess = async (req, res, next) => {
   try {
     const sessionId = req.query.session_id;
     // const { userId, products, totalPrice, shippingAddress } = req.body; // Assuming you receive this data from the payment success webhook or frontend
-    console.log(req.user);
+    // console.log(req.user);
 
     console.log(sessionId);
     const expectedSessionId = req.session.expectedSessionId;
@@ -127,63 +125,51 @@ exports.getShopCheckoutSuccess = async (req, res, next) => {
     if (sessionId === expectedSessionId) {
       console.log('session id is valid');
     }
-
-
-    // const user = await User.findById(userId);
-    // if (!user) {
-    //   return res.status(404).json({ error: 'User not found' });
-    // }
-
-
-    // const productItems = products.map(product => ({
-    //   product: product.productId,
-    //   quantity: product.quantity
-    // }));
     const products = req.user.cart.items.map(i => {
-      // return { quantity: i.quantity, product: { ...i.productId._doc } };
-      return { quantity: i.quantity, product: { ...i.productId._doc } };
 
-  });
+      return {
+        quantity: i.quantity,
+        product: i.productId
+      };
+
+    });
+    const user = await User.findById(req.user._id);
+
+    const cartTotal = await user.calculateCartTotal();
 
     // Create a new order
     const order = new Order({
       userId: req.user.id,
       userEmail: req.user.email,
-      productId: req.user.rentalCart.items.map(item => item.productId),
-
-      // products: products,
-      // totalPrice,
-      // shippingAddress,
-      paymentStatus: 'Paid', // Set payment status as paid
-      status: 'Pending' // Set initial status as pending
+      products: products,
+      totalPrice: cartTotal,
+      shippingAddress: req.user.address || 'No address provided',
+      paymentStatus: 'Pending', // Set payment status as paid
+      status: 'Paid' // Set initial status as pending
       // status: 'Pendin' // Set initial status as pending
     });
 
     // Save the order to the database
+    // console.log(sessionId);
     // if (session.payment_status === 'paid') {
-    //   newRental.paymentStatus = 'paid';
+    //   order.paymentStatus = 'paid';
     // }
     await order.save();
 
 
     req.user.cart.items = [];
     req.session.expectedSessionId = null;
-    req.user.save();
 
-    // res.render('./user/shopCheckoutSuccess', {
-    //   pageTitle: 'Shop Checkout Success',
-    //   path: '/checkout/success',
-    //   products: products,
-    //   // totalPrice: totalPrice,
-    //   // shippingAddress: shippingAddress,
-    //   // paymentStatus: 'Paid',
-    //   // status: 'Pending'
-    // });
-    res.redirect('/cart?warning=Order submitted successfully');
+    await req.user.save();
+
+
+    res.redirect('/order?warning=Order submitted successfully');
 
 
   } catch (error) {
     res.redirect(`/shop/checkout?warning=${error.message}`);
+    console.error(error);
+    // res.json({ error: error.message });
   }
 
 };

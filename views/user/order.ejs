@@ -1,12 +1,226 @@
-<%- include('../include/head.ejs') %>
-    </head>
 
-    <body>
-        <%- include('../include/navigation.ejs') %>
+    <%- include('../include/head.ejs') %>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .status {
+            font-weight: bold;
+        }
+        .pending {
+            color: orange;
+        }
+        .paid, .delivered {
+            color: green;
+        }
+        .processing, .shipped {
+            color: blue;
+        }
+        .product-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        ul {
+            padding-left: 0;
+            list-style-type: none;
+            margin: 0;
+        }
+        ul li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .dummy-products .product-img {
+            width: 70px;
+            height: 70px;
+        }
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            tr {
+                margin: 0 0 1rem 0;
+            }
+            tr:nth-child(odd) {
+                background: #f2f2f2;
+            }
+            td {
+                border: none;
+                border-bottom: 1px solid #ddd;
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+            }
+            td:before {
+                position: absolute;
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+            td:nth-of-type(1):before { content: "Products"; }
+            td:nth-of-type(2):before { content: "Quantity"; }
+            td:nth-of-type(3):before { content: "Total Price"; }
+            td:nth-of-type(4):before { content: "Payment Status"; }
+            td:nth-of-type(5):before { content: "Order Status"; }
+            td:nth-of-type(6):before { content: "Order ID"; }
+            td:nth-of-type(7):before { content: "Order Date"; }
+        }
+    </style>
+</head>
+<body>
+    <%- include('../include/navigation.ejs') %>
 
-        <main>
-            <h1 style="text-align: center; padding-top: 10px;" >Order page</h1>
-        </main>
+    <main>
+        <h1 style="text-align: center; padding-top: 10px;">My Orders</h1>
 
+        <div class="container">
+            <% if (orders.length > 0) { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Products</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                            <th>Payment Status</th>
+                            <th>Order Status</th>
+                            <th>Order ID</th>
+                            <th>Order Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% orders.forEach(order => { %>
+                            <tr>
+                                <td>
+                                    <ul>
+                                        <% order.products.forEach(p => { %>
+                                            <li>
+                                                <img src="/<%= p.product.imageUrl || '/img/helmet.png' %>" alt="<%= p.product.name %>" class="product-img">
+                                                <%= p.product.name %>
+                                            </li>
+                                        <% }) %>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <% order.products.forEach(p => { %>
+                                            <li><%= p.quantity %></li>
+                                        <% }) %>
+                                    </ul>
+                                </td>
+                                <td><%= order.totalPrice.toFixed(2) %></td>
+                                <td class="status <%= order.paymentStatus.toLowerCase() %>"><%= order.paymentStatus %></td>
+                                <td class="status <%= order.status.toLowerCase() %>"><%= order.status %></td>
+                                <td><%= order._id %></td>
+                                <td><%= new Date(order.orderDate).toLocaleDateString() %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <p style="text-align: center; padding-top: 20px;">You have no orders yet. Here are some Order for Demo:</p>
+                <div class="dummy-products">
+                    <div class="container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Products</th>
+                                    <th>Quantity</th>
+                                    <th>Total Price</th>
+                                    <th>Payment Status</th>
+                                    <th>Order Status</th>
+                                    <th>Order ID</th>
+                                    <th>Order Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <ul>
+                                            <li>
+                                                <img src="/img/helmet.png" alt="Product A" class="product-img">
+                                                Product A
+                                            </li>
+                                            <li>
+                                                <img src="/img/helmet.png" alt="Product B" class="product-img">
+                                                Product B
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <li>2</li>
+                                            <li>1</li>
+                                        </ul>
+                                    </td>
+                                    <td>100.00</td>
+                                    <td class="status paid">Paid</td>
+                                    <td class="status delivered">Delivered</td>
+                                    <td>order123</td>
+                                    <td>01/01/2023</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <ul>
+                                            <li>
+                                                <img src="/img/helmet.png" alt="Product C" class="product-img">
+                                                Product C
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <li>3</li>
+                                        </ul>
+                                    </td>
+                                    <td>75.00</td>
+                                    <td class="status pending">Pending</td>
+                                    <td class="status processing">Processing</td>
+                                    <td>order124</td>
+                                    <td>02/01/2023</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </main>
 
-        <%- include('../include/footer.ejs') %>
+    <%- include('../include/footer.ejs') %>
+</body>
+</html>

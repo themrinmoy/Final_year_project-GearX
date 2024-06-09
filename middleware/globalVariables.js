@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
     }
 
     // Set the warningMessage based on the query parameters
-    res.locals.warningMessage = req.query.warning || req.query.success || req.query.info || '';
+    res.locals.warningMessage = req.query.warning || req.query.success || req.query.info || req.query.error || '';
 
     next();
 };

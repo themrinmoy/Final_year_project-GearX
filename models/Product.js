@@ -66,6 +66,30 @@ const productSchema = new mongoose.Schema(
     }
 );
 
+
+// Pre-save hook to update the `updatedAt` field
+productSchema.pre('save', function (next) {
+    this.updatedAt = Date.now();
+    next();
+  });
+  
+  // Virtual field to calculate rental cost
+  productSchema.virtual('rentalCost').get(function () {
+    if (this.type === 'rentable') {
+      return this.rentalInfo.rentalPricePerDay;
+    }
+    return 0;
+  });
+  
+  // Method to calculate the total rental cost
+  productSchema.methods.calculateRentalCost = function (rentalStartDate, rentalEndDate) {
+    const durationInMilliseconds = rentalEndDate - rentalStartDate;
+    const durationInDays = durationInMilliseconds / (1000 * 60 * 60 * 24); // Convert milliseconds to days
+    const dailyRentalRate = this.rentalInfo.rentalPricePerDay;
+    const totalCost = dailyRentalRate * durationInDays;
+    return totalCost;
+  };
+
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;

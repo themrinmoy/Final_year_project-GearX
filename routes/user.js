@@ -6,31 +6,42 @@ const rentalController = require('../controllers/rentalController');
 
 const userController = require('../controllers/userController');
 
+const Order = require('../models/Order');
+
 // GET /users
 router.get('/profile', userController.userProfile);
 
 // GET /users/:id
 router.get('/favorites', (req, res, next) => {
-    let username = req.user ? req.user.username : null;
-    let profilePic = req.user ? req.user.profilePic : null;
+
 
     res.render('user/favorites', {
-        pageTitle: 'Favorites', path: '/favorites',
-         username,  profilePic
+        pageTitle: 'Favorites', path: '/favorites'
 
     });
 });
 
 
-router.get('/orders', (req, res, next) => {
+router.get('/orders', async (req, res) => {
+    try {
+        const orders = await Order.find({ userId: req.user._id })
+            .populate('products.product')
+            // .exec( );
 
-    let username = req.user ? req.user.username : null;
-    let profilePic = req.user ? req.user.profilePic : null;
 
-    res.render('user/order', {
-        pageTitle: 'Order', path: '/order',
-         username,  profilePic
-    });
+            console.log(orders);
+        // show me the products in the order
+        console.log(orders[1].products[0]);
+        res.render('user/order', {
+        // res.render('user/orderStatic', {
+            pageTitle: 'Orders',
+            path: '/orders',
+            orders: orders
+        });
+    } catch (err) {
+        console.error(err);
+        res.redirect(`/?error=${err.message}`)
+    }
 });
 
 router.get('/rentals', rentalController.getRentedItemsByUser);

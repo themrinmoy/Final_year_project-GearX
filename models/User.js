@@ -57,6 +57,19 @@ const userSchema = new mongoose.Schema({
     // }],
 });
 
+
+
+userSchema.methods.calculateCartTotal = async function() {
+    let total = 0;
+    for (const item of this.cart.items) {
+        const product = await mongoose.model('Product').findById(item.productId);
+        total += product.price * item.quantity;
+    }
+    return total;
+};
+
+
+
 userSchema.methods.generateAuthToken = function () {
     const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
@@ -96,6 +109,14 @@ userSchema.statics.verifyAuthToken = async function (token) {
     }
 
 };
+
+
+// total price of all items in the cart
+userSchema.methods.getCartTotalPrice = function () {
+    return this.cart.items.reduce((total, item) => {
+        return total + item.productId.price * item.quantity;
+    }, 0);
+}
 
 
 

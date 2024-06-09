@@ -43,6 +43,9 @@ router.get('/favorites', (req, res, next) => {
 });
 
 
+// router.get('/test-order2', checkoutController.getShopCheckoutSuccessTest);
+
+
 
 
 // for payment integration

@@ -9,6 +9,8 @@ const MongoStore = require('connect-mongo');
 
 
 
+
+
 const LocalStrategy = require('passport-local').Strategy;
 const jwt = require('jsonwebtoken');
 
@@ -177,6 +179,41 @@ app.get('/user', (req, res) => {
     }
 });
 
+
+const Order = require('./models/Order');
+app.get('/test-order', async (req, res) => {
+    try {
+      const products = [
+        { productId: '60c72b2f5f1b2c6d88f8d0d9', quantity: 2 }, // Replace with valid ObjectId strings
+        { productId: '60c72b2f5f1b2c6d88f8d0da', quantity: 1 }
+      ];
+  
+      const totalPrice = 100; // Example total price
+      const shippingAddress = '123 Test St, Test City, TX';
+  
+      const order = new Order({
+        userId: new mongoose.Types.ObjectId('60c72b2f5f1b2c6d88f8d0d8'), // Replace with a valid ObjectId string
+        userEmail: 'test@example.com',
+        productId: products.map(p => new mongoose.Types.ObjectId(p.productId)),
+        products: products.map(p => ({
+          quantity: p.quantity,
+          product: new mongoose.Types.ObjectId(p.productId)
+        })),
+        totalPrice,
+        shippingAddress,
+        paymentStatus: 'Paid',
+        status: 'Pending'
+      });
+  
+      await order.save();
+      res.send('Order created successfully');
+    } catch (error) {
+      console.error(error);
+      res.send(`Error: ${error.message}`);
+    }
+  });
+  
+  
 // Routes
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
