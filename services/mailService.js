@@ -197,3 +197,67 @@ exports.signupSuccess = ( user) => {
         }
     });
 }
+
+
+
+
+
+// services/mailService.js
+exports.sendReturnReminderEmail = (email, rental, products) => {
+
+
+    
+    const productDetails = products.map(product => {
+        if (!product.imageUrl) {
+            // If the imageUrl property is undefined, skip this product
+            console.warn(`Product with id ${product._id} has no imageUrl.`);
+            return '';
+        }
+
+        // Replace backslashes with forward slashes
+        const imageUrl = product.imageUrl.replace(/\\/g, '/');
+
+        return `
+            <div style="border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 10px;">
+                <img src="${domain}/${imageUrl}" alt="${product.name}" style="max-width: 100px; display: block; margin: 0 auto 10px;" />
+                <p style="text-align: center; font-size: 16px;">${product.name}</p>
+            </div>
+        `;
+    }).join('');
+
+    const emailContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f9f9f9;">
+            <h1 style="color: #3498db; text-align: center;">Return Reminder</h1>
+            <p style="font-size: 16px; color: #333;">Dear ${rental.userId.name},</p>
+            <p style="font-size: 16px; color: #333;">This is a reminder that your rental period for the following items will end soon:</p>
+            <div style="margin: 20px 0;">
+                ${productDetails}
+            </div>
+            <p style="font-size: 16px; color: #333;">Please return the items by <strong>${new Date(rental.returnDate).toLocaleDateString()}</strong> to avoid any late fees.</p>
+            <p style="font-size: 16px; color: #333;">Best regards,<br>The GearX Team</p>
+            <footer style="margin-top: 20px; padding-top: 10px; border-top: 1px solid #ddd; text-align: center; color: #aaa;">
+                <p style="font-size: 12px; margin: 0;">&copy; ${new Date().getFullYear()} GearX. All rights reserved.</p>
+                <p style="font-size: 12px; margin: 0;">123 GearX Street, Your City, Your Country</p>
+                <p style="font-size: 12px; margin: 0;">If you have any questions, please contact us at support@gearx.com</p>
+            </footer>
+        </div>
+    `;
+
+    transport.sendMail({
+        from: 'noreply@mrinmoy.org',
+        to: email,
+        subject: 'Rental Return Reminder',
+        html: emailContent,
+    }, (err, info) => {
+        if (err) {
+            console.error('Error sending return reminder email:', err);
+        } else {
+            console.log('Return reminder email sent to:', email);
+            console.log("image path:", `${domain}/${imageUrl}`)
+        }
+    });
+}
+
+// Path: services/mailService.js
+
+

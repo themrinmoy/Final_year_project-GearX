@@ -22,6 +22,7 @@ const compression = require('compression');
 const User = require('./models/User');
 const errorController = require('./controllers/error');
 
+const scheduler = require('./services/secheduler');
 
 const MONGODB_URI = `${process.env.MONGODB_URI}`
 
@@ -95,6 +96,7 @@ app.use(
 
 
 
+app.use(globalVariables);
 
 
 
@@ -119,7 +121,6 @@ passport.use(new LocalStrategy((username, password, done) => {
 }));
 
 
-app.use(globalVariables);
 
 // passport.serializeUser(User.serializeUser());
 passport.serializeUser((user, done) => {
@@ -153,7 +154,20 @@ app.use((req, res, next) => {
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+app.get('/rent-reminder', async (req, res) => {
+    try {
+        if(req.user.userType !== 'admin') {
+            return res.redirect('/?error=You are not authorized to perform this action.');
+        }
 
+        await scheduler.checkAndSendReturnReminders();
+        // res.send('Return reminders have been checked and sent if necessary.');
+        res.redirect('/admin?success=Return reminders have been checked and sent if necessary.');
+
+    } catch (error) {
+        res.redirect(`/admin?error=${error.message}`);
+    }
+});
 
 app.get('/user', (req, res) => {
     // Check if the user is authenticated
@@ -234,6 +248,8 @@ const connectWithRetry = () => {
     mongoose.connect(MONGODB_URI)
         .then(() => {
             console.log('Connected to MongoDB');
+            // scheduler.checkAndSendReturnReminders();
+
             startServer(); // Start the server once MongoDB connection is successful
         })
         .catch(err => {
