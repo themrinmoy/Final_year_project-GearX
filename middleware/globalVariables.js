@@ -8,8 +8,23 @@ module.exports = (req, res, next) => {
         res.locals.profilePic = null;
     }
 
-    // Set the warningMessage based on the query parameters
-    res.locals.warningMessage = req.query.warning || req.query.success || req.query.info || req.query.error || '';
+    // Set the message and messageType based on the query parameters
+    if (req.query.warning) {
+        res.locals.message = req.query.warning;
+        res.locals.messageType = 'warning';
+    } else if (req.query.success) {
+        res.locals.message = req.query.success;
+        res.locals.messageType = 'success';
+    } else if (req.query.info) {
+        res.locals.message = req.query.info;
+        res.locals.messageType = 'info';
+    } else if (req.query.error) {
+        res.locals.message = req.query.error;
+        res.locals.messageType = 'error';
+    } else {
+        res.locals.message = '';
+        res.locals.messageType = '';
+    }
 
     next();
 };

@@ -93,24 +93,20 @@
 </nav>
 
 <div id="popup-container" class="popup-container">
-    <div class="warning-container" style="display: none;">
-        <strong>Warning:</strong>
-        <%= warningMessage %>
+    <div class="message-container <%= messageType %>" style="display: none;">
+        <strong><%= messageType.charAt(0).toUpperCase() + messageType.slice(1) %>:</strong>
+        <%= message %>
     </div>
 </div>
+
 
 <style>
     .profile-picture {
         width: 30px;
-        /* Adjust as needed */
         height: 30px;
-        /* Adjust as needed */
         border-radius: 50%;
-        /* Ensures a circular profile picture */
         margin-right: 8px;
-        /* Adjust as needed */
     }
-
 
     .dropdown-menu {
         background-color: #111827;
@@ -163,7 +159,50 @@
             text-align: center;
         }
     }
+
+    .popup-container {
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        top: 10rem;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .message-container {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid;
+        border-radius: 5px;
+    }
+
+    .message-container.warning {
+        background-color: #ffc107;
+        color: #333;
+        border-color: #ffc107;
+    }
+
+    .message-container.success {
+        background-color: #28a745;
+        color: white;
+        border-color: #28a745;
+    }
+
+    .message-container.info {
+        background-color: #17a2b8;
+        color: white;
+        border-color: #17a2b8;
+    }
+
+    .message-container.error {
+        background-color: #dc3545;
+        color: white;
+        border-color: #dc3545;
+    }
 </style>
+
 
 
 
@@ -198,24 +237,27 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Function to display a popup message
-        function displayPopup(message) {
+        function displayPopup(message, messageType) {
             const popupContainer = document.getElementById('popup-container');
-            const warningContainer = popupContainer.querySelector('.warning-container');
-            warningContainer.innerHTML = `<strong>Warning:</strong> ${message}`;
-            warningContainer.style.display = 'block';
+            const messageContainer = popupContainer.querySelector('.message-container');
+            messageContainer.innerHTML = `<strong>${messageType.charAt(0).toUpperCase() + messageType.slice(1)}:</strong> ${message}`;
+            messageContainer.classList.add(messageType);
+            messageContainer.style.display = 'block';
 
             // Optionally, you can add a timeout to hide the popup after a certain duration
             setTimeout(() => {
-                warningContainer.style.display = 'none';
-            }, 7000); // Hide the popup after 5 seconds (5000 milliseconds)
+                messageContainer.style.display = 'none';
+            }, 7000); // Hide the popup after 7 seconds (7000 milliseconds)
         }
 
-        // Display the warning message if it exists
-        if (warningMessage && warningMessage.trim()) {
-            displayPopup(warningMessage);
+        // Display the message if it exists
+        if (message && message.trim()) {
+            displayPopup(message, messageType);
         }
     });
-    const warningMessage = '<%= warningMessage %>';
-    <!-- console.log(warningMessage); -->
+
+    const message = '<%= message %>';
+    const messageType = '<%= messageType %>';
 </script>
+
 

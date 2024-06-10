@@ -21,7 +21,7 @@ body {
 }
 
 /* popup settings */
-.popup-container {
+/* .popup-container {
     position: fixed;
     display: flex;
     justify-content: center;
@@ -39,7 +39,7 @@ body {
     margin-bottom: 10px;
     border: 1px solid #ffc107;
     border-radius: 5px;
-}
+} */
 
 /* Banner Styles */
 .banner-section {

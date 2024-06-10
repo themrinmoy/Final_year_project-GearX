@@ -64,11 +64,11 @@ const CartController = {
             .then(() => {
                 // res.json({ message: 'Item added to cart successfully' });
                 console.log('Item added to cart successfully');
-               res.redirect('/cart?warning=Item added to cart successfully')
+               res.redirect('/cart?success=Item added to cart successfully')
             })
             .catch((error) => {
                 console.error('Error adding item to cart:', error);
-                res.redirect(`/cart?warning=${error.message}`)
+                res.redirect(`/cart?error=${error.message}`)
             });
     },
 

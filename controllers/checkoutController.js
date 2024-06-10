@@ -168,7 +168,7 @@ exports.getShopCheckoutSuccess = async (req, res, next) => {
     console.log('Order submitted successfully');
 
 
-    res.redirect('/order?warning=Order submitted successfully');
+    res.redirect('/order?success=Order submitted successfully');
 
 
   } catch (error) {

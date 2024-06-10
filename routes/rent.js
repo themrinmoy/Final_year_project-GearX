@@ -65,7 +65,7 @@ router.post('/remove-from-cart', async (req, res) => {
         const prodId = req.body.productId;
         req.user.removeFromRentalCart(prodId)
             .then(result => {
-                res.redirect('/rent/cart')
+                res.redirect('/rent/cart?warning=Product removed from cart')
             })
             .catch(err => {
                 console.log(err);
@@ -97,7 +97,7 @@ router.post('/create-payment-intent', async (req, res) => {
       res.status(200).json({ clientSecret: paymentIntent.client_secret });
     } catch (error) {
       console.error('Error creating PaymentIntent:', error);
-      res.redirect('/rent/checkout?warning=' + encodeURIComponent('Error creating PaymentIntent'));
+      res.redirect('/rent/checkout?error=' + encodeURIComponent('Error creating PaymentIntent'));
       
     }
   });
