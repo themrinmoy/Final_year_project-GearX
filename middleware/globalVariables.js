@@ -4,8 +4,8 @@ module.exports = (req, res, next) => {
         res.locals.username = req.user.name || req.user.username;
         res.locals.profilePic = req.user.profilePic;
     } else {
-        res.locals.username = null;
-        res.locals.profilePic = null;
+        res.locals.username = 'null';
+        res.locals.profilePic = 'null';
     }
 
     // Set the message and messageType based on the query parameters
