@@ -16,6 +16,8 @@
                         <h2>Your Rental Cart:</h2>
                         <div class="cart-container">
                             <div class="cart-items">
+                                <% if (items.length === 0) { %> <h3 class="empty-cart mt-5 text-info">Your cart is empty</> <% } %>
+
                                 <% for (const item of items) { %>
                                     <div class="cart-item">
                                         <div class="item-image">

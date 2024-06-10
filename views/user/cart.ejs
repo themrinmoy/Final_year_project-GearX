@@ -17,6 +17,9 @@
 
 
                                 <div class="cart-items">
+
+
+                                    <% if (cart.items.length === 0) { %> <h3 class="empty-cart mt-5 text-info">Your cart is empty</> <% } %>
                                     <% for (const item of cart.items) { %>
                                         <div class="cart-item">
                                             <div class="item-image">

@@ -209,7 +209,10 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const dropdowns = document.querySelectorAll('.nav-item.dropdown');
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        const navbarToggler = document.querySelector('.navbar-toggler');
 
+        // Dropdown hover functionality
         dropdowns.forEach(function (dropdown) {
             dropdown.addEventListener('mouseenter', function () {
                 if (window.innerWidth > 991.98) {
@@ -230,6 +233,15 @@
                     menu.classList.toggle('show');
                 }
             });
+        });
+
+        // Click outside to close navbar
+        document.addEventListener('click', function (event) {
+            const isClickInsideNavbar = navbarCollapse.contains(event.target) || navbarToggler.contains(event.target);
+
+            if (!isClickInsideNavbar && navbarCollapse.classList.contains('show')) {
+                new bootstrap.Collapse(navbarCollapse).hide();
+            }
         });
     });
 </script>

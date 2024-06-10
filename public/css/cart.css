@@ -18,13 +18,8 @@ main {
 .container {
     max-width: 1000px;
     margin: 0 auto;
-    /* background-color: green; */
     background-color: inherit;
 }
-/* .container-rent {
-    max-width: 900px;
-    margin: 0 auto;
-} */
 
 /* Layout for summary on top right */
 .cart-container {
@@ -34,46 +29,35 @@ main {
 }
 
 .cart-summary {
-    width: 31%; /* Adjust width as needed */
+    width: 348px; /* Adjust width as needed */
     height: 100%;
     margin-bottom: 20px; 
     padding: 20px;
     border: 1px solid #ddd;
     order: 2;
     border-radius: 15px;
-    /* background-color: #333; */
 }
 
 .date-range-picker{
-    /* width: 100%; */
     align-items: center;
-    /* justify-content: center; */
     display: block;
-    /* background-color: #b09696; */
-    
-    /* margin-bottom: 20px; */
     font-size: 20px;
     padding: 20px;
     border: 1px solid #ddd;
     order: 2;
     border-radius: 15px;
     margin: 0 auto;
-
 }
+
 .date-range {
     text-align: center;
 }
 
 .datepicker {
     width: 309px; /* Adjust the width as needed */
-    margin: 0 auto; 
-    /* background-color: #333; */
-    /* padding: 20px; */
-    /* border: 1px solid #ddd; */
-    /* border-radius: 15px; */
+    margin: 0 auto;
     margin-bottom:15px;
 }
-
 
 .cart-items {
     width: 64%; 
@@ -81,81 +65,39 @@ main {
     flex-wrap: wrap;
     justify-content: flex-start; 
     justify-content: center; 
-
-    /* Centers items horizontally */
-    /* align-items: flex-start;   */
-    /* Vertically align to the top */ 
     order: 1;
-    /* background-color: #333; */
 }
 
 .cart-item {
-    /* width: 45%; 
-    margin: 20px;
-    border: 1px solid #ddd;
-    padding: 15px;
-    /* width: 65%;  */
-    border-radius: 15px; 
-    /* margin: 20px; */
-    /* padding: 15px;  */
-    /* Adjust as needed */
-    /* position: relative;  */
-    /* Allows for overlap */
-    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); */
     width: 100%; 
-    /* background-color: #333; */
-    /* max-height:40%; */
-    
     margin: 20px;
     padding: 15px; 
     display: flex;
     justify-content: space-between;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    border-radius: 15px;
 }
 
-.item-image img {
-    /* max-width: 100%; 
-    transition: transform 0.3s ease;  */
-    /* width: 100px; */
-    
-    height: 200px;  
-    border-radius: 10px;
-    /* width: 100px; */
-    /* background-color: green; */
-}
 .item-image {
-     /* width: 10px;  */
-  /*  transition: transform 0.3s ease;  */
-    /* position: absolute; */
-    /* left: -20px;  */
-    /* Amount of overlap */
-    /* top: 15px; */
-    /* background-color: blue; */
     margin-right: 20px; 
     min-width: 100px; /* Adjust as needed - ensures image doesn't shrink too much */
     flex-shrink: 0;
 }
 
-.item-image img:hover {
-    /* transform: scale(1.05);  */
-    /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);  */
+.item-image img {
+    height: 200px;
+    border-radius: 10px;
 }
 
 .item-details {
-    /* margin-left: 20px;  */
-    /* margin-right: 0; */
-    /* margin-right: auto; */
     text-align: center;
     text-align: right;
-    /* background-color: #333; */
-    
-    /* margin-left: 120px;  */
-    /* margin-left: auto;  */
+    flex-grow: 1;
 }
 
 .item-details h3 {
     margin-bottom: 5px;
-} 
+}
 
 .item-price {
     color: #dc3545; 
@@ -182,17 +124,10 @@ main {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease; 
-    /* text-align: right; */
-    /* margin-left: auto; */
-    /* background-color: red; */
-    /* margin-right: 0; */
 }
-.cleckoutbtn {
-    /* margin-left: auto; */
-    /* margin-right: 0; */
-    /* background-color: green; */
-    text-align: right;
 
+.cleckoutbtn {
+    text-align: right;
 }
 
 .remove-item:hover,
@@ -221,12 +156,30 @@ main {
 
 /* Media Query for Responsiveness */
 @media (max-width: 768px) { 
+    .cart-container {
+        flex-direction: column; /* Stack items vertically */
+    }
+
     .cart-summary,
     .cart-items {
         width: 100%; 
         margin-bottom: 20px;
-        /* background-color: #fff; */
     }
-} 
+
+    .cart-item {
+        flex-direction: column; /* Stack item details vertically */
+        align-items: center; /* Center align for better look */
+        text-align: center; /* Center text */
+    }
+
+    .item-image {
+        margin-right: 0; /* Remove right margin */
+        margin-bottom: 10px; /* Add bottom margin */
+    }
+
+    .item-details {
+        text-align: center; /* Center text */
+    }
+}
 
 /* Footer Styles - Add your footer-specific CSS here */
