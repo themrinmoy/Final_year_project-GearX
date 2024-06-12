@@ -161,6 +161,10 @@ exports.getRentChekout = async (req, res, next) => {
         // 3. Data for the View
         const cartItems = user.rentalCart.items;
 
+        if (cartItems.length === 0) {
+            return res.redirect('/rent/cart?warning=Cart is empty');
+        }
+
         // 4. Optionally Fetch Additional Rental Details
         if (cartItems.length > 0) {
             const rentalPromises = cartItems.map(item =>
@@ -407,7 +411,7 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
         req.user.rentals.push(newRental._id);
         req.user.save();
 
-        res.redirect('/user/rentals');
+        res.redirect('/user/rentals?success=Payment successful');
         // res.render('rent/rentalSuccessView.ejs', {title: 'Rent Checkout Success', rental: newRental, totalCost: totalRentalCost, durationInDays: durationInDays});
         // res.json({ message: 'Payment successful' });
     } catch (error) {
@@ -480,14 +484,17 @@ exports.getRentedItemsByUser = async (req, res) => {
 exports.postRentalCart = async (req, res, next) => {
     try {
         const productId = req.params.productId;
-        const rentalStartDate = req.body.rentalStartDate;
-        const rentalEndDate = req.body.rentalEndDate;
+        // const rentalStartDate =  new Date(req.body.rentalStartDate);
+        const rentalStartDate = new Date(req.body.rentalStartDate);
+        const rentalEndDate = new Date(req.body.rentalEndDate);
+        // const rentalEndDate = new Date(req.body.rentalEndDate);
         const quantity = req.body.quantity || 1;          // Default to 1 if quantity is not provided
 
+        // console.log(productId, rentalStartDate, rentalEndDate, quantity);
         // 1. Validate User and Product
         if (!req.user) {
             // return res.status(401).json({ message: "Unauthorized: Please Log In" });
-            res.redirect('/login');
+            res.redirect('/login?warning=Unauthorized: Please Log In');
         }
 
         const product = await Product.findById(productId);
@@ -504,16 +511,35 @@ exports.postRentalCart = async (req, res, next) => {
             item => item.productId.toString() === productId.toString()
         );
 
+        // 4. update the rental cart start and end date
+        // if (user.rentalCart.StartDate !== rentalStartDate || user.rentalCart.EndDate !== rentalEndDate) {
+
+
+
+        if(rentalStartDate < rentalEndDate && rentalStartDate){
+
+            user.rentalCart.StartDate = rentalStartDate;
+            user.rentalCart.EndDate = rentalEndDate;
+            console.log(rentalStartDate, rentalEndDate, 'dates')
+        }
+
+
+
+
+
+
+
+
         if (existingRentalItem) {
             // Update quantity only (adjust if different logic needed)
             existingRentalItem.quantity += quantity;
+
         } else {
             // Add new item
             user.rentalCart.items.push({
                 productId,
                 quantity,
-                // rentalStartDate,
-                // rentalEndDate
+
             });
         }
 
@@ -521,12 +547,13 @@ exports.postRentalCart = async (req, res, next) => {
 
         // 4. Response
         // res.status(200).json({ message: "Product added to rental cart!" });
-        res.redirect('/rent/cart');
+        res.redirect('/rent/cart?success=Product added to rental cart');
         // console.log(user);
         // console.log(product);
 
     } catch (error) {
-        next(error); // Pass error to your error handling middleware
+        // next(error); // Pass error to your error handling middleware
+        res.redirect('/rent/cart?warning=Error adding product to rental cart');
     }
 };
 
@@ -552,6 +579,7 @@ exports.createRental = async (req, res) => {
         await Product.findByIdAndUpdate(productId, { isAvailable: false });
 
         res.status(201).json(savedRental);
+
     } catch (error) {
         console.error('Error creating rental:', error);
         res.redirect(`/rent/checkout?warning=${error.message}`);

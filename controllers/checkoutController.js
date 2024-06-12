@@ -30,12 +30,18 @@ exports.getCheckout = async (req, res, next) => {
       return res.redirect('/login?warning=Unauthorized: Please Log In');
     }
 
+
+
     // Calculate total price of cart items
     const totalPrice = user.cart.items.reduce((total, item) => {
       return total + item.productId.price * item.quantity;
     }, 0);
 
     const cartItems = user.cart.items;
+
+    if(cartItems.length === 0){
+      return res.redirect('/cart?warning=Cart is empty');
+    }
 
     const successUrl = req.protocol + '://' + req.get('host') + '/shop/checkout/success';
     // const successUrl = `${req.protocol}://${req.get('host')}/shop/checkout/success?session_id={CHECKOUT_SESSION_ID}`;

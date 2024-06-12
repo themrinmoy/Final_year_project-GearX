@@ -36,24 +36,42 @@
                             <input class="form-control w-100 border-1 border-success" type="text" id="dateRange<%= product._id %>" placeholder="Select Date Range" />
                         </div>
                         <form action="/rent/add-to-cart/<%= product._id %>" method="post">
+                            <input type="hidden" name="rentalStartDate" id="rentalStartDate<%= product._id %>">
+                            <input type="hidden" name="rentalEndDate" id="rentalEndDate<%= product._id %>">
                             <button class="rent-button" style="background-color: #198754;"><i class="fa fa-shopping-cart"></i> Add For Rent</button>
                         </form>
                     </div>
                     </div>
                     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
                     <script>
+                        function formatDate(date) {
+                            const year = date.getFullYear();
+                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                            const day = String(date.getDate()).padStart(2, '0');
+                            return `${year}-${month}-${day}`;
+                        }
+
                         const dateRangeInput<%= product._id %> = flatpickr("#dateRange<%= product._id %>", {
                             mode: "range", 
                             dateFormat: "Y-m-d", 
-                            minDate: "today", 
+                            minDate: new Date().fp_incr(1), // Set the minimum date to today + 1 day
                             disable: [ ], 
                             onChange: function (selectedDates, dateStr, instance) {
                                 const dailyRentalRate<%= product._id %> = <%= product.rentalInfo.rentalPricePerDay %>;
 
                                 const numDays = Math.ceil((selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24));
-                                const totalCost = dailyRentalRate<%= product._id %> * (numDays+1);
+                                const totalCost = dailyRentalRate<%= product._id %> * (numDays + 1);
 
                                 document.getElementById("totalCostValue<%= product._id %>").innerText = totalCost.toFixed(2);
+
+                                // Set the values of the hidden input fields
+                                if (selectedDates.length === 2) { // Ensure two dates are selected
+                                    document.getElementById("rentalStartDate<%= product._id %>").value = formatDate(selectedDates[0]);
+                                    document.getElementById("rentalEndDate<%= product._id %>").value = formatDate(selectedDates[1]);
+                                } else {
+                                    document.getElementById("rentalStartDate<%= product._id %>").value = '';
+                                    document.getElementById("rentalEndDate<%= product._id %>").value = '';
+                                }
                             },
                         });
                     </script>
@@ -65,5 +83,3 @@
     </main>
 
     <%- include('../include/footer.ejs') %>
-</body>
-</html>

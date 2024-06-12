@@ -1,86 +1,75 @@
 <%- include('../include/head.ejs') %>
-  </head>
+</head>
 
-  <body>
+<body>
     <%- include('../include/navigation.ejs') %>
 
-      <link rel="stylesheet" href="/css/rent-card.css">
-          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <link rel="stylesheet" href="/css/rent-card.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 
-
-      <main>
-        
-        <h1>Rental Products</h1>
+    <main class="container">
+        <h1 class="text-center m-3">Rental Products</h1>
         <div class="rent_products">
-        <% if (products.length > 0) { %>
-
-            <% products.forEach(product => { %>
-                <div class="rental-card">
-                    <img src="/<%= product.imageUrl %>" alt="Product Image">
-                    <div class="product-details">
-                        <h3><%= product.name %></h3>
-                        <p>Description: <%= product.description %></p>
-                        <p>Category: <%= product.category %></p>
+            <% if (products.length > 0) { %>
+                <% products.forEach(product => { %>
+                    <div class="card mb-5 rounded-4" style="width: 18rem; filter: drop-shadow(0px 4px 2px rgb(206, 205, 205) );">
+                        <!--  details -->
+                        <a style="text-decoration: none;color: inherit;" href="/products/<%= product._id %>">
+                        
+                         <img class="card-img-top" style="border-radius: 16px 16px 0 0;aspect-ratio:4/3;" src="/<%= product.imageUrl %>" alt="Product Image">
+                             <div class="card-body">
+                                <h3 class="card-title"><%= product.name %></h3>
+                                <p class="card-text">Description: <%= product.description %></p>
+                                <p class="card-text">Category: <%= product.category %></p>
+                       
+                            <div class="rental-cost" id="rentalCost<%= product._id %>">
+                                Rental Cost: ₹<span id="rentalPricePerDay<%= product._id %>">
+                                    <%= product.rentalInfo.rentalPricePerDay %>
+                                </span> per day
+                            </div>
+                        <div class="rental-cost" id="totalCost<%= product._id %>">
+                            Estimated Cost: ₹<span id="totalCostValue<%= product._id %>">0.00</span>
+                        </div>
+                    </a>
+                        <div class="date-range-picker">
+                            <!-- <label for="dateRange<%= product._id %>">Duration:</label> -->
+                            <input class="form-control w-100 border-1 border-success" type="text" id="dateRange<%= product._id %>" placeholder="Select Date Range" />
+                        </div>
+                        <form action="/rent/add-to-cart/<%= product._id %>" method="post">
+                            <input type="hidden" name="rentalStartDate" id="rentalStartDate<%= product._id %>">
+                            <input type="hidden" name="rentalEndDate" id="rentalEndDate<%= product._id %>">
+                            <button class="rent-button" style="background-color: #198754;"><i class="fa fa-shopping-cart"></i> Add For Rent</button>
+                        </form>
                     </div>
-                    <div class="rental-cost" id="rentalCost">
-                      Rental Cost: ₹<span id="rentalPricePerDay"><%= product.rentalInfo.rentalPricePerDay %></span> per day
                     </div>
-                    <div class="rental-cost" id="rentalCost">
-                      Total: ₹<span id="totalCost">0.00</span> per day
-                    </div>
-                    <!-- Date Range Picker Input -->
-                    <div class="date-range-picker">
-                        <label for="dateRange">Select Dates:</label>
-                        <input type="text" id="dateRange<%= product._id %>" placeholder="Select dates" />
-                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                    <script>
+                        const dateRangeInput<%= product._id %> = flatpickr("#dateRange<%= product._id %>", {
+                            mode: "range", 
+                            dateFormat: "Y-m-d", 
+                            minDate: new Date().fp_incr(1), // Set the minimum date to today + 1 day
+                            disable: [ ], 
+                            onChange: function (selectedDates, dateStr, instance) {
+                                const dailyRentalRate<%= product._id %> = <%= product.rentalInfo.rentalPricePerDay %>;
 
-                    <!-- Rent Now Button -->
-                    <a href="#" class="rent-button" onclick="rentProduct('<%= product._id %>')">Rent Now</a>
-                </div>
+                                const numDays = Math.ceil((selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24));
+                                const totalCost = dailyRentalRate<%= product._id %> * (numDays+1);
 
-                <!-- Include flatpickr script -->
-                <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-                <script>
-                    // Sample daily rental rate (adjust as needed)
-                    const dailyRentalRate = <%= product.rentalInfo.rentalPricePerDay %>;
+                                document.getElementById("totalCostValue<%= product._id %>").innerText = totalCost.toFixed(2);
 
-                    // Initialize flatpickr on the date input
-                    const dateRangeInput<%= product._id %> = flatpickr("#dateRange<%= product._id %>", {
-                        mode: "range", // Enable date range selection
-                        dateFormat: "Y-m-d", // Specify the date format
-                        minDate: "today", // Set minimum date to today
-                        disable: [
-                            // You can add disabled dates here if needed
-                        ],
-                        onChange: function (selectedDates, dateStr, instance) {
-                            // Calculate the number of days between start and end dates
-                            const numDays = Math.ceil((selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24));
-
-                            // Calculate the total rental cost based on the daily rate and number of days
-                            const totalCost = dailyRentalRate * numDays;
-
-                            // Update the rental cost in the UI
-                            document.getElementById("totalCost").innerText = totalCost.toFixed(2);
-                        },
-                    });
-
-                    function rentProduct(productId) {
-                        // Add logic to handle the renting of the product
-                        const selectedDates = dateRangeInput<%= product._id %>.selectedDates;
-
-                        // Example: send the productId and selectedDates to the server for processing
-                        console.log("Renting Product:", productId, "Selected Dates:", selectedDates);
-                    }
-                </script>
-            <% }); %>
-          </div>
-
-        <% } else { %>
-            <p>No rental products available.</p>
-        <% } %>
-
+                                // Set the values of the hidden input fields
+                                document.getElementById("rentalStartDate<%= product._id %>").value = selectedDates[0].toISOString().split('T')[0];
+                                document.getElementById("rentalEndDate<%= product._id %>").value = selectedDates[1].toISOString().split('T')[0];
+                            },
+                        });
+                    </script>
+                <% }); %>
+            <% } else { %>
+                <p>No rental products available.</p>
+            <% } %>
+        </div>
     </main>
 
-
-
-      <%- include('../include/footer.ejs') %>
+    <%- include('../include/footer.ejs') %>
+</body>
+</html>
