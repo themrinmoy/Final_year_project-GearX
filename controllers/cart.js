@@ -18,6 +18,10 @@ const CartController = {
 
             });
 
+            if (!user) {
+                return res.redirect('/login?warning=Unauthorized: Please Log In');
+            }
+
             const cartTotal = await user.calculateCartTotal();
 
             res.render('user/cart', {
@@ -26,7 +30,8 @@ const CartController = {
 
         } catch (error) {
             console.error('Error displaying cart:', error);
-            res.redirect(`/cart?warning=${error.message}`)
+            // res.redirect(`/cart?warning=${error.message}`)
+           res.redirect('/cart?warning=Error displaying cart');
         }
     },
 
@@ -38,7 +43,7 @@ const CartController = {
         // 1. Validate User and Product
         if (!req.user) {
             // return res.status(401).json({ message: "Unauthorized: Please Log In" });
-            return res.redirect(`/login?warning=Unauthorized: Please Log In`);
+            return res.redirect(`/login?warning=: Please Log In to add item to cart`);
 
         }
 
@@ -85,6 +90,7 @@ const CartController = {
             })
             .catch(err => {
                 console.log(err);
+                res.redirect('/cart?error=Error removing product from cart');
             });
 
     }
