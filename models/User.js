@@ -73,6 +73,38 @@ userSchema.methods.calculateCartTotal = async function () {
     return total;
 };
 
+// calculate total rental price
+userSchema.methods.totalRentalCost = async function() {
+    let total = 0;
+    for (const item of this.rentalCart.items) {
+        const product = await mongoose.model('Product').findById(item.productId);
+        if (product && product.rentalInfo && item.quantity) {
+            const rentalPricePerDay = product.rentalInfo.rentalPricePerDay;
+            const rentalStartDate = new Date(this.rentalCart.StartDate);
+            const rentalEndDate = new Date(this.rentalCart.EndDate);
+
+            // Calculate the number of days rented
+            const rentalDuration = Math.ceil((rentalEndDate - rentalStartDate) / (1000 * 60 * 60 * 24)) + 1;
+            console.log('Rental Duration:', rentalDuration);
+
+            // Calculate total rental cost for this item
+            const itemTotal = rentalPricePerDay * rentalDuration * item.quantity;
+            total += itemTotal;
+        }
+    }
+    return total;
+};
+
+// rental duration
+userSchema.methods.rentalDuration = function () {
+    const rentalStartDate = new Date(this.rentalCart.StartDate);
+    const rentalEndDate = new Date(this.rentalCart.EndDate);
+
+    // Calculate the number of days rented
+    const rentalDuration = Math.ceil((rentalEndDate - rentalStartDate) / (1000 * 60 * 60 * 24)) + 1;
+    return rentalDuration;
+};
+
 
 
 userSchema.methods.generateAuthToken = function () {
