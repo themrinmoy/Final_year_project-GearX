@@ -10,6 +10,7 @@ const orderSchema = new Schema({
         required: true
     },
     //user email
+    sessionId: String,
 
     userEmail: {
         type: String,

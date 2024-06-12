@@ -42,12 +42,12 @@
             border-radius: 5px;
             margin-right: 10px;
         }
-        u_list {
+        .u_list {
             padding-left: 0;
             list-style-type: none;
             margin: 0;
         }
-        u_list li {
+        .u_list li {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
@@ -122,21 +122,21 @@
                         <% orders.forEach(order => { %>
                             <tr>
                                 <td>
-                                    <u_list>
+                                    <ul class="u_list">
                                         <% order.products.forEach(p => { %>
                                             <li>
                                                 <img src="/<%= p.product.imageUrl || '/img/helmet.png' %>" alt="<%= p.product.name %>" class="product-img">
                                                 <%= p.product.name %>
                                             </li>
                                         <% }) %>
-                                    </u_list>
+                                    </ul>
                                 </td>
                                 <td>
-                                    <u_list>
+                                    <ul class="u_list">
                                         <% order.products.forEach(p => { %>
                                             <li><%= p.quantity %></li>
                                         <% }) %>
-                                    </u_list>
+                                    </ul>
                                 </td>
                                 <td><%= order.totalPrice.toFixed(2) %></td>
                                 <td class="status <%= order.paymentStatus.toLowerCase() %>"><%= order.paymentStatus %></td>
@@ -166,7 +166,7 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <u_list>
+                                        <ul class="u_list">
                                             <li>
                                                 <img src="/img/helmet.png" alt="Product A" class="product-img">
                                                 Product A
@@ -175,13 +175,13 @@
                                                 <img src="/img/helmet.png" alt="Product B" class="product-img">
                                                 Product B
                                             </li>
-                                        </u_list>
+                                        </ul>
                                     </td>
                                     <td>
-                                        <u_list>
+                                        <ul class="u_list">
                                             <li>2</li>
                                             <li>1</li>
-                                        </u_list>
+                                        </ul>
                                     </td>
                                     <td>100.00</td>
                                     <td class="status paid">Paid</td>
@@ -191,17 +191,17 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <u_list>
+                                        <ul class="u_list">
                                             <li>
                                                 <img src="/img/helmet.png" alt="Product C" class="product-img">
                                                 Product C
                                             </li>
-                                        </u_list>
+                                        </ul>
                                     </td>
                                     <td>
-                                        <u_list>
+                                        <ul class="u_list">
                                             <li>3</li>
-                                        </u_list>
+                                        </ul>
                                     </td>
                                     <td>75.00</td>
                                     <td class="status pending">Pending</td>

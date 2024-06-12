@@ -18,7 +18,7 @@ function generateUniqueSessionId() {
   return sessionId;
 }
 
-exports.getCheckout = async (req, res, next) => {
+exports.getCheckoutOld = async (req, res, next) => {
   try {
     const userId = req.user._id;
     const user = await User.findById(userId).populate({
@@ -39,7 +39,7 @@ exports.getCheckout = async (req, res, next) => {
 
     const cartItems = user.cart.items;
 
-    if(cartItems.length === 0){
+    if (cartItems.length === 0) {
       return res.redirect('/cart?warning=Cart is empty');
     }
 
@@ -74,7 +74,6 @@ exports.getCheckout = async (req, res, next) => {
       })),
       mode: 'payment',
       // success_url: successUrl,
-      customer_email: user.email, // Pass the user's email to Stripe
       success_url: `${successUrl}?session_id=${sessionId}`, // Include session ID in the success URL
 
 
@@ -106,6 +105,62 @@ exports.getCheckout = async (req, res, next) => {
 };
 
 
+exports.getCheckout = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const user = await User.findById(userId).populate({
+      path: 'cart.items.productId',
+      model: 'Product'
+    });
+
+    if (!user) {
+      return res.redirect('/login?warning=Unauthorized: Please Log In');
+    }
+
+    const cartItems = user.cart.items;
+
+    if (cartItems.length === 0) {
+      return res.redirect('/cart?warning=Cart is empty');
+    }
+
+    // Calculate total price of cart items
+    const totalPrice = cartItems.reduce((total, item) => {
+      return total + item.productId.price * item.quantity;
+    }, 0);
+
+    const successUrl = req.protocol + '://' + req.get('host') + '/shop/checkout/success';
+    const cancelUrl = req.protocol + '://' + req.get('host') + '/shop/checkout/cancel';
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: totalPrice * 100, // Stripe uses the smallest currency unit
+      currency: 'inr',
+      metadata: { integration_check: 'accept_a_payment' },
+      receipt_email: user.email,
+    });
+
+    req.session.paymentIntentId = paymentIntent.id;
+    await req.session.save();
+    const sessionId = generateUniqueSessionId();
+
+    req.session.expectedSessionId = sessionId;
+    await req.session.save();
+    res.render('user/shopCheckout', {
+      items: cartItems,
+      user: user,
+      totalPrice: totalPrice,
+      sessionId,
+      pageTitle: 'Shop Checkout',
+      clientSecret: paymentIntent.client_secret,
+      path: '/checkout'
+    });
+  } catch (error) {
+    next(error); // Pass error to the error-handling middleware
+    res.redirect('/shop/checkout?error=Error processing payment');
+  }
+};
+
+
+
 exports.postOrder = async (req, res, next) => {
   try {
     res.json({ message: 'Order submitted successfully' });
@@ -126,6 +181,7 @@ exports.getShopCheckoutSuccess = async (req, res, next) => {
     const expectedSessionId = req.session.expectedSessionId || "No expected session ID provided";
     if (sessionId !== expectedSessionId) {
       return res.redirect('/shop/checkout?warning=Invalid session ID');
+
     }
     if (!sessionId) {
       return res.redirect('/shop/checkout?warning=Invalid session ID');
@@ -171,8 +227,8 @@ exports.getShopCheckoutSuccess = async (req, res, next) => {
     if (!req.user.orders) {
       req.user.orders = [];
     }
-    req.user.orders.push(order._id); 
-    
+    req.user.orders.push(order._id);
+
     await req.user.save();
     console.log('Order submitted successfully');
 

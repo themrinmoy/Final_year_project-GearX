@@ -79,7 +79,7 @@ body {
     margin-top: 20px;
 }
 
-.proceed-btn {
+.submit-button {
     background-color: #4caf50;
     color: #fff;
     padding: 10px 20px;
@@ -89,7 +89,7 @@ body {
     font-size: 16px;
 }
 
-.proceed-btn:hover {
+.submit-button:hover {
     background-color: #45a049;
 }
 /* Add this to your existing stylesheet or a new CSS file */
@@ -97,9 +97,16 @@ body {
 /* ... (Your existing styles) ... */
 
 .address-section {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     margin-top: 20px;
 }
-
+.payment-form {
+    /* padding: 10px; */
+    margin-top: 20px;
+}
 .address-section h3 {
     margin-top: 0;
 }
@@ -179,4 +186,63 @@ body {
 
 .remove-item:hover {
     background-color: #c0392b;
+}
+
+
+.containerr {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 100%;
+}
+
+.payment-form h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.card-element {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    background-color: #fff;
+}
+
+.submit-button {
+    background-color: #6772e5;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.submit-button:hover {
+    background-color: #5469d4;
+}
+
+.test-payment {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fafafa;
+}
+
+.test-payment h3 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #444;
+}
+
+.test-payment p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #666;
 }
