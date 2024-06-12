@@ -74,6 +74,7 @@ exports.getCheckout = async (req, res, next) => {
       })),
       mode: 'payment',
       // success_url: successUrl,
+      customer_email: user.email, // Pass the user's email to Stripe
       success_url: `${successUrl}?session_id=${sessionId}`, // Include session ID in the success URL
 
 

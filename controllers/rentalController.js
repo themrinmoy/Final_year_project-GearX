@@ -7,6 +7,7 @@ const MongoStore = require('connect-mongo');
 const session = require('express-session');
 const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9bR31hvgJnb7OGnBw8n1AjFnlgOI9NHYnRtKPUO9CSQPI27q55b6L001og14MAB')
 
+
 exports.getAllRentals = (req, res, next) => {
 
     Product.find({ type: "rentable" }).then((products) => {
@@ -154,7 +155,14 @@ exports.getRentChekout = async (req, res, next) => {
             return url;
 
         }
-
+        const address = {
+            line1: '123 Main Street',
+            city: 'Kolkata',
+            state: 'West Bengal',
+            postal_code: '700000',
+            country: 'IN',
+            };
+    
 
         const successUrl = req.protocol + '://' + req.get('host') + '/rent/checkout/success';
         const cancelUrl = req.protocol + '://' + req.get('host') + '/rent/checkout/cancel';
@@ -179,9 +187,14 @@ exports.getRentChekout = async (req, res, next) => {
             })),
             mode: 'payment',
             // success_url: successUrl,
+            customer_email: user.email, // Pass the user's email to Stripe
+
             success_url: `${successUrl}?session_id=${sessionId}`, // Include session ID in the success URL
             cancel_url: cancelUrl,
             billing_address_collection: 'required', // Include this line for Indian regulations
+            // shipping_address_collection: {
+            //     allowed_countries: ['IN'],
+            // },
 
         });
 
@@ -241,7 +254,7 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
 
         const rentalStartDate = new Date(req.user.rentalCart.StartDate);
         const rentalEndDate = new Date(req.user.rentalCart.EndDate);
-        const totalRentalCost = req.user.totalRentalCost(); // Calculate the total rental cost
+        const totalRentalCost = await req.user.totalRentalCost(); // Calculate the total rental cost
 
 
 
@@ -262,8 +275,9 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
         await newRental.save();
 
         // Clear the rental cart in the user model after successful payment
-        req.user.rentalCart.items = [];
         // clear the session id
+
+        req.user.rentalCart.items = [];
         req.session.expectedSessionId = null;
 
         if (!req.user.rentals) {
