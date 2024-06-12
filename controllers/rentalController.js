@@ -126,6 +126,7 @@ exports.getRentalCart = async (req, res, next) => {
 
     } catch (error) {
         next(error);
+        res.redirect(`/rent/cart?warning=${error.message}`);
     }
 };
 
@@ -150,6 +151,8 @@ exports.getRentChekout = async (req, res, next) => {
             model: 'Product'
         });
 
+        // const rental = await Rental.find({ userId: userId });
+
         // 2. Handle Possible Scenarios
         if (!user) {
             return res.redirect(`/login?warning=User not found`);
@@ -170,8 +173,10 @@ exports.getRentChekout = async (req, res, next) => {
 
             // Augment cartItems with rental details, if available
         }
+        // 5. Calculate Total Rental Cost
+        // const totalCost = await calculateTotalRentalCost(cartItems, durationInDays);
 
-
+        // rentals.calculateTotalRentalCost()
 
 
         let totalCost = 0;
@@ -199,6 +204,7 @@ exports.getRentChekout = async (req, res, next) => {
             totalCost += itemTotalCost;
         }
 
+
         const startDate = new Date(user.rentalCart.StartDate);
         const endDate = new Date(user.rentalCart.EndDate);
 
@@ -217,9 +223,22 @@ exports.getRentChekout = async (req, res, next) => {
         const fEndDate = formatDate(endDate);
 
 
+        // function constructImageUrl(imageName) {
+        //     let url = req.protocol + '://' + req.get('host') + '/' + imageName;
+        //     console.log( url, 'url');
+        //     return url;
+        // }
+
         function constructImageUrl(imageName) {
-            // Assuming images are hosted at the root of your server
-            return req.protocol + '://' + req.get('host') + '/images/' + imageName;
+            if (!imageName) {
+                // return 
+                return req.protocol + '://' + req.get('host') + '/images/fontPage.png'; // Default image URL
+            }
+            const normalizedImageName = imageName.replace(/\\/g, '/'); // Replace backslashes with forward slashes
+            let url = req.protocol + '://' + req.get('host') + '/' + normalizedImageName;
+            console.log(url, 'url');
+            return url;
+            // return req.protocol + '://' + req.get('host') + '/images/' + normalizedImageName;
         }
 
 
@@ -229,8 +248,6 @@ exports.getRentChekout = async (req, res, next) => {
         const cancelUrl = req.protocol + '://' + req.get('host') + '/rent/checkout/cancel';
         const sessionId = generateUniqueSessionId(); // Implement your own function
 
-
-
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: cartItems.map(item => ({
@@ -239,8 +256,8 @@ exports.getRentChekout = async (req, res, next) => {
                     currency: 'INR',  // Modify as needed
 
                     product_data: {
-                        name: item.productId.name,
-                        description: item.productId.description,
+                        name: item.productId.name || 'No name provided',
+                        description: item.productId.description || 'No description provided',
 
                         // images: [constructImageUrl(item.productId.imageUrl)], // Construct the image URL
 
@@ -288,6 +305,7 @@ exports.getRentChekout = async (req, res, next) => {
 
     } catch (error) {
         next(error);
+        res.redirect(`/rent/checkout?warning=${error.message}`);
     }
 };
 
@@ -332,10 +350,12 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
 
         const expectedSessionId = req.session.expectedSessionId;
         if (sessionId !== expectedSessionId) {
-            return res.status(400).send('Invalid session ID');
+            // return res.status(400).send('Invalid session ID');
+            return res.redirect('/rent/checkout?warning=Invalid session ID');
         }
         if (!sessionId) {
-            return res.status(400).send('Invalid session ID');
+            // return res.status(400).send('Invalid session ID');
+            return res.redirect('/rent/checkout?warning=Invalid session ID');
         }
 
         if (sessionId === expectedSessionId) {
@@ -383,8 +403,8 @@ exports.getRentCheckoutSuccess = async (req, res, next) => {
 
         if (!req.user.rentals) {
             req.user.rentals = [];
-          }
-          req.user.rentals.push(newRental._id); 
+        }
+        req.user.rentals.push(newRental._id);
         req.user.save();
 
         res.redirect('/user/rentals');
@@ -444,7 +464,7 @@ exports.getRentedItemsByUser = async (req, res) => {
             .populate('productId')
             .exec();
 
-            // console.log(rentals[0].productId, 'rentals');
+        // console.log(rentals[0].productId, 'rentals');
         res.render('user/rentals', {
             rentals, pageTitle: 'Rentals',
             title: 'My Rentals', path: '/rentals',

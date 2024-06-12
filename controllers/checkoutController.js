@@ -93,6 +93,8 @@ exports.getCheckout = async (req, res, next) => {
     // res.json({ user, items: user.cart.items, totalPrice });
   } catch (error) {
     next(error); // Pass error to the error-handling middleware
+
+    res.redirect('/shop/checkout?error=Error processing payment');
   }
 };
 
@@ -182,8 +184,12 @@ exports.getShopCheckoutSuccess = async (req, res, next) => {
 exports.getShopCheckoutCancel = async (req, res, next) => {
   try {
 
+    res.redirect('/shop/checkout?warning=Payment cancelled');
+
   } catch (error) {
-    next(error); // Pass error to the error-handling middleware
+
+    res.redirect(`/shop/checkout?error=${error.message}`);
+
   }
 
 };
