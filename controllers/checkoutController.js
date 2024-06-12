@@ -136,6 +136,7 @@ exports.getCheckout = async (req, res, next) => {
       currency: 'inr',
       metadata: { integration_check: 'accept_a_payment' },
       receipt_email: user.email,
+
     });
 
     req.session.paymentIntentId = paymentIntent.id;
@@ -180,15 +181,15 @@ exports.getShopCheckoutSuccess = async (req, res, next) => {
     console.log(sessionId);
     const expectedSessionId = req.session.expectedSessionId || "No expected session ID provided";
     if (sessionId !== expectedSessionId) {
-      return res.redirect('/shop/checkout?warning=Invalid session ID');
+      // return res.redirect('/shop/checkout?warning=Invalid session ID');
 
     }
     if (!sessionId) {
-      return res.redirect('/shop/checkout?warning=Invalid session ID');
+      // return res.redirect('/shop/checkout?warning=Invalid session ID');
     }
 
     if (sessionId === expectedSessionId) {
-      console.log('session id is valid');
+      // console.log('session id is valid');
     }
     const products = req.user.cart.items.map(i => {
 
@@ -209,17 +210,21 @@ exports.getShopCheckoutSuccess = async (req, res, next) => {
       products: products,
       totalPrice: cartTotal,
       shippingAddress: req.user.address || 'No address provided',
-      paymentStatus: 'Paid', // Set payment status as paid
+      paymentStatus: 'Pending', // Set payment status as paid
       status: 'Processing' // Set initial status as pending
       // status: 'Pendin' // Set initial status as pending
     });
 
-    // Save the order to the database
-    // console.log(sessionId);
-    // if (session.payment_status === 'paid') {
-    //   order.paymentStatus = 'paid';
-    // }
-    await order.save();
+    // check webhook for payment status
+    const paymentIntent = await stripe.paymentIntents.retrieve(req.session.paymentIntentId);
+    if (paymentIntent.status === 'succeeded') {
+      console.log(paymentIntent, 'paymentIntent');
+      order.paymentStatus = 'Paid';
+      await order.save();
+    } else {
+      return res.redirect('/shop/checkout?warning=Payment not successful');
+    }
+
 
 
     req.user.cart.items = [];
@@ -231,6 +236,8 @@ exports.getShopCheckoutSuccess = async (req, res, next) => {
 
     await req.user.save();
     console.log('Order submitted successfully');
+
+
 
 
     res.redirect('/order?success=Order submitted successfully');

@@ -122,7 +122,7 @@
                                                     }
                                                 }
                                             });
-                                            let sessionId = '<%= sessionId %>';
+                                            
                                             if (error) {
                                                 // Show error to your customer (e.g., insufficient funds)
                                                 console.log(error.message);
@@ -131,10 +131,9 @@
                                             } else {
                                                 // The payment has been processed!
                                                 if (paymentIntent.status === 'succeeded') {
-                                                    console.log('Payment succeeded!');
-                                                    //window.location.href = '/shop/checkout/success?session_id=${<%=sessionId %>}';
-                                                    console.log(sessionId);
-                                                    window.location.href = `/shop/checkout/success?session_id=${sessionId}`;
+                                                   
+                                                  //  console.log(sessionId);
+                                                    window.location.href = `/shop/checkout/success`;
                                                 }
                                             }
                                         });
