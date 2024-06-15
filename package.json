@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "final year project ||  2024",
   "main": "app.js",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "test": "mocha",
     "start": "nodemon app.js"
