@@ -161,8 +161,8 @@ exports.getRentChekout = async (req, res, next) => {
             state: 'West Bengal',
             postal_code: '700000',
             country: 'IN',
-            };
-    
+        };
+
 
         const successUrl = req.protocol + '://' + req.get('host') + '/rent/checkout/success';
         const cancelUrl = req.protocol + '://' + req.get('host') + '/rent/checkout/cancel';
@@ -328,7 +328,7 @@ exports.getAllRentedItems = async (req, res, next) => {
 
     } catch (error) {
         console.error('Error fetching rentals:', error);
-        res.redirect(`/rentals?warning=${error.message}`);
+        res.redirect(`/rentals?error=${error.message}`);
     }
 }
 
@@ -346,7 +346,7 @@ exports.getRentedItemsByUser = async (req, res) => {
         });
     } catch (err) {
         console.error(err);
-        res.redirect(`/rentals?warning=${err.message}`);
+        res.redirect(`/rentals?error=${err.message}`);
     }
 };
 
@@ -362,13 +362,13 @@ exports.postRentalCart = async (req, res, next) => {
 
         if (!req.user) {
 
-            res.redirect('/login?warning=Unauthorized: Please Log In');
+            return res.redirect('/login?warning=Please log in to add product to rental cart');
         }
 
         const product = await Product.findById(productId);
         if (!product) {
 
-            res.redirect('/rent?warning=Product not found');
+            return res.redirect('/rent?warning=Product not found');
         }
 
 
@@ -388,12 +388,6 @@ exports.postRentalCart = async (req, res, next) => {
             user.rentalCart.EndDate = rentalEndDate;
             console.log(rentalStartDate, rentalEndDate, 'dates')
         }
-
-
-
-
-
-
 
 
         if (existingRentalItem) {
