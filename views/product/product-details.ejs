@@ -1,45 +1,96 @@
 <%- include('../include/head.ejs') %>
-</head>
+    </head>
 
-<body>
-    <%- include('../include/navigation.ejs') %>
-
-    <main>
-        <h1 class="text-center py-4">Product Details</h1>
-
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 text-center">
-                    <img class="img-fluid" style="aspect-ratio: 1/1;width: auto; height: 400px;border: 4px solid greenyellow;border-radius: 20px;" src="/<%= product.imageUrl %>" alt="<%= product.name %> Image" >
-                </div>
-                <div class="col-lg-6">
-                    <div class="product-details">
-                        <h1 style="background-color: #ed9068c0; padding: 12px 14px; border-radius: 12px;width: fit-content;" class="display-4"><%= product.name %></h1>
-                        <h5>Description: <%= product.description %></h5>
-                        <h5>Category: <%= product.category %></h5>
-                        <h5>Types: <%= product.type %></h5>
-                    </div>
-                    <!-- Place the price h5 element here -->
-                    <h1 class="mt-4 fw-bold">₹&nbsp;<%= product.price %></h1>
+    <body>
+        <%- include('../include/navigation.ejs') %>
+        <style>
+            .product-image {
+                border: 1px solid #dee2e6; /* Light gray border */
+                border: 4px solid greenyellow; border-radius: 20px;
+                min-width: 350px; /* Minimum width for the image */
+                max-width: 500px; /* Maximum width for the image */
+            }
+        </style>
+            <main class="py-5">
+                <div class="container">
+                    <h1 class="text-center mb-5">Product Details</h1>
                     <div class="row">
-                        <div class="col-lg-3">
-                            <button class="rounded rounded-5 p-5 py-2 btn" style="background-color: orangered;color: white;">
-                                Hello
-                            </button>
+                        <div class="col-lg-6 text-center">
+                            <!-- <img class="img-fluid"
+                                style="aspect-ratio: 1/1; width: auto; height: 400px; border: 4px solid greenyellow; border-radius: 20px;"
+                                src="/<%= product.imageUrl %>" alt="<%= product.name %> Image"> -->
+                                <!-- <img src="/<%= product.imageUrl %>" class="img-fluid border rounded" alt="<%= product.name %>"> -->
+                                <img src="/<%= product.imageUrl %>" class="img-fluid product-image" alt="<%= product.name %>">
+
                         </div>
-                        <div class="col-lg-9">
-                            <button class="rounded rounded-5 p-5 py-2 btn" style="background-color: orangered;color: white;">
-                                Kitty
-                            </button>
+                        <div class="col-lg-6">
+                            <div class="product-details p-3">
+                                <h1><%= product.name %></h1>
+
+                                <h5 class="mt-3"><strong>Brand:</strong>
+                                    <%= product.brand %>
+                                </h5>
+                                <h5><strong>Description:</strong>
+                                    <%= product.description %>
+                                </h5>
+                                <h5><strong>Category:</strong>
+                                    <%= product.category %>
+                                </h5>
+                                <h5><strong>Type:</strong>
+                                    <%= product.type.charAt(0).toUpperCase() + product.type.slice(1) %>
+                                </h5>
+                                <h5><strong>Availability:</strong>
+                                    <span>
+                                        <% if (product.isAvailable) { %>
+                                            <span class="badge bg-success">Available</span>
+                                            <% } else { %>
+                                                <span class="badge bg-danger">Unavailable</span>
+                                                <% } %>
+                                    </span>
+                                </h5>
+
+                                <% if (product.type==='rentable' ) { %>
+                                    <div class="mt-4 p-3" style="background-color: #f8f9fa; border-radius: 12px;">
+                                        <h5 class="mb-3"><strong>Rental Information</strong></h5>
+                                        <p><strong>Rental Price Per Day:</strong> ₹<%=
+                                                product.rentalInfo.rentalPricePerDay %>
+                                        </p>
+                                        <p><strong>Rental Deposit:</strong> ₹<%= product.rentalInfo.rentalDeposit %>
+                                        </p>
+                                        <p><strong>Rental Period:</strong>
+                                            <%= product.rentalInfo.rentalPeriod.charAt(0).toUpperCase() +
+                                                product.rentalInfo.rentalPeriod.slice(1) %>
+                                        </p>
+                                    </div>
+                                    <% } %>
+
+                                        <h1 class="mt-4 fw-bold">₹&nbsp;<%= product.price %>
+                                        </h1>
+
+                                        <div class="mt-4">
+                                            <% if (product.type==='rentable' ) { %>
+                                                <form action="/rent/add-to-cart/<%= product._id %>" method="post">
+                                                    <button type="submit" class="btn btn-lg btn-block rounded-5"
+                                                        style="background-color: orangered; color: white;">
+                                                        Add for Rent
+                                                    </button>
+                                                </form>
+                                                <% } else if (product.type==='sellable' ) { %>
+                                                    <form action="/cart/add-to-cart/<%= product._id %>" method="post">
+                                                        <button type="submit" class="btn btn-lg btn-block rounded-5"
+                                                            style="background-color: orangered; color: white;">
+                                                            Add to Cart
+                                                        </button>
+                                                    </form>
+                                                    <% } %>
+                                        </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </main>
 
-    </main>
+            <%- include('../include/footer.ejs') %>
+    </body>
 
-    <%- include('../include/footer.ejs') %>
-</body>
-
-</html>
+    </html>
