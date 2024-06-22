@@ -23,7 +23,7 @@ router.post('/add-product', checkUserType('admin'), adminController.postAddProdu
 
 router.get('/rent-reminder', async (req, res) => {
     try {
-        if(req.user.userType !== 'admin') {
+        if (req.user.userType !== 'admin') {
             return res.redirect('/?error=You are not authorized to perform this action.');
         }
 
@@ -48,6 +48,18 @@ router.delete('/delete-product/:productId', checkUserType('admin'), adminControl
 router.post('/delete-product/:productId', checkUserType('admin'), adminController.removeProduct);
 
 router.get('/all-rentals', checkUserType('admin'), rentalController.getAllRentedItems);
+
+// for user management
+
+router.get('/users', checkUserType('admin'), adminController.getAllUsers);
+
+
+router.post('/update-user/:id', checkUserType('admin'), adminController.updateUser);
+
+// get user by id
+router.get('/user/:username', checkUserType('admin'), adminController.getUserByusername);
+// how would be the href for this route for ejs file
+// <a href="/admin/user/<%= user.username %>"> <%= user.username %> </a>
 
 
 

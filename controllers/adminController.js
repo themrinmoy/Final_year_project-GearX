@@ -4,9 +4,11 @@ const Product = require('../models/Product');
 
 const express = require('express');
 const router = express.Router();
+const User = require('../models/User');
 // const 
 // const multer = require('multer');
 const fs = require('fs'); // Add this line to include the fs module
+const path = require('path');
 
 
 
@@ -14,7 +16,7 @@ const fs = require('fs'); // Add this line to include the fs module
 
 exports.getAdminPage = (req, res) => {
     console.log('admin page');
-   
+
 
     res.render('./admin/admin.ejs', {
         user: req.user, pageTitle: 'Admin',
@@ -26,14 +28,14 @@ exports.getAdminPage = (req, res) => {
 
 exports.getAllProducts = (req, res) => {
 
-   
+
     Product.find()
         .then((products) => {
             res.render('./admin/admin-products', {
                 products,
                 path: '/admin/products',
                 pageTitle: 'Admin - Products',
-                
+
             });
         })
         .catch((error) => {
@@ -45,7 +47,7 @@ exports.getAllProducts = (req, res) => {
 
 exports.showAddProductPage = (req, res) => {
 
-   
+
 
 
     res.render('./admin/update-product',
@@ -122,7 +124,7 @@ exports.getUpdateProduct = (req, res) => {
                     errorMessage: null,
                     editing: true, pageTitle: 'Update Product',
                     path: '/admin/products',
-                    
+
                 });
 
             // res.render('./admin/update-product', { product, pageTitle: 'Update Product', editing: true, errorMessage: null });
@@ -169,7 +171,7 @@ exports.postUpdateProduct = async (req, res) => {
             fs.unlink(oldImagePath, (err) => {
                 if (err) {
                     console.error('Error deleting old image:', err);
-                    
+
                     // You might still update the product but notify the user about the image issue
                 } else {
                     console.log('Old image deleted successfully');
@@ -226,3 +228,64 @@ exports.removeProduct = (req, res) => {
             res.redirect(`/admin/products?warning=Error removing product,${error.message}`)
         });
 };
+
+
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find().populate('rentals.rentalId orders.orderId');
+        // res.json(users);
+        res.render('./admin/admin-users', {
+            users,
+            pageTitle: 'Admin - Users',
+
+            path: '/admin/products',
+        });
+    }
+    catch (error) {
+        console.error(error);
+        res.redirect(`/admin?error=Error fetching users,${error.message}`)
+    }
+
+};
+
+
+
+
+// Handle 'Update Product' form submission
+exports.updateUser = async (req, res) => {
+    const { username, name, email, userType, verified } = req.body;
+    try {
+        await User.findByIdAndUpdate(req.params.id, {
+            username,
+            name,
+            email,
+            userType,
+            verified: verified === 'true'
+        });
+        res.redirect('/admin/users?success=User updated successfully');
+    } catch (error) {
+        console.error(error);
+        res.redirect(`/admin/users?error=Error updating user+${error.message} `);
+    }
+}
+
+
+exports.getUserByusername = async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.params.username }).populate('rentals.rentalId orders.orderId');
+        if (!user) {
+            return res.redirect('/admin/users?error=User not found.');
+        }
+        // res.json(user);
+        res.render('admin/userbyid', {
+            user,
+            pageTitle: 'User',
+            path: '/admin/users',
+        });
+
+    }
+    catch (error) {
+        console.error(error);
+        res.redirect(`/admin/users?error=Error fetching user,${error.message}`)
+    }
+}

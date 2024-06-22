@@ -1,0 +1,123 @@
+<%- include('../include/head.ejs', { pageTitle: 'Admin' }) %>
+</head>
+
+<body>
+
+    <%- include('../include/navigation.ejs', { isAuthenticated }) %>
+
+    <main class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">User Profile</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="<%= user.profilePic %>" alt="Profile Picture" class="profile-picture2">
+                        <h5 class="card-title"><%= user.name %></h5>
+                        <p class="card-text"><i class="fas fa-envelope"></i> <%= user.email %></p>
+                        <p class="card-text"><i class="fas fa-phone"></i> 9876543210</p> <!-- Replace with user phone if available -->
+                        <p class="card-text"><i class="fas fa-user"></i> <%= user.userType %></p>
+                        <p class="card-text"><i class="fas fa-check-circle"></i> <%= user.verified ? 'Verified' : 'Not Verified' %></p>
+                        <p class="card-text"><i class="fas fa-calendar"></i> Joined on <%=user.createdAt ? user.createdAt.toDateString() : 'N/A'%></p>
+                        
+                        <button class="btn btn-primary btn-sm" id="editProfileBtn"><i class="fas fa-edit"></i> Edit Profile</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Current Rental Status</h5>
+                    </div>
+                    <div class="card-body">
+                        <% user.rentals.forEach(rental => { %>
+                        <div class="order-status">
+                            <h6>Rental Order #<%= rental._id %></h6>
+                            <p>Status: In Progress</p> <!-- Replace with dynamic status if available -->
+                            <button class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i> Change Status</button>
+                        </div>
+                        <% }) %>
+                    </div>
+                </div>
+
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Order History</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <% user.orders.forEach(order => { %>
+                            <li class="list-group-item">
+                                <h6>Order #<%= order._id %></h6>
+                                <p>Status: In Progress</p> <!-- Replace with dynamic status if available -->
+                                <!-- check for undefine -->
+                                <!-- <p>Status: <%= order.status  %></p>
+                                <p>Order Date: <%= order.createdAt ? order.createdAt.toDateString() : 'N/A' %></p>
+                                <p>Delivery Date: <%= order.deliveryDate ? order.deliveryDate.toDateString() : 'N/A' %></p>
+                                <p>Total Amount: $<%= order.totalAmount %></p> -->
+
+
+                                
+                            </li>
+                            <% }) %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Example JavaScript for edit profile button
+        // document.getElementById('editProfileBtn').addEventListener('click', function () {
+        //     alert('Redirecting to edit profile page');
+        // });
+
+        // // Example JavaScript for changing order status button
+        // const changeStatusButtons = document.querySelectorAll('.order-status .btn-secondary');
+        // changeStatusButtons.forEach(button => {
+        //     button.addEventListener('click', function () {
+        //         alert('Changing order status');
+        //     });
+        // });
+    </script>
+
+    <style>
+        .profile-picture2 {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            margin-top: 20px;
+        }
+
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .form-control[readonly] {
+            background-color: #f8f9fa;
+            border: none;
+        }
+
+        .order-status {
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <%- include('../include/footer.ejs') %>

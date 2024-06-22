@@ -56,11 +56,12 @@ const userSchema = new mongoose.Schema({
     }],
 
     wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
+    // createdAt, updatedAt
 
-    // rentals: [{
-    //     rentalId: { type: mongoose.Schema.Types.ObjectId, ref: 'Rental' },
-    // }],
-});
+}
+    , { timestamps: true }
+
+);
 
 
 
@@ -74,7 +75,7 @@ userSchema.methods.calculateCartTotal = async function () {
 };
 
 // calculate total rental price
-userSchema.methods.totalRentalCost = async function() {
+userSchema.methods.totalRentalCost = async function () {
     let total = 0;
     for (const item of this.rentalCart.items) {
         const product = await mongoose.model('Product').findById(item.productId);
