@@ -1,6 +1,6 @@
 
 
-.container {
+.containerr {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
@@ -12,7 +12,10 @@
 
 h2 {
     /* colorgb(255, 253, 253)333; */
-    color: rgb(232, 232, 224);
+    /* color: rgb(232, 232, 224); */
+    color: #DC3545;
+    font-weight: 600    ;
+    text-align: center  ;
 }
 
 .form-group {

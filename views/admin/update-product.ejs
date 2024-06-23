@@ -3,9 +3,10 @@
 
 <body>
   <%- include('../include/navigation.ejs') %>
-  <link rel="stylesheet" href="/css/add-product.css">
+  <link rel="stylesheet" href="../css/add-product.css">
 
-      <div class="container">
+
+      <main class="containerr">
         <% if (errorMessage) { %>
           <div class="error-message">
             <%= errorMessage %>
@@ -120,7 +121,7 @@
                         <%= editing ? 'Update Product' : 'Add Product' %>
                       </button>
             </form>
-      </div>
+      </main>
 
       <style>
         .rental-details {
