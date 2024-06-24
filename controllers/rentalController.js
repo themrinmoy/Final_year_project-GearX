@@ -24,10 +24,31 @@ exports.getAllRentals = (req, res, next) => {
     })
         .catch((error) => {
             console.error('Error fetching products:', error);
-            res.redirect(`/products?warning=${error.message}`);
+            res.redirect(`/rent?warning=${error.message}`);
 
         });
 };
+
+exports.getRentalsByCategory = (req, res, next) => {
+    const category = req.params.category;
+
+    Product.find({ type: "rentable", category }).then((products) => {
+        res.render('rent/all.ejs', {
+            products, pageTitle: "Rent - " + category,
+            path: '/rent',
+            categoryTitle: category,
+
+        });
+
+    })
+        .catch((error) => {
+            console.error('Error fetching products:', error);
+            res.redirect(`/rent?warning=${error.message}`);
+
+        });
+
+};
+
 
 
 
