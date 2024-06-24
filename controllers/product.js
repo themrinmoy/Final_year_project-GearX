@@ -75,7 +75,8 @@ exports.productDetails = (req, res) => {
     })
     .catch((error) => {
       console.error('Error fetching product:', error);
-      res.redirect(`/products?warning=${error.message}`);
+      res.redirect(`/products?error=Product ID not found`);
+      // res.redirect(`/products?warning=${error.message}`);
       // You may want to create an 'error.ejs' view to handle error messages
     });
 };

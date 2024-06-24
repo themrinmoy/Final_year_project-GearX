@@ -12,16 +12,31 @@
                 <li class="nav-item">
                     <a class="fw-bold nav-link <%= path === '/' ? 'active': '' %>" href="/">Home</a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="fw-bold nav-link <%= path === '/rent' ? 'active': '' %>" href="/rent/">Rent</a>
+                </li> -->
+
+                <li class="nav-item dropdown">
+                    <a class="fw-bold nav-link dropdown-toggle <%= path === '/rent' ? 'active': '' %>" href="/rent" id="productsDropdown" role="button"
+                        aria-expanded="false">
+                        Rent
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+                        <li><a class="dropdown-item" href="/rent">All Rent</a></li>
+                        <li><a class="dropdown-item" href="/rent/category/bikes">Bikes</a></li>
+                        <li><a class="dropdown-item" href="/rent/category/helmets">Helmets</a></li>
+                        <li><a class="dropdown-item" href="/rent/category/jackets">Jackets</a></li>
+                        <li><a class="dropdown-item" href="/rent/category/gloves">Gloves</a></li>
+                        <li><a class="dropdown-item" href="/rent/category/boots">Boots</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="fw-bold nav-link dropdown-toggle" href="/products" id="productsDropdown" role="button"
+                    <a class="fw-bold nav-link dropdown-toggle <%= path === '/products' ? 'active': '' %>" href="/products" id="productsDropdown" role="button"
                         aria-expanded="false">
                         Products
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="productsDropdown">
-                        <li><a class="dropdown-item" href="/products">All Products</a></li>
+                        <li><a class="dropdown-item " href="/products">All Products</a></li>
                         <li><a class="dropdown-item" href="/products/category/bikes">Bikes</a></li>
                         <li><a class="dropdown-item" href="/products/category/helmets">Helmets</a></li>
                         <li><a class="dropdown-item" href="/products/category/jackets">Jackets</a></li>
