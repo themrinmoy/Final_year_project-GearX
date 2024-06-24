@@ -1,99 +1,69 @@
-<%- include('../include/head.ejs', pageTitle='Admin' ) %>
-    <%- //include('../css/login.css') %>
-        </head>
+<%- include('../include/head.ejs', { pageTitle: 'Admin' }) %>
+<%- //include('../css/login.css') %>
+</head>
 
-        <body>
+<body>
 
-            <%- include('../include/navigation.ejs',{isAuthenticated} ) %>
+    <%- include('../include/navigation.ejs', { isAuthenticated }) %>
 
-                <%- // include('css/login.css') %>
-                    <link rel="stylesheet" href="../css/admin.css">
-                    <header style="text-align: center;">
-                        <h2 class="mt-5 fw-bold">Admin Dashboard</h2>
-                    </header>
+    <%- // include('css/login.css') %>
+    <link rel="stylesheet" href="../css/admin.css">
+    <header style="text-align: center;">
+        <h2 class="mt-5 fw-bold">Admin Dashboard</h2>
+    </header>
 
-                    <main class="main-content container ">
+    <main class="main-content container ">
 
-                        <div class="dashboard-admin_cards">
+        <div class="dashboard-admin_cards">
 
-                            <div class="row">
-                                <div class="admin_card">
-                                    <img src="../img/add-product.png" alt="Product Icon">
-                                    <!-- <i class="fas fa-plus-circle"></i> -->
-                                    <h3>Add Products</h3>
-                                    <p>Add new items to your store.</p>
-                                    <a href="/admin/add-product">Enter</a>
-                                </div>
-                                <div class="admin_card">
-                                    <img src="../img/update-product.png" alt="Edit Icon">
+            <div class="row">
+                <a href="/admin/add-product" class="admin_card">
+                    <img src="../img/add-product.png" alt="Product Icon">
+                    <h3>Add Products</h3>
+                    <p>Add new items to your store.</p>
+                </a>
+                <a href="/admin/products" class="admin_card">
+                    <img src="../img/update-product.png" alt="Edit Icon">
+                    <h3>Edit Products</h3>
+                    <p>Modify details of existing products.</p>
+                </a>
+                <a href="/admin/products" class="admin_card">
+                    <img src="../img/products.png" alt="View Products Icon">
+                    <h3>View Products</h3>
+                    <p>See a list of all your products.</p>
+                </a>
+                <a href="/admin/users" class="admin_card">
+                    <img width="128" src="../img/customer-2.png" alt="Users Icon">
+                    <h3>Manage Users</h3>
+                    <p>Manage your customer accounts.</p>
+                </a>
+            </div>
 
-                                    <!-- <i class="fas fa-edit"></i> -->
-                                    <h3>Edit Products</h3>
-                                    <p>Modify details of existing products.</p>
-                                    <a href="/admin/products">Enter</a>
+            <div class="row">
+                <a href="/admin/all-rentals" class="admin_card">
+                    <img src="../img/orders-2.png" alt="Orders Icon">
+                    <h3>Orders</h3>
+                    <p>View and manage orders.</p>
+                </a>
+                <a href="/admin/all-rentals" class="admin_card">
+                    <img src="../img/rent.png" alt="Rentals Icon">
+                    <h3>Rentals</h3>
+                    <p>View and Manage All Rentals.</p>
+                </a>
+                <a href="/admin/rent-reminder" class="admin_card">
+                    <img src="../img/schedule.png" alt="Reminder Icon">
+                    <h3>Rental Reminder</h3>
+                    <p>Send Rental reminder.</p>
+                </a>
+                <a href="/admin?info=Comming Soon!" class="admin_card">
+                    <img src="../img/settings.png" alt="Settings Icon">
+                    <h3>Settings</h3>
+                    <p>Change your store settings.</p>
+                </a>
+            </div>
 
-                                </div>
-                                <div class="admin_card">
-                                    <img src="../img/products.png" alt="View Products Icon">
-                                    <!-- <i class="fas fa-eye"></i> -->
-                                    <h3>View Products</h3>
-                                    <p>See a list of all your products.</p>
-                                    <a href="/admin/products">Enter</a>
+        </div>
+    </main>
 
-                                </div>
-
-
-                                <div class="admin_card">
-                                    <img width="128" src="../img/customer-2.png" alt="Users Icon">
-                                    <!-- <i class="fas fa-users"></i> -->
-                                    <h3>Manage Users</h3>
-                                    <p>Manage your customer accounts.</p>
-                                    <a href="/admin/users">Enter</a>
-
-                                </div>
-
-
-                            </div>
-                            <div class="row">
-                                <div class="admin_card">
-                                    <img src="../img/orders-2.png" alt="Orders Icon">
-                                    <!-- <i class="fas fa-shopping-cart"></i> -->
-                                    <h3>Orders</h3>
-                                    <p>View and manage orders.</p>
-                                    <a href="/admin/all-rentals">Enter</a>
-
-                                </div>
-
-                                <div class="admin_card">
-                                    <img src="../img/rent.png" alt="Settings Icon">
-                                    <h3>Rentals</h3>
-                                    <p>View and Manage All Rentals.</p>
-                                    <a href="/admin/all-rentals">Enter</a>
-
-                                </div>
-                                <div class="admin_card">
-                                    <img src="../img/schedule.png" alt="Reminder Icon">
-                                    <!-- <i class="fas fa-shopping-cart"></i> -->
-
-                                    <h3>Rental Reminder</h3>
-                                    <p>Send Rental reminder</p>
-                                    <a href="/admin/rent-reminder">Enter</a>
-
-                                </div>
-                                <div class="admin_card">
-                                    <img src="../img/settings.png" alt="Settings Icon">
-                                    <!-- <i class="fas fa-cog"></i> -->
-                                    <h3>Settings</h3>
-                                    <p>Change your store settings.</p>
-                                    <a href="/admin?info=Comming Soon!.">Enter</a>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </main>
-
-
-            
-
-                    <%- include('../include/footer.ejs') %>
+    <%- include('../include/footer.ejs') %>
+</body>

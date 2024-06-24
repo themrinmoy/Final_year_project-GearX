@@ -27,13 +27,13 @@
                          <img class="card-img-top" style="border-radius: 16px 16px 0 0;aspect-ratio:4/3;" src="/<%= product.imageUrl %>" alt="Product Image">
                              <div class="card-body">
                                 <h3 class="card-title"><%= product.name %></h3>
-                                <p class="card-text">Description: <%= product.description %></p>
+                                <!-- <p class="card-text">Description: <%= product.description %></p> -->
                                 <p class="card-text">Category: <%= product.category %></p>
                        
                             <div class="rental-cost" id="rentalCost<%= product._id %>">
                                 Rental Cost: ₹<span id="rentalPricePerDay<%= product._id %>">
                                     <%= product.rentalInfo.rentalPricePerDay %>
-                                </span> per day
+                                </span> per Day <%= //product.rentalInfo.rentalPeriod %>
                             </div>
                         <div class="rental-cost" id="totalCost<%= product._id %>">
                             Estimated Cost: ₹<span id="totalCostValue<%= product._id %>">0.00</span>
