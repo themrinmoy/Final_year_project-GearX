@@ -33,6 +33,9 @@ main {
     width: 22%;
     transition: all 0.3s ease;
     margin-bottom: 50px;
+    text-decoration: none;
+    color: #000;
+
 
 }
 
@@ -69,6 +72,7 @@ main {
     text-decoration: none;     /* Remove default underline */ 
     text-align: center;        
     transition: all 0.3s ease;
+    text-decoration: none;
 }
 
 .admin_card a:hover {

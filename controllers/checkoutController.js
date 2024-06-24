@@ -128,6 +128,10 @@ exports.getCheckout = async (req, res, next) => {
       return total + item.productId.price * item.quantity;
     }, 0);
 
+    if(totalPrice> 9999999){
+      return res.redirect('/cart?warning=Cart total exceeds maximum limit of 9999999');
+    }
+
     const successUrl = req.protocol + '://' + req.get('host') + '/shop/checkout/success';
     const cancelUrl = req.protocol + '://' + req.get('host') + '/shop/checkout/cancel';
 

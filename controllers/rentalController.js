@@ -144,6 +144,10 @@ exports.getRentChekout = async (req, res, next) => {
 
 
         const totalCost = await user.totalRentalCost(); // Calculate the total rental cost
+
+        if(totalCost> 9999999){
+            return res.redirect('/rent/cart?warning=Cart total exceeds maximum limit of 9999999');
+        }
         const durationInDays = await user.rentalDuration(); // Calculate the rental duration
         console.log('durationInDays:', durationInDays);
         console.log('totalCost:', totalCost);

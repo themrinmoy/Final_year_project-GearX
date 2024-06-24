@@ -24,6 +24,12 @@ const CartController = {
 
             const cartTotal = await user.calculateCartTotal();
 
+            // if(cartTotal> 9999999){
+            //   return  res.render('user/cart', {
+            //         cart: user.cart, pageTitle: 'Cart', path: '/cart', cartTotal, message: 'Cart total exceeds maximum limit', messageType: 'error'
+            //     })
+            // }
+
             res.render('user/cart', {
                 cart: user.cart, pageTitle: 'Cart', path: '/cart', cartTotal
             });
