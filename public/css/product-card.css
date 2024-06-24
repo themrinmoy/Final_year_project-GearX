@@ -67,7 +67,7 @@ then set the desired styles for .pcard-img. */
   height: 100%;
   /* aspect-ratio: 1/1; */
   aspect-ratio: 4/3;
-  object-fit: cover;
+  object-fit: scale-down;
   /* background-color: red; */
   border-radius: 5px;
 }

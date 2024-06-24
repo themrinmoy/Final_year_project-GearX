@@ -1,0 +1,500 @@
+[{
+  "_id": {
+    "$oid": "662d5c7c98c9fc8f5c314e15"
+  },
+  "name": "Honda CB200X",
+  "brand": "Honda",
+  "description": "Styling is quite aspirational\r\n",
+  "price": 146999,
+  "category": "bikes",
+  "type": "rentable",
+  "imageUrl": "images\\2024-04-27T20-23-29.809Z-bike1.jpg",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": 200,
+    "rentalDeposit": 50000,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:13:48.936Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-29T08:11:47.031Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d5d3198c9fc8f5c314f1e"
+  },
+  "name": "BMW R 1250",
+  "brand": "BMW",
+  "description": "The new 1250cc engine is super smooth",
+  "price": 20550,
+  "category": "bikes",
+  "type": "rentable",
+  "imageUrl": "images\\2024-04-27T20-16-49.575Z-bmw-r-1250-gs-standard1677218800297.webp",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": 1000,
+    "rentalDeposit": 50000,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:16:49.608Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-04T04:12:48.633Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d5d3498c9fc8f5c314f30"
+  },
+  "name": "Kawasaki",
+  "brand": "Kawasaki",
+  "description": "The new 1250cc engine is super smooth",
+  "price": 2055000,
+  "category": "bikes",
+  "type": "sellable",
+  "imageUrl": "images\\2024-04-27T20-18-15.208Z-kawasaki-versys-650-standard1676983972634.webp",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": 223,
+    "rentalDeposit": 21,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:16:52.337Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-29T08:04:29.406Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d5d3598c9fc8f5c314f42"
+  },
+  "name": "Gloves",
+  "brand": "Puma",
+  "description": "This is a very nice Gloves!",
+  "price": 400,
+  "category": "gloves",
+  "type": "rentable",
+  "imageUrl": "images\\2024-04-27T20-19-48.271Z-gloves4.png",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": 50,
+    "rentalDeposit": 100,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:16:53.925Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-29T08:06:45.782Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d5d3798c9fc8f5c314f54"
+  },
+  "name": "Shoe",
+  "brand": "adidas",
+  "description": "This is a very nice Shoes",
+  "price": 100,
+  "category": "boots",
+  "type": "rentable",
+  "imageUrl": "images\\2024-04-27T20-21-55.636Z-shoe5.png",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": 100,
+    "rentalDeposit": 50,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:16:55.236Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-27T20:21:55.695Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d5f0998c9fc8f5c3150d7"
+  },
+  "name": "Smart Helmet",
+  "brand": "ZIKOFIKO",
+  "description": "This is a bluetooth connected smart helmet",
+  "price": 1700,
+  "category": "helmets",
+  "type": "sellable",
+  "imageUrl": "images\\2024-04-27T20-24-41.513Z-sba-7-isi-certified-ddst-d-v-smart-bluetooth-helmet-1-sba-7-ddst-original-imagqwqxwqyahxmp.webp",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": null,
+    "rentalDeposit": null,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:24:41.554Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-27T20:24:41.554Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d606d98c9fc8f5c3151db"
+  },
+  "name": "TVS Racing",
+  "brand": "TVS",
+  "description": "",
+  "price": 500,
+  "category": "gloves",
+  "type": "rentable",
+  "imageUrl": "images\\2024-04-27T20-30-37.009Z-gloves1.png",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": 15,
+    "rentalDeposit": 50,
+    "rentalPeriod": "week"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:30:37.086Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-27T20:30:37.086Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d60ca98c9fc8f5c315213"
+  },
+  "name": "TVS Racing black",
+  "brand": "TVS",
+  "description": "",
+  "price": 450,
+  "category": "gloves",
+  "type": "sellable",
+  "imageUrl": "images\\2024-04-27T20-41-52.053Z-gloves6.png",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": null,
+    "rentalDeposit": null,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:32:10.783Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-27T20:41:52.119Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d613698c9fc8f5c31529d"
+  },
+  "name": "Thubder Helmet",
+  "brand": "TVS",
+  "description": "",
+  "price": 1500,
+  "category": "helmets",
+  "type": "sellable",
+  "imageUrl": "images\\2024-04-27T20-33-58.049Z-helmet1.png",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": null,
+    "rentalDeposit": null,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:33:58.087Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-27T20:33:58.087Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d616a98c9fc8f5c3152e1"
+  },
+  "name": "Roadmaster Saddlebag",
+  "brand": "Roadmaster ",
+  "description": "Durability, functionality, and style on journeys. ",
+  "price": 1500,
+  "category": "backpacks",
+  "type": "sellable",
+  "imageUrl": "images/2024-06-12T09-02-30.995Z-Hard-Saddlebag.webp",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": null,
+    "rentalDeposit": null,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:34:50.870Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-12T09:02:31.004Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d61a398c9fc8f5c3152fc"
+  },
+  "name": "Steelbird SBH-17 Terminator",
+  "brand": "Steelbird",
+  "description": "",
+  "price": 1839,
+  "category": "helmets",
+  "type": "rentable",
+  "imageUrl": "images\\2024-04-27T20-35-47.466Z-helmet6.png",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": 100,
+    "rentalDeposit": 175,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:35:47.499Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-27T20:35:47.499Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d61aa98c9fc8f5c315308"
+  },
+  "name": "Jackets",
+  "brand": "Puma",
+  "description": "Nice Jackets",
+  "price": 1999,
+  "category": "jackets",
+  "type": "rentable",
+  "imageUrl": "images\\2024-04-27T20-35-54.428Z-ja1.jpg",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": 100,
+    "rentalDeposit": 200,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:35:54.459Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-27T20:35:54.459Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d61bc98c9fc8f5c315325"
+  },
+  "name": "BlazeBag",
+  "brand": "Blaze",
+  "description": "The \"BlazeBag\" is a dynamic and innovative motorcycle bag.",
+  "price": 2000,
+  "category": "",
+  "type": "sellable",
+  "imageUrl": "images\\2024-04-27T20-36-12.447Z-bag2.jpeg",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": null,
+    "rentalDeposit": null,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:36:12.564Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-28T03:23:31.549Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d61ef98c9fc8f5c315354"
+  },
+  "name": "Eego Italy",
+  "brand": "Rider-1",
+  "description": "Water Resistant Biker boot/Motorcycle riding boot",
+  "price": 1899,
+  "category": "boots",
+  "type": "sellable",
+  "imageUrl": "images\\2024-04-27T20-37-03.791Z-shoe2.png",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": null,
+    "rentalDeposit": null,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:37:03.830Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-27T20:37:48.658Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d61f198c9fc8f5c31535e"
+  },
+  "name": "RideReady Rucksack",
+  "brand": "RideReady ",
+  "description": "Preparedness and convenience ",
+  "price": 1800,
+  "category": "",
+  "type": "sellable",
+  "imageUrl": "images\\2024-04-27T20-38-05.354Z-bag4.png",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": null,
+    "rentalDeposit": null,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:37:05.541Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-29T08:18:11.417Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d624a98c9fc8f5c3153be"
+  },
+  "name": "RebelRide Backpack",
+  "brand": "RebelRide ",
+  "description": "Rebellion and adventure on the open road",
+  "price": 3000,
+  "category": "backpacks",
+  "type": "sellable",
+  "imageUrl": "images\\2024-04-27T20-38-34.470Z-bag4.jpeg",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": null,
+    "rentalDeposit": null,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:38:34.686Z"
+  },
+  "updatedAt": {
+    "$date": "2024-04-29T08:18:41.707Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662d628c98c9fc8f5c3153eb"
+  },
+  "name": "TourTech Tank Bag",
+  "brand": "TourTech",
+  "description": "Riders embarking on extensive touring adventures!",
+  "price": 2500,
+  "category": "backpacks",
+  "type": "sellable",
+  "imageUrl": "images\\2024-04-27T20-39-40.108Z-bag5.jpeg",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": null,
+    "rentalDeposit": null,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-04-27T20:39:40.261Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-07T13:16:52.573Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "666019975f20f567c477b31c"
+  },
+  "name": "Helmet",
+  "brand": "VEGA",
+  "description": "Vega Off Road Sketch",
+  "price": 1499,
+  "category": "helmets",
+  "type": "sellable",
+  "imageUrl": "images/2024-06-07T13-10-20.721Z-helmate.webp",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": null,
+    "rentalDeposit": null,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-06-05T07:53:59.813Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-07T13:10:20.732Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6675da7becde1909013e0bb3"
+  },
+  "name": "BMW bike",
+  "brand": "BMW",
+  "description": "it's a costly bike!",
+  "price": 2500000,
+  "category": "bikes",
+  "type": "rentable",
+  "imageUrl": "images\\2024-06-21T19-54-35.554Z-bmw-motorrad-bike-1000x1000.png",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": 1000,
+    "rentalDeposit": 50000,
+    "rentalPeriod": "week"
+  },
+  "createdAt": {
+    "$date": "2024-06-21T19:54:35.611Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-21T19:54:35.611Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "667853f843378b51a7a64268"
+  },
+  "name": "Jacket",
+  "brand": "KEFITEVD",
+  "description": "jacket",
+  "price": 4444,
+  "category": "jackets",
+  "type": "sellable",
+  "imageUrl": "images/2024-06-23T16-57-28.530Z-71xAu2L6JML._AC_UL1471_.jpg",
+  "isAvailable": true,
+  "rentalInfo": {
+    "rentalPricePerDay": null,
+    "rentalDeposit": null,
+    "rentalPeriod": "day"
+  },
+  "createdAt": {
+    "$date": "2024-06-23T16:57:28.549Z"
+  },
+  "updatedAt": {
+    "$date": "2024-06-23T16:57:28.549Z"
+  },
+  "__v": 0
+}]

@@ -15,7 +15,7 @@ const path = require('path');
 // getadmin page
 
 exports.getAdminPage = (req, res) => {
-    console.log('admin page');
+    console.log('admin page called by', req.user.email);
 
 
     res.render('./admin/admin.ejs', {

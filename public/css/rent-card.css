@@ -29,6 +29,11 @@
   margin: 0 auto;
   display: block;
 }
+.card-img-top{
+
+  object-fit: scale-down;
+
+}
 
 
 
