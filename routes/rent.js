@@ -16,8 +16,9 @@ const stripe = require('stripe')('sk_test_51OaQJHSJMzEXtTp5BWhpMqM7N5000X4Mt2M9b
 // rent
 // Get all rentals
 router.get('/', rentalController.getAllRentals);
-// router.get('/', rentalController.getRentalCart);
-//rental cart
+
+// filter category
+router.get('/category/:category', rentalController.getRentalsByCategory);
 
 router.get('/cart', rentalController.getRentalCart);
 // Add to rental cart

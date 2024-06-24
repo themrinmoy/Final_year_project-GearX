@@ -8,7 +8,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 
     <main class="container">
-        <h1 class="text-center m-3">Rental Products</h1>
+        <!-- <h1 class="text-center m-3">Rental Products</h1> -->
+        <%if(categoryTitle){%>
+
+            <h1 class="text-center m-3">Rental Products(<%= categoryTitle %>)</h1>
+          
+
+            <%} else{%>
+                <h1 class="text-center m-3">Rental Products</h1>
+              <%}%>
         <div class="rent_products">
             <% if (products.length > 0) { %>
                 <% products.forEach(product => { %>
