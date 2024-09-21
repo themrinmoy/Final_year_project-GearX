@@ -22,11 +22,11 @@
   "homepage": "https://github.com/themrinmoy/Final_year_project#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.20.2",
+    "body-parser": "^1.20.3",
     "compression": "^1.7.4",
     "connect-mongo": "^5.1.0",
     "ejs": "^3.1.10",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "express-flash": "^0.0.2",
     "express-rate-limit": "^7.1.5",
     "express-session": "^1.18.0",
