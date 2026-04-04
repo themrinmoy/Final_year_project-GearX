@@ -85,7 +85,11 @@ exports.postSignup = async (req, res, next) => {
             email: req.body.email,
             name: req.body.name,
             password: hashedPassword,
-            userType: req.body.userType
+            userType: req.body.userType,
+            // verified: false --- IGNORE ---
+            verified: true, // Set to true for testing purposes, change to false for production
+            //verified: false // Set to false for production, true for testing purposes
+
         });
         const result = await user.save();
         const token = result.generateAuthToken();

@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
         require: false
     },
     resetTokenExpiration: Date,
-    verified: { type: Boolean, default: false },
+    verified: { type: Boolean, default: true },
 
     userType: { type: String, enum: ['buyer', 'admin'], default: 'admin' },
     cart: {
